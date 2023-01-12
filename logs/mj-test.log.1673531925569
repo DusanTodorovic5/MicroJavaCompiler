@@ -1,0 +1,78 @@
+INFO  14:50:28,322 - Compiling source file: D:\Fakultet\PP1\domaci\workspace\MJCompiler\test\program.mj
+INFO  14:50:28,984 - #2 program
+INFO  14:50:28,984 - #46 MJProgram
+INFO  14:50:28,984 - #46 int
+INFO  14:50:28,997 - #46 x
+INFO  14:50:29,003 - #33 ;
+INFO  14:50:29,021 - #46 int
+INFO  14:50:29,028 - #46 y
+INFO  14:50:29,028 - #33 ;
+INFO  14:50:29,028 - #41 {
+INFO  14:50:29,028 - #46 int
+INFO  14:50:29,036 - #46 k
+INFO  14:50:29,036 - #37 (
+INFO  14:50:29,036 - #46 int
+INFO  14:50:29,036 - #46 y
+INFO  14:50:29,036 - #38 )
+INFO  14:50:29,044 - #46 int
+INFO  14:50:29,049 - #46 c
+INFO  14:50:29,049 - #33 ;
+INFO  14:50:29,050 - #41 {
+INFO  14:50:29,050 - #46 c
+INFO  14:50:29,059 - #30 =
+INFO  14:50:29,059 - #44 1
+INFO  14:50:29,060 - #33 ;
+INFO  14:50:29,060 - #12 return
+INFO  14:50:29,060 - #46 c
+INFO  14:50:29,060 - #17 +
+INFO  14:50:29,060 - #44 2
+INFO  14:50:29,073 - #33 ;
+INFO  14:50:29,073 - #42 }
+INFO  14:50:29,073 - #13 void
+INFO  14:50:29,074 - #46 main
+INFO  14:50:29,074 - #37 (
+INFO  14:50:29,074 - #38 )
+INFO  14:50:29,074 - #41 {
+INFO  14:50:29,079 - #46 y
+INFO  14:50:29,079 - #30 =
+INFO  14:50:29,079 - #44 2
+INFO  14:50:29,079 - #33 ;
+INFO  14:50:29,079 - #46 x
+INFO  14:50:29,079 - #30 =
+INFO  14:50:29,079 - #46 y
+INFO  14:50:29,079 - #17 +
+INFO  14:50:29,079 - #44 2
+INFO  14:50:29,079 - #33 ;
+INFO  14:50:29,079 - #46 y
+INFO  14:50:29,079 - #30 =
+INFO  14:50:29,079 - #46 k
+INFO  14:50:29,080 - #37 (
+INFO  14:50:29,080 - #38 )
+INFO  14:50:29,085 - #17 +
+INFO  14:50:29,085 - #44 3
+INFO  14:50:29,085 - #33 ;
+INFO  14:50:29,085 - #7 if
+INFO  14:50:29,085 - #37 (
+INFO  14:50:29,085 - #46 y
+INFO  14:50:29,086 - #24 >
+INFO  14:50:29,086 - #46 x
+INFO  14:50:29,099 - #38 )
+INFO  14:50:29,099 - #41 {
+INFO  14:50:29,099 - #42 }
+INFO  14:50:29,099 - #10 print
+INFO  14:50:29,099 - #37 (
+INFO  14:50:29,099 - #46 y
+INFO  14:50:29,099 - #38 )
+INFO  14:50:29,099 - #33 ;
+INFO  14:50:29,100 - #12 return
+INFO  14:50:29,100 - #33 ;
+INFO  14:50:29,100 - #42 }
+INFO  14:50:29,105 - #42 }
+INFO  14:50:29,115 - ===================================
+ERROR 14:50:29,132 - Semantic error: Term must have value of int on line 7
+INFO  14:50:29,132 - method: k defined with 1 and 1
+ERROR 14:50:29,132 - Semantic error: Term must have value of int on line 12
+ERROR 14:50:29,132 - Semantic error: Term must have value of int on line 13
+ERROR 14:50:29,137 - Semantic error: condition must be of type bool on line 15
+INFO  14:50:29,138 - method: main defined with 0 and 0
+INFO  14:50:29,138 - ===================================

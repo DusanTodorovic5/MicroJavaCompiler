@@ -1,0 +1,285 @@
+package rs.ac.bg.etf.pp1;
+
+import org.apache.log4j.*;
+import java_cup.runtime.*;
+import rs.ac.bg.etf.pp1.ast.*;
+
+parser code {:
+	boolean errorDetected = false;
+	
+	Logger log = Logger.getLogger(getClass());
+     
+    public void report_fatal_error(String message, Object info) throws java.lang.Exception {
+      done_parsing();
+      report_error(message, info);
+    }
+  
+    public void syntax_error(Symbol cur_token) {
+        report_error("\nSyntax Error", cur_token);
+    }
+  
+    public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
+        report_fatal_error("Fatal error, parsing will not continue", cur_token);
+    }
+
+    public void report_error(String message, Object info) {
+    	errorDetected = true;
+    	StringBuilder msg = new StringBuilder(message); 
+    	if (info instanceof Symbol)
+            msg.append (" on line ").append(((Symbol)info).left);
+        log.error(msg.toString());
+    }
+    
+    public void report_info(String message, Object info) {
+    	StringBuilder msg = new StringBuilder(message); 
+    	if (info instanceof Symbol)
+            msg.append (" on line ").append(((Symbol)info).left);
+        log.info(msg.toString());
+    }
+:}
+
+scan with {:
+	Symbol s = this.getScanner().next_token();
+	if (s != null && s.value != null) 
+		log.info(s.toString() + " " + s.value.toString());
+	return s;
+:}
+
+terminal PROG, BREAK, CLASS, ELSE, CONST, IF, WHILE, NEW, PRINT, READ, RETURN, VOID, EXTENDS, CONTINUE, FOREACH, PLUS, MINUS, DIV, MUL, PERCENT, EQUALS, NOTEQUALS, MORE, NOTLESS, LESS, NOTMORE, ANDAND, OROR, IS, INCREMENT, DECREMENT, SEMICOLON, DOUBLEDOTS, COMA, FULLSTOP, OPENBRACKET, CLOSEBRACKET, OPENANGLE, CLOSEANGLE, OPENPAR, CLOSEPAR, ARROW;
+terminal Integer NUMBER;
+terminal Character CHARCONST;
+terminal String IDENT;
+terminal Boolean BOOL;
+
+nonterminal VarDeclList VarDeclList;
+nonterminal ConstDecl ConstDecl;
+nonterminal NonLastVarDecl NonLastVarDecl;
+nonterminal AssignOpExpression AssignOpExpression;
+nonterminal 
+	IfCondition IfCondition;
+nonterminal FormParsListWithComa FormParsListWithComa;
+nonterminal LastVarDecl LastVarDecl;
+nonterminal ClassBody ClassBody;
+nonterminal FormParsBrackets FormParsBrackets;
+nonterminal ConstructorDeclList ConstructorDeclList;
+nonterminal 
+	MethodDeclListClass MethodDeclListClass;
+nonterminal ClassFunctions ClassFunctions;
+nonterminal ListConstDecls ListConstDecls;
+nonterminal VarDecl VarDecl;
+nonterminal ListVarDecls ListVarDecls;
+nonterminal 
+	ClassDecl ClassDecl;
+nonterminal ClassExtends ClassExtends;
+nonterminal ClassFields ClassFields;
+nonterminal ConstructorDecl ConstructorDecl;
+nonterminal MethodDeclList MethodDeclList;
+nonterminal FormPars FormPars;
+nonterminal 
+	FormParsList FormParsList;
+nonterminal StatementList StatementList;
+nonterminal DesignatorList DesignatorList;
+nonterminal NonEmptyDesignatorList NonEmptyDesignatorList;
+nonterminal 
+	ActPars ActPars;
+nonterminal ActParsList ActParsList;
+nonterminal Condition Condition;
+nonterminal CondTerm CondTerm;
+nonterminal 
+	Label Label;
+nonterminal Assignop Assignop;
+nonterminal Addop Addop;
+nonterminal Mulop Mulop;
+
+nonterminal rs.etf.pp1.symboltable.concepts.Obj Program, ProgName, FormParsDecl, Statement, 
+												MethodDecl, Designator, ConstDecls, VarBrackets, VarName, 
+												WhileStart, ForEachStart, Relop, CondFact;
+
+nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, DesignatorStatement, Expr, Term, 
+												Factor;
+
+precedence left ELSE;
+
+Program ::= (Program) PROG ProgName:p VarDeclList:V1 OPENPAR MethodDeclList:M2 CLOSEPAR {: RESULT=new Program(p, V1, M2); RESULT.setLine(pleft); :};
+
+ProgName ::= (ProgName) IDENT:name {: RESULT=new ProgName(name); RESULT.setLine(nameleft); :};
+
+VarDeclList ::= (ConstDeclarations) VarDeclList:V1 ConstDecl:C2 {: RESULT=new ConstDeclarations(V1, C2); RESULT.setLine(V1left); :} |
+				(VarDeclarations) VarDeclList:V1 VarDecl:V2 {: RESULT=new VarDeclarations(V1, V2); RESULT.setLine(V1left); :} |
+				(ClassDeclarations) VarDeclList:V1 ClassDecl:C2 {: RESULT=new ClassDeclarations(V1, C2); RESULT.setLine(V1left); :} |
+				(NoDeclarations) {: RESULT=new NoDeclarations(); :} /* epsilon */;
+
+Type ::= (Type) IDENT:typeName {: RESULT=new Type(typeName); RESULT.setLine(typeNameleft); :};
+
+ConstDecl ::= (ConstDecl) CONST Type:constType ConstDecls:C1 ListConstDecls:L2 SEMICOLON {: RESULT=new ConstDecl(constType, C1, L2); RESULT.setLine(constTypeleft); :};
+ConstDecls ::= (ConstNumberDecl) IDENT:constName IS NUMBER:constValue {: RESULT=new ConstNumberDecl(constName, constValue); RESULT.setLine(constNameleft); :} |
+				(ConstCharDecl) IDENT:constName IS CHARCONST:constValue {: RESULT=new ConstCharDecl(constName, constValue); RESULT.setLine(constNameleft); :} |
+				(ConstBoolDecl) IDENT:constName IS BOOL:constValue {: RESULT=new ConstBoolDecl(constName, constValue); RESULT.setLine(constNameleft); :};
+ListConstDecls ::= (ListConstDeclarations) ListConstDecls:L1 COMA ConstDecls:C2 {: RESULT=new ListConstDeclarations(L1, C2); RESULT.setLine(L1left); :} | 
+					(ListNoConstDeclarations) {: RESULT=new ListNoConstDeclarations(); :} /* epsilon */;
+
+VarName ::= (VarName) IDENT:varName VarBrackets:V1 {: RESULT=new VarName(varName, V1); RESULT.setLine(varNameleft); :};
+
+VarBrackets ::= (VarBracketsOpenClosed) OPENANGLE CLOSEANGLE {: RESULT=new VarBracketsOpenClosed(); :} | 
+				(NoVarBrackets) {: RESULT=new NoVarBrackets(); :} /* epsilon */;
+				
+VarDecl ::= (VarDecl) Type:varType ListVarDecls:L1 {: RESULT=new VarDecl(varType, L1); RESULT.setLine(varTypeleft); :};
+			
+ListVarDecls ::= (ListVarDeclsWithComa) NonLastVarDecl:N1 ListVarDecls:L2 {: RESULT=new ListVarDeclsWithComa(N1, L2); RESULT.setLine(N1left); :} | 
+				(ListNoVarDecls) LastVarDecl:L1 {: RESULT=new ListNoVarDecls(L1); RESULT.setLine(L1left); :};
+				
+NonLastVarDecl ::= (NonLastVarDeclaration) VarName:varName COMA {: RESULT=new NonLastVarDeclaration(varName); RESULT.setLine(varNameleft); :} |
+					(ListVarDeclError) error COMA:l
+					{: parser.report_error("Recovery done on , line " + lleft, null); :} {: RESULT=new ListVarDeclError(); :};
+
+LastVarDecl ::= (LastVarDeclaration) VarName:varName SEMICOLON {: RESULT=new LastVarDeclaration(varName); RESULT.setLine(varNameleft); :} |
+					(LastListVarDeclError) error SEMICOLON:l
+					{: parser.report_error("Recovery done on ; line " + lleft, null); :} {: RESULT=new LastListVarDeclError(); :};
+
+ClassDecl ::= (ClassDecl) CLASS IDENT:className ClassExtends:C1 ClassBody:C2 {: RESULT=new ClassDecl(className, C1, C2); RESULT.setLine(classNameleft); :};
+ClassExtends ::= (ExtendedClass) EXTENDS Type:parentName OPENPAR {: RESULT=new ExtendedClass(parentName); RESULT.setLine(parentNameleft); :} | 
+				(BaseClass) OPENPAR {: RESULT=new BaseClass(); :} /* epsilon */ |
+				(ClassExtendsError) error OPENPAR:l
+					{: parser.report_error("Recovery done on { line " + lleft, null); :} {: RESULT=new ClassExtendsError(); :};
+
+ClassBody ::= (ClassBody) ClassFields:C1 ClassFunctions:C2 CLOSEPAR {: RESULT=new ClassBody(C1, C2); RESULT.setLine(C1left); :};				
+
+ClassFields ::= (HasClassFields) ClassFields:C1 VarDecl:V2 {: RESULT=new HasClassFields(C1, V2); RESULT.setLine(C1left); :} | 
+				(NoClassFields) {: RESULT=new NoClassFields(); :} /* epsilon */;
+				
+ClassFunctions ::= (ClassFunctionsWithConstructorAndMethods) OPENPAR ConstructorDeclList:C1 MethodDeclListClass:M2 CLOSEPAR {: RESULT=new ClassFunctionsWithConstructorAndMethods(C1, M2); RESULT.setLine(C1left); :} |
+					(ClassFunctionsWithMethods) OPENPAR MethodDeclListClass:M1 CLOSEPAR {: RESULT=new ClassFunctionsWithMethods(M1); RESULT.setLine(M1left); :} |
+					(ClassFunctionsWithConstructor) OPENPAR ConstructorDeclList:C1 CLOSEPAR {: RESULT=new ClassFunctionsWithConstructor(C1); RESULT.setLine(C1left); :} |
+					(ClassFunctionsWithOnlyPar) OPENPAR CLOSEPAR {: RESULT=new ClassFunctionsWithOnlyPar(); :} |
+					(ClassFunctionsWithoutAnything) {: RESULT=new ClassFunctionsWithoutAnything(); :} /* epsilon */;
+					
+ConstructorDeclList ::= (MultipleConstructors) ConstructorDeclList:C1 ConstructorDecl:C2 {: RESULT=new MultipleConstructors(C1, C2); RESULT.setLine(C1left); :} |
+						(SingleConstructor) ConstructorDecl:C1 {: RESULT=new SingleConstructor(C1); RESULT.setLine(C1left); :};
+
+ConstructorDecl ::= (ConstructorDecl) IDENT:constructName OPENBRACKET FormPars:F1 ClassFields:C2 OPENPAR StatementList:S3 CLOSEPAR {: RESULT=new ConstructorDecl(constructName, F1, C2, S3); RESULT.setLine(constructNameleft); :};
+
+MethodDeclListClass ::= (HasMethodDeclListClass) MethodDeclListClass:M1 MethodDecl:M2 {: RESULT=new HasMethodDeclListClass(M1, M2); RESULT.setLine(M1left); :} | 
+					(NoMethodDeclListClass) MethodDecl:M1 {: RESULT=new NoMethodDeclListClass(M1); RESULT.setLine(M1left); :};
+
+MethodDeclList ::= (HasMethodDeclList) MethodDeclList:M1 MethodDecl:M2 {: RESULT=new HasMethodDeclList(M1, M2); RESULT.setLine(M1left); :} | 
+					(NoMethodDeclList) {: RESULT=new NoMethodDeclList(); :} /* epsilon */;
+
+MethodDecl ::= (MethodDeclaration) MethodType:M1 FormParsBrackets:F2 ClassFields:C3 OPENPAR StatementList:S4 CLOSEPAR {: RESULT=new MethodDeclaration(M1, F2, C3, S4); RESULT.setLine(M1left); :};
+
+MethodType ::= (MethodWithType) Type:returnType IDENT:methodName {: RESULT=new MethodWithType(returnType, methodName); RESULT.setLine(returnTypeleft); :} | 
+				(MethodWithNoType) VOID IDENT:methodName {: RESULT=new MethodWithNoType(methodName); RESULT.setLine(methodNameleft); :};
+				
+FormParsBrackets ::= (FormParsBracketsExists) OPENBRACKET FormPars:F1 {: RESULT=new FormParsBracketsExists(F1); RESULT.setLine(F1left); :};
+
+FormPars ::= (FormParsWithList) FormParsList:F1 CLOSEBRACKET {: RESULT=new FormParsWithList(F1); RESULT.setLine(F1left); :} | 
+			(FormParsEmptyList) CLOSEBRACKET {: RESULT=new FormParsEmptyList(); :} /* epsilon */ |
+					(FormParsError) error CLOSEBRACKET:l
+					{: parser.report_error("Recovery done on ) line " + lleft, null); :} {: RESULT=new FormParsError(); :};
+			
+FormParsListWithComa ::= (FormParsListWithComaDone) FormParsList:F1 COMA {: RESULT=new FormParsListWithComaDone(F1); RESULT.setLine(F1left); :} |
+						(FormParsListError) error COMA:l
+						{: parser.report_error("Recovery done on , line " + lleft, null); :} {: RESULT=new FormParsListError(); :};
+
+FormParsList ::= (FormParsListWithComaList) FormParsListWithComa:F1 FormParsDecl:F2 {: RESULT=new FormParsListWithComaList(F1, F2); RESULT.setLine(F1left); :} | 
+				(FormParList) FormParsDecl:F1 {: RESULT=new FormParList(F1); RESULT.setLine(F1left); :};
+
+FormParsDecl ::= (FormParsDecl) Type:formParType IDENT:formParIdent VarBrackets:V1 {: RESULT=new FormParsDecl(formParType, formParIdent, V1); RESULT.setLine(formParTypeleft); :};
+
+StatementList ::= (StatementListWithStatement) StatementList:S1 Statement:S2 {: RESULT=new StatementListWithStatement(S1, S2); RESULT.setLine(S1left); :} | 
+				(EmptyStatementList) {: RESULT=new EmptyStatementList(); :} /* epsilon */;
+
+Statement ::= (DesignatorStatementState) DesignatorStatement:D1 {: RESULT=new DesignatorStatementState(D1); RESULT.setLine(D1left); :} |
+				(IfStatement) IF OPENBRACKET IfCondition:I1 Statement:S2 {: RESULT=new IfStatement(I1, S2); RESULT.setLine(I1left); :} |
+				(IfElseStatement) IF OPENBRACKET IfCondition:I1 Statement:S2 ELSE Statement:stm {: RESULT=new IfElseStatement(I1, S2, stm); RESULT.setLine(I1left); :} |
+				(WhileStatement) WhileStart:ws Condition:C1 CLOSEBRACKET Statement:stm {: RESULT=new WhileStatement(ws, C1, stm); RESULT.setLine(wsleft); :} |
+				(BreakStatement) BREAK SEMICOLON {: RESULT=new BreakStatement(); :} |
+				(ContinueStatement) CONTINUE SEMICOLON {: RESULT=new ContinueStatement(); :} |
+				(VoidReturnStatement) RETURN SEMICOLON {: RESULT=new VoidReturnStatement(); :} |
+				(ReturnStatement) RETURN Expr:e SEMICOLON {: RESULT=new ReturnStatement(e); RESULT.setLine(eleft); :} |
+				(ReadStatement) READ OPENBRACKET Designator:D1 CLOSEBRACKET SEMICOLON {: RESULT=new ReadStatement(D1); RESULT.setLine(D1left); :} |
+				(PrintStatement) PRINT OPENBRACKET Expr:e CLOSEBRACKET SEMICOLON {: RESULT=new PrintStatement(e); RESULT.setLine(eleft); :} |
+				(PrintNumberStatement) PRINT OPENBRACKET Expr:e COMA NUMBER:N1 CLOSEBRACKET SEMICOLON {: RESULT=new PrintNumberStatement(e, N1); RESULT.setLine(eleft); :} |
+				(ForeachStatement) Designator:D1 FULLSTOP ForEachStart:fes IDENT:foreachName ARROW Statement:S2 CLOSEBRACKET SEMICOLON {: RESULT=new ForeachStatement(D1, fes, foreachName, S2); RESULT.setLine(D1left); :} |
+				(BlockStatement) OPENPAR StatementList:S1 CLOSEPAR {: RESULT=new BlockStatement(S1); RESULT.setLine(S1left); :};
+
+WhileStart ::= (WhileStart) WHILE OPENBRACKET {: RESULT=new WhileStart(); :};
+
+ForEachStart ::= (ForEachStart) FOREACH OPENBRACKET {: RESULT=new ForEachStart(); :};
+				
+IfCondition ::= (IfConditionStatement) Condition:C1 CLOSEBRACKET {: RESULT=new IfConditionStatement(C1); RESULT.setLine(C1left); :} |
+				(ErrorIfConditionStatement) error CLOSEBRACKET:l
+				{: parser.report_error("Recovery done on ) line " + lleft, null); :} {: RESULT=new ErrorIfConditionStatement(); :};
+				
+AssignOpExpression ::= (DesignatorAssign) Designator:varDes IS Expr:e  SEMICOLON {: RESULT=new DesignatorAssign(varDes, e); RESULT.setLine(varDesleft); :} |
+						(ErrorDesignatorAssign) error SEMICOLON:l
+						{: parser.report_error("Recovery done on ; line " + lleft, null); :} {: RESULT=new ErrorDesignatorAssign(); :} |
+						(DesignatorArray) OPENANGLE DesignatorList:D1 CLOSEANGLE IS Designator:array SEMICOLON {: RESULT=new DesignatorArray(D1, array); RESULT.setLine(D1left); :};
+
+DesignatorStatement ::= (DesignatorStatementAssignOp) AssignOpExpression:A1 {: RESULT=new DesignatorStatementAssignOp(A1); RESULT.setLine(A1left); :} |
+						(DesignatorFunc) Designator:funcDes OPENBRACKET ActPars:A1 CLOSEBRACKET SEMICOLON {: RESULT=new DesignatorFunc(funcDes, A1); RESULT.setLine(funcDesleft); :} |
+						(DesignatorIncrement) Designator:varDes INCREMENT SEMICOLON {: RESULT=new DesignatorIncrement(varDes); RESULT.setLine(varDesleft); :} |
+						(DesignatorDecrement) Designator:varDes DECREMENT SEMICOLON {: RESULT=new DesignatorDecrement(varDes); RESULT.setLine(varDesleft); :};
+						
+						
+DesignatorList ::= (DesignatorListNonEmpty) NonEmptyDesignatorList:N1 {: RESULT=new DesignatorListNonEmpty(N1); RESULT.setLine(N1left); :} | 
+					(EmptyDesignatorList) {: RESULT=new EmptyDesignatorList(); :} /* epsilon */;						
+						
+NonEmptyDesignatorList ::= (NonEmptyDesignatorListWithComa) NonEmptyDesignatorList:N1 COMA Designator:D2 {: RESULT=new NonEmptyDesignatorListWithComa(N1, D2); RESULT.setLine(N1left); :} | 
+							(SingleDesignatorList) Designator:D1 {: RESULT=new SingleDesignatorList(D1); RESULT.setLine(D1left); :};
+
+ActPars ::= (ActParsWithList) ActParsList:A1 {: RESULT=new ActParsWithList(A1); RESULT.setLine(A1left); :} | 
+			(EmptyActPars) {: RESULT=new EmptyActPars(); :} /* epsilon */;
+
+ActParsList ::= (ActParsListWithComa) ActParsList:A1 COMA Expr:e {: RESULT=new ActParsListWithComa(A1, e); RESULT.setLine(A1left); :} | 
+				(SingleActParsList) Expr:e {: RESULT=new SingleActParsList(e); RESULT.setLine(eleft); :};
+
+Condition ::= (ConditionOR) Condition:C1 OROR CondTerm:C2 {: RESULT=new ConditionOR(C1, C2); RESULT.setLine(C1left); :} | 
+				error CLOSEBRACKET:l
+				{: parser.report_error("Recovery done on ) line " + lleft, null); :} {: RESULT=new ConditionDerived1(); :} |
+			(JustCondition) CondTerm:C1 {: RESULT=new JustCondition(C1); RESULT.setLine(C1left); :};
+
+CondTerm ::= (ConditionAnd) CondTerm:C1 ANDAND CondFact:C2 {: RESULT=new ConditionAnd(C1, C2); RESULT.setLine(C1left); :} | 
+				(JustCondTerm) CondFact:C1 {: RESULT=new JustCondTerm(C1); RESULT.setLine(C1left); :};
+
+CondFact ::= (ConditionWithOp) Expr:l Relop:R1 Expr:r {: RESULT=new ConditionWithOp(l, R1, r); RESULT.setLine(lleft); :} | 
+			(ConditionWithoutOp) Expr:e {: RESULT=new ConditionWithoutOp(e); RESULT.setLine(eleft); :};
+
+Expr ::= (NegativeExpr) MINUS Term:t {: RESULT=new NegativeExpr(t); RESULT.setLine(tleft); :} | 
+		(PositiveExpr) Term:t {: RESULT=new PositiveExpr(t); RESULT.setLine(tleft); :} |
+		(AddopExpr) Expr:e Addop:A1 Term:t {: RESULT=new AddopExpr(e, A1, t); RESULT.setLine(eleft); :};		
+		
+Term ::= (NormalTerm) Factor:f {: RESULT=new NormalTerm(f); RESULT.setLine(fleft); :} | 
+		(MulTerm) Term:t Mulop:M1 Factor:f {: RESULT=new MulTerm(t, M1, f); RESULT.setLine(tleft); :};
+
+Factor ::= (FactorDesignator) Designator:valDes {: RESULT=new FactorDesignator(valDes); RESULT.setLine(valDesleft); :} |
+			(FactorDesignatorActPars) Designator:valDes OPENBRACKET ActPars:A1 CLOSEBRACKET {: RESULT=new FactorDesignatorActPars(valDes, A1); RESULT.setLine(valDesleft); :} |
+			(FactorNumber) NUMBER:valNum {: RESULT=new FactorNumber(valNum); RESULT.setLine(valNumleft); :} |
+			(FactorChar) CHARCONST:valChar {: RESULT=new FactorChar(valChar); RESULT.setLine(valCharleft); :} |
+			(FactorBool) BOOL:valBool {: RESULT=new FactorBool(valBool); RESULT.setLine(valBoolleft); :} | 
+			(FactorNewObj) NEW Type:name OPENBRACKET ActPars:A1 CLOSEBRACKET {: RESULT=new FactorNewObj(name, A1); RESULT.setLine(nameleft); :} |
+			(FactorNewArray) NEW Type:name OPENANGLE Expr:e CLOSEANGLE {: RESULT=new FactorNewArray(name, e); RESULT.setLine(nameleft); :} |
+			(FactorExpr) OPENBRACKET Expr:e CLOSEBRACKET {: RESULT=new FactorExpr(e); RESULT.setLine(eleft); :};
+			
+Designator ::= (IdentDesignator) IDENT:name {: RESULT=new IdentDesignator(name); RESULT.setLine(nameleft); :} |
+				(DotDesignator) Designator:D1 FULLSTOP IDENT:name {: RESULT=new DotDesignator(D1, name); RESULT.setLine(D1left); :} |
+				(ArrayDesignator) Designator:D1 OPENANGLE Expr:e CLOSEANGLE {: RESULT=new ArrayDesignator(D1, e); RESULT.setLine(D1left); :};
+
+Label ::= (Label) IDENT:name {: RESULT=new Label(name); RESULT.setLine(nameleft); :};
+
+Assignop ::= (Assignop) IS {: RESULT=new Assignop(); :};
+
+Relop ::= (Equals) EQUALS {: RESULT=new Equals(); :} | 
+		(NotEquals) NOTEQUALS {: RESULT=new NotEquals(); :} | 
+		(More) MORE {: RESULT=new More(); :} |
+		(NotLess) NOTLESS {: RESULT=new NotLess(); :} |
+		(Less) LESS {: RESULT=new Less(); :} |
+		(NotMore) NOTMORE {: RESULT=new NotMore(); :};
+		
+Addop ::= (Plus) PLUS {: RESULT=new Plus(); :} | 
+		(Minus) MINUS {: RESULT=new Minus(); :};
+
+Mulop ::= (Mul) MUL {: RESULT=new Mul(); :} | 
+		(Div) DIV {: RESULT=new Div(); :} | 
+		(Percent) PERCENT {: RESULT=new Percent(); :};
+		
+

@@ -1,0 +1,300 @@
+INFO  13:09:00,622 - Compiling source file: D:\Fakultet\PP1\domaci\workspace\MJCompiler\test\program.mj
+INFO  13:09:00,660 - #2 program
+INFO  13:09:00,660 - #45 MJProgram
+INFO  13:09:00,660 - #45 int
+INFO  13:09:00,660 - #45 x
+INFO  13:09:00,661 - #35 ,
+INFO  13:09:00,662 - #45 i
+INFO  13:09:00,662 - #35 ,
+INFO  13:09:00,662 - #45 o
+INFO  13:09:00,663 - #33 ;
+INFO  13:09:00,663 - #45 int
+INFO  13:09:00,664 - #45 y
+INFO  13:09:00,664 - #33 ;
+INFO  13:09:00,664 - #41 {
+INFO  13:09:00,664 - #45 int
+INFO  13:09:00,665 - #45 k
+INFO  13:09:00,665 - #37 (
+INFO  13:09:00,666 - #38 )
+INFO  13:09:00,667 - #45 int
+INFO  13:09:00,668 - #45 c
+INFO  13:09:00,668 - #33 ;
+INFO  13:09:00,668 - #41 {
+INFO  13:09:00,668 - #45 c
+INFO  13:09:00,677 - #30 =
+INFO  13:09:00,677 - #44 1
+INFO  13:09:00,677 - #33 ;
+INFO  13:09:00,678 - #12 return
+INFO  13:09:00,678 - #45 c
+INFO  13:09:00,678 - #17 +
+INFO  13:09:00,678 - #44 2
+INFO  13:09:00,678 - #33 ;
+INFO  13:09:00,679 - #42 }
+INFO  13:09:00,679 - #45 int
+INFO  13:09:00,679 - #45 main
+INFO  13:09:00,679 - #37 (
+INFO  13:09:00,679 - #38 )
+INFO  13:09:00,679 - #41 {
+INFO  13:09:00,679 - #45 y
+INFO  13:09:00,679 - #30 =
+INFO  13:09:00,679 - #44 2
+INFO  13:09:00,679 - #33 ;
+INFO  13:09:00,679 - #45 x
+INFO  13:09:00,679 - #18 -
+ERROR 13:09:00,679 - 
+Syntax Error on line 13
+INFO  13:09:00,681 - #44 3
+INFO  13:09:00,681 - #30 =
+INFO  13:09:00,681 - #45 y
+INFO  13:09:00,681 - #17 +
+INFO  13:09:00,681 - #44 2
+INFO  13:09:00,681 - #33 ;
+INFO  13:09:00,681 - #45 y
+INFO  13:09:00,681 - #30 =
+INFO  13:09:00,681 - #45 k
+ERROR 13:09:00,682 - Recovery done on ; line 13
+INFO  13:09:00,682 - #37 (
+INFO  13:09:00,684 - #38 )
+INFO  13:09:00,684 - #17 +
+INFO  13:09:00,685 - #44 3
+INFO  13:09:00,685 - #33 ;
+INFO  13:09:00,685 - #10 print
+INFO  13:09:00,685 - #37 (
+INFO  13:09:00,685 - #45 y
+INFO  13:09:00,685 - #38 )
+INFO  13:09:00,685 - #33 ;
+INFO  13:09:00,685 - #12 return
+INFO  13:09:00,686 - #44 0
+INFO  13:09:00,686 - #33 ;
+INFO  13:09:00,686 - #42 }
+INFO  13:09:00,686 - #42 }
+INFO  13:09:00,687 - Program(
+ MJProgram
+  VarDeclarations(
+    VarDeclarations(
+      NoDeclarations(
+      ) [NoDeclarations]
+      VarDecl(
+        Type(
+         int
+        ) [Type]
+        ListVarDeclsWithComa(
+          NonLastVarDeclaration(
+            VarName(
+             x
+              NoVarBrackets(
+              ) [NoVarBrackets]
+            ) [VarName]
+          ) [NonLastVarDeclaration]
+          ListVarDeclsWithComa(
+            NonLastVarDeclaration(
+              VarName(
+               i
+                NoVarBrackets(
+                ) [NoVarBrackets]
+              ) [VarName]
+            ) [NonLastVarDeclaration]
+            ListNoVarDecls(
+              LastVarDeclaration(
+                VarName(
+                 o
+                  NoVarBrackets(
+                  ) [NoVarBrackets]
+                ) [VarName]
+              ) [LastVarDeclaration]
+            ) [ListNoVarDecls]
+          ) [ListVarDeclsWithComa]
+        ) [ListVarDeclsWithComa]
+      ) [VarDecl]
+    ) [VarDeclarations]
+    VarDecl(
+      Type(
+       int
+      ) [Type]
+      ListNoVarDecls(
+        LastVarDeclaration(
+          VarName(
+           y
+            NoVarBrackets(
+            ) [NoVarBrackets]
+          ) [VarName]
+        ) [LastVarDeclaration]
+      ) [ListNoVarDecls]
+    ) [VarDecl]
+  ) [VarDeclarations]
+  HasMethodDeclList(
+    HasMethodDeclList(
+      NoMethodDeclList(
+      ) [NoMethodDeclList]
+      MethodDeclaration(
+        MethodWithType(
+          Type(
+           int
+          ) [Type]
+         k
+        ) [MethodWithType]
+        FormParsBracketsExists(
+          FormParsEmptyList(
+          ) [FormParsEmptyList]
+        ) [FormParsBracketsExists]
+        HasClassFields(
+          NoClassFields(
+          ) [NoClassFields]
+          VarDecl(
+            Type(
+             int
+            ) [Type]
+            ListNoVarDecls(
+              LastVarDeclaration(
+                VarName(
+                 c
+                  NoVarBrackets(
+                  ) [NoVarBrackets]
+                ) [VarName]
+              ) [LastVarDeclaration]
+            ) [ListNoVarDecls]
+          ) [VarDecl]
+        ) [HasClassFields]
+        StatementListWithStatement(
+          StatementListWithStatement(
+            EmptyStatementList(
+            ) [EmptyStatementList]
+            DesignatorStatementState(
+              DesignatorAssign(
+                IdentDesignator(
+                 c
+                ) [IdentDesignator]
+                PositiveExpr(
+                  NormalTerm(
+                    FactorNumber(
+                     1
+                    ) [FactorNumber]
+                  ) [NormalTerm]
+                ) [PositiveExpr]
+              ) [DesignatorAssign]
+            ) [DesignatorStatementState]
+          ) [StatementListWithStatement]
+          ReturnStatement(
+            AddopExpr(
+              PositiveExpr(
+                NormalTerm(
+                  FactorDesignator(
+                    IdentDesignator(
+                     c
+                    ) [IdentDesignator]
+                  ) [FactorDesignator]
+                ) [NormalTerm]
+              ) [PositiveExpr]
+              Plus(
+              ) [Plus]
+              NormalTerm(
+                FactorNumber(
+                 2
+                ) [FactorNumber]
+              ) [NormalTerm]
+            ) [AddopExpr]
+          ) [ReturnStatement]
+        ) [StatementListWithStatement]
+      ) [MethodDeclaration]
+    ) [HasMethodDeclList]
+    MethodDeclaration(
+      MethodWithType(
+        Type(
+         int
+        ) [Type]
+       main
+      ) [MethodWithType]
+      FormParsBracketsExists(
+        FormParsEmptyList(
+        ) [FormParsEmptyList]
+      ) [FormParsBracketsExists]
+      NoClassFields(
+      ) [NoClassFields]
+      StatementListWithStatement(
+        StatementListWithStatement(
+          StatementListWithStatement(
+            StatementListWithStatement(
+              StatementListWithStatement(
+                EmptyStatementList(
+                ) [EmptyStatementList]
+                DesignatorStatementState(
+                  DesignatorAssign(
+                    IdentDesignator(
+                     y
+                    ) [IdentDesignator]
+                    PositiveExpr(
+                      NormalTerm(
+                        FactorNumber(
+                         2
+                        ) [FactorNumber]
+                      ) [NormalTerm]
+                    ) [PositiveExpr]
+                  ) [DesignatorAssign]
+                ) [DesignatorStatementState]
+              ) [StatementListWithStatement]
+              DesignatorStatementState(
+                ErrorDesignatorAssign(
+                ) [ErrorDesignatorAssign]
+              ) [DesignatorStatementState]
+            ) [StatementListWithStatement]
+            DesignatorStatementState(
+              DesignatorAssign(
+                IdentDesignator(
+                 y
+                ) [IdentDesignator]
+                AddopExpr(
+                  PositiveExpr(
+                    NormalTerm(
+                      FactorDesignatorActPars(
+                        IdentDesignator(
+                         k
+                        ) [IdentDesignator]
+                        EmptyActPars(
+                        ) [EmptyActPars]
+                      ) [FactorDesignatorActPars]
+                    ) [NormalTerm]
+                  ) [PositiveExpr]
+                  Plus(
+                  ) [Plus]
+                  NormalTerm(
+                    FactorNumber(
+                     3
+                    ) [FactorNumber]
+                  ) [NormalTerm]
+                ) [AddopExpr]
+              ) [DesignatorAssign]
+            ) [DesignatorStatementState]
+          ) [StatementListWithStatement]
+          PrintStatement(
+            PositiveExpr(
+              NormalTerm(
+                FactorDesignator(
+                  IdentDesignator(
+                   y
+                  ) [IdentDesignator]
+                ) [FactorDesignator]
+              ) [NormalTerm]
+            ) [PositiveExpr]
+          ) [PrintStatement]
+        ) [StatementListWithStatement]
+        ReturnStatement(
+          PositiveExpr(
+            NormalTerm(
+              FactorNumber(
+               0
+              ) [FactorNumber]
+            ) [NormalTerm]
+          ) [PositiveExpr]
+        ) [ReturnStatement]
+      ) [StatementListWithStatement]
+    ) [MethodDeclaration]
+  ) [HasMethodDeclList]
+) [Program]
+INFO  13:09:00,688 - ===================================
+INFO  13:09:00,690 - Prepoznata promenljiva!
+INFO  13:09:00,690 - Prepoznata promenljiva!
+INFO  13:09:00,690 - Prepoznata promenljiva!
+INFO  13:09:00,690 - Prepoznata naredba print!
+INFO  13:09:00,690 - Print count calls = 1
+INFO  13:09:00,690 - Var declarations number = 3
+INFO  13:09:00,690 - ===================================

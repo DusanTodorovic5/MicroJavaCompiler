@@ -1,0 +1,279 @@
+INFO  10:01:45,121 - Compiling source file: D:\Fakultet\PP1\domaci\workspace\MJCompiler\test\program.mj
+INFO  10:01:45,146 - #2 program
+INFO  10:01:45,146 - #45 MJProgram
+INFO  10:01:45,146 - #45 int
+INFO  10:01:45,146 - #45 x
+INFO  10:01:45,147 - #17 +
+ERROR 10:01:45,147 - 
+Syntax Error on line 2
+INFO  10:01:45,147 - #35 ,
+INFO  10:01:45,147 - #45 i
+INFO  10:01:45,147 - #35 ,
+INFO  10:01:45,147 - #45 o
+INFO  10:01:45,148 - #33 ;
+INFO  10:01:45,148 - #45 int
+INFO  10:01:45,148 - #45 y
+INFO  10:01:45,148 - #33 ;
+ERROR 10:01:45,148 - Recovery done on ; line 2
+INFO  10:01:45,150 - #41 {
+INFO  10:01:45,150 - #45 int
+INFO  10:01:45,150 - #45 k
+INFO  10:01:45,150 - #37 (
+INFO  10:01:45,151 - #38 )
+INFO  10:01:45,152 - #45 int
+INFO  10:01:45,161 - #45 c
+INFO  10:01:45,161 - #33 ;
+INFO  10:01:45,161 - #41 {
+INFO  10:01:45,161 - #45 c
+INFO  10:01:45,162 - #30 =
+INFO  10:01:45,162 - #44 1
+INFO  10:01:45,162 - #33 ;
+INFO  10:01:45,162 - #12 return
+INFO  10:01:45,163 - #45 c
+INFO  10:01:45,163 - #17 +
+INFO  10:01:45,163 - #44 2
+INFO  10:01:45,163 - #33 ;
+INFO  10:01:45,164 - #42 }
+INFO  10:01:45,164 - #45 int
+INFO  10:01:45,164 - #45 main
+INFO  10:01:45,164 - #37 (
+INFO  10:01:45,164 - #38 )
+INFO  10:01:45,164 - #41 {
+INFO  10:01:45,164 - #45 y
+INFO  10:01:45,164 - #30 =
+INFO  10:01:45,164 - #44 2
+INFO  10:01:45,164 - #33 ;
+INFO  10:01:45,164 - #45 x
+INFO  10:01:45,164 - #30 =
+INFO  10:01:45,164 - #45 y
+INFO  10:01:45,165 - #17 +
+INFO  10:01:45,165 - #44 2
+INFO  10:01:45,165 - #33 ;
+INFO  10:01:45,165 - #45 y
+INFO  10:01:45,165 - #30 =
+INFO  10:01:45,165 - #45 k
+INFO  10:01:45,165 - #37 (
+INFO  10:01:45,165 - #38 )
+INFO  10:01:45,166 - #17 +
+INFO  10:01:45,166 - #44 3
+INFO  10:01:45,166 - #33 ;
+INFO  10:01:45,166 - #10 print
+INFO  10:01:45,166 - #37 (
+INFO  10:01:45,166 - #45 y
+INFO  10:01:45,166 - #38 )
+INFO  10:01:45,166 - #33 ;
+INFO  10:01:45,166 - #12 return
+INFO  10:01:45,166 - #44 0
+INFO  10:01:45,166 - #33 ;
+INFO  10:01:45,166 - #42 }
+INFO  10:01:45,167 - #42 }
+INFO  10:01:45,168 - Program(
+ MJProgram
+  VarDeclarations(
+    VarDeclarations(
+      NoDeclarations(
+      ) [NoDeclarations]
+      ListVarDeclError(
+      ) [ListVarDeclError]
+    ) [VarDeclarations]
+    VarDeclDone(
+      Type(
+       int
+      ) [Type]
+      VarName(
+       y
+        NoVarBrackets(
+        ) [NoVarBrackets]
+      ) [VarName]
+      ListNoVarDecls(
+      ) [ListNoVarDecls]
+    ) [VarDeclDone]
+  ) [VarDeclarations]
+  HasMethodDeclList(
+    HasMethodDeclList(
+      NoMethodDeclList(
+      ) [NoMethodDeclList]
+      MethodDeclaration(
+        MethodWithType(
+          Type(
+           int
+          ) [Type]
+         k
+        ) [MethodWithType]
+        FormParsEmptyList(
+        ) [FormParsEmptyList]
+        HasClassFields(
+          NoClassFields(
+          ) [NoClassFields]
+          VarDeclDone(
+            Type(
+             int
+            ) [Type]
+            VarName(
+             c
+              NoVarBrackets(
+              ) [NoVarBrackets]
+            ) [VarName]
+            ListNoVarDecls(
+            ) [ListNoVarDecls]
+          ) [VarDeclDone]
+        ) [HasClassFields]
+        StatementListWithStatement(
+          StatementListWithStatement(
+            EmptyStatementList(
+            ) [EmptyStatementList]
+            DesignatorStatementState(
+              DesignatorAssign(
+                IdentDesignator(
+                 c
+                ) [IdentDesignator]
+                PositiveExpr(
+                  NormalTerm(
+                    FactorNumber(
+                     1
+                    ) [FactorNumber]
+                  ) [NormalTerm]
+                ) [PositiveExpr]
+              ) [DesignatorAssign]
+            ) [DesignatorStatementState]
+          ) [StatementListWithStatement]
+          ReturnStatement(
+            AddopExpr(
+              PositiveExpr(
+                NormalTerm(
+                  FactorDesignator(
+                    IdentDesignator(
+                     c
+                    ) [IdentDesignator]
+                  ) [FactorDesignator]
+                ) [NormalTerm]
+              ) [PositiveExpr]
+              Plus(
+              ) [Plus]
+              NormalTerm(
+                FactorNumber(
+                 2
+                ) [FactorNumber]
+              ) [NormalTerm]
+            ) [AddopExpr]
+          ) [ReturnStatement]
+        ) [StatementListWithStatement]
+      ) [MethodDeclaration]
+    ) [HasMethodDeclList]
+    MethodDeclaration(
+      MethodWithType(
+        Type(
+         int
+        ) [Type]
+       main
+      ) [MethodWithType]
+      FormParsEmptyList(
+      ) [FormParsEmptyList]
+      NoClassFields(
+      ) [NoClassFields]
+      StatementListWithStatement(
+        StatementListWithStatement(
+          StatementListWithStatement(
+            StatementListWithStatement(
+              StatementListWithStatement(
+                EmptyStatementList(
+                ) [EmptyStatementList]
+                DesignatorStatementState(
+                  DesignatorAssign(
+                    IdentDesignator(
+                     y
+                    ) [IdentDesignator]
+                    PositiveExpr(
+                      NormalTerm(
+                        FactorNumber(
+                         2
+                        ) [FactorNumber]
+                      ) [NormalTerm]
+                    ) [PositiveExpr]
+                  ) [DesignatorAssign]
+                ) [DesignatorStatementState]
+              ) [StatementListWithStatement]
+              DesignatorStatementState(
+                DesignatorAssign(
+                  IdentDesignator(
+                   x
+                  ) [IdentDesignator]
+                  AddopExpr(
+                    PositiveExpr(
+                      NormalTerm(
+                        FactorDesignator(
+                          IdentDesignator(
+                           y
+                          ) [IdentDesignator]
+                        ) [FactorDesignator]
+                      ) [NormalTerm]
+                    ) [PositiveExpr]
+                    Plus(
+                    ) [Plus]
+                    NormalTerm(
+                      FactorNumber(
+                       2
+                      ) [FactorNumber]
+                    ) [NormalTerm]
+                  ) [AddopExpr]
+                ) [DesignatorAssign]
+              ) [DesignatorStatementState]
+            ) [StatementListWithStatement]
+            DesignatorStatementState(
+              DesignatorAssign(
+                IdentDesignator(
+                 y
+                ) [IdentDesignator]
+                AddopExpr(
+                  PositiveExpr(
+                    NormalTerm(
+                      FactorDesignatorActPars(
+                        IdentDesignator(
+                         k
+                        ) [IdentDesignator]
+                        EmptyActPars(
+                        ) [EmptyActPars]
+                      ) [FactorDesignatorActPars]
+                    ) [NormalTerm]
+                  ) [PositiveExpr]
+                  Plus(
+                  ) [Plus]
+                  NormalTerm(
+                    FactorNumber(
+                     3
+                    ) [FactorNumber]
+                  ) [NormalTerm]
+                ) [AddopExpr]
+              ) [DesignatorAssign]
+            ) [DesignatorStatementState]
+          ) [StatementListWithStatement]
+          PrintStatement(
+            PositiveExpr(
+              NormalTerm(
+                FactorDesignator(
+                  IdentDesignator(
+                   y
+                  ) [IdentDesignator]
+                ) [FactorDesignator]
+              ) [NormalTerm]
+            ) [PositiveExpr]
+          ) [PrintStatement]
+        ) [StatementListWithStatement]
+        ReturnStatement(
+          PositiveExpr(
+            NormalTerm(
+              FactorNumber(
+               0
+              ) [FactorNumber]
+            ) [NormalTerm]
+          ) [PositiveExpr]
+        ) [ReturnStatement]
+      ) [StatementListWithStatement]
+    ) [MethodDeclaration]
+  ) [HasMethodDeclList]
+) [Program]
+INFO  10:01:45,169 - ===================================
+INFO  10:01:45,172 - Prepoznata naredba print!
+INFO  10:01:45,172 - Print count calls = 1
+INFO  10:01:45,172 - Var declarations number = 0
+INFO  10:01:45,172 - ===================================

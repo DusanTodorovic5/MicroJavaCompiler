@@ -1,0 +1,35 @@
+INFO  22:49:04,737 - Compiling source file: D:\Fakultet\PP1\domaci\workspace\MJCompiler\test\program.mj
+INFO  22:49:04,786 - #2 program
+INFO  22:49:04,786 - #45 MJProgram
+INFO  22:49:04,786 - #45 int
+INFO  22:49:04,788 - #45 x
+INFO  22:49:04,788 - #33 ;
+INFO  22:49:04,791 - #45 int
+INFO  22:49:04,795 - #45 y
+INFO  22:49:04,795 - #33 ;
+INFO  22:49:04,795 - #41 {
+INFO  22:49:04,795 - #45 int
+INFO  22:49:04,796 - #45 k
+INFO  22:49:04,796 - #37 (
+INFO  22:49:04,796 - #38 )
+INFO  22:49:04,797 - #45 int
+INFO  22:49:04,797 - #45 c
+INFO  22:49:04,797 - #33 ;
+INFO  22:49:04,798 - #41 {
+INFO  22:49:04,798 - #45 c
+INFO  22:49:04,800 - #30 =
+INFO  22:49:04,800 - #44 1
+INFO  22:49:04,800 - #33 ;
+INFO  22:49:04,801 - #12 return
+INFO  22:49:04,810 - #45 c
+INFO  22:49:04,810 - #17 +
+INFO  22:49:04,811 - #44 2
+INFO  22:49:04,812 - #33 ;
+INFO  22:49:04,812 - #42 }
+INFO  22:49:04,812 - #45 int
+INFO  22:49:04,813 - #45 main
+INFO  22:49:04,813 - #37 (
+INFO  22:49:04,813 - #37 (
+ERROR 22:49:04,813 - 
+Syntax Error on line 10
+ERROR 22:49:04,813 - Fatal error, parsing will not continue on line 10

@@ -1,0 +1,9 @@
+INFO  23:34:53,835 - Compiling source file: D:\Fakultet\PP1\domaci\workspace\MJCompiler\test\program.mj
+INFO  23:34:53,867 - #2 program
+INFO  23:34:53,867 - #45 MJProgram
+INFO  23:34:53,868 - #45 int
+INFO  23:34:53,868 - #45 x
+INFO  23:34:53,868 - #17 +
+ERROR 23:34:53,868 - 
+Syntax Error on line 2
+ERROR 23:34:53,869 - Fatal error, parsing will not continue on line 2

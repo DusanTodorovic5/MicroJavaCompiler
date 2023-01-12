@@ -1,0 +1,1648 @@
+INFO  20:20:21,778 - Compiling source file: D:\Fakultet\PP1\domaci\workspace\MJCompiler\test\program.mj
+INFO  20:20:21,807 - #2 program
+INFO  20:20:21,807 - #46 p
+INFO  20:20:21,807 - #6 const
+INFO  20:20:21,808 - #46 int
+INFO  20:20:21,808 - #46 size
+INFO  20:20:21,808 - #30 =
+INFO  20:20:21,808 - #44 10
+INFO  20:20:21,808 - #33 ;
+INFO  20:20:21,809 - #4 class
+INFO  20:20:21,809 - #46 Table
+INFO  20:20:21,809 - #41 {
+INFO  20:20:21,809 - #46 int
+INFO  20:20:21,810 - #46 pos
+INFO  20:20:21,810 - #39 [
+INFO  20:20:21,810 - #40 ]
+INFO  20:20:21,810 - #35 ,
+INFO  20:20:21,811 - #46 neg
+INFO  20:20:21,811 - #39 [
+INFO  20:20:21,811 - #40 ]
+INFO  20:20:21,811 - #35 ,
+INFO  20:20:21,811 - #46 factor
+INFO  20:20:21,811 - #33 ;
+INFO  20:20:21,819 - #41 {
+INFO  20:20:21,820 - #46 Table
+INFO  20:20:21,820 - #37 (
+INFO  20:20:21,820 - #46 int
+INFO  20:20:21,820 - #46 factor
+INFO  20:20:21,820 - #38 )
+INFO  20:20:21,820 - #41 {
+INFO  20:20:21,821 - #46 this
+INFO  20:20:21,821 - #36 .
+INFO  20:20:21,821 - #46 factor
+INFO  20:20:21,821 - #30 =
+INFO  20:20:21,821 - #46 factor
+INFO  20:20:21,821 - #33 ;
+INFO  20:20:21,821 - #42 }
+INFO  20:20:21,822 - #13 void
+INFO  20:20:21,822 - #46 putp
+INFO  20:20:21,822 - #37 (
+INFO  20:20:21,822 - #46 int
+INFO  20:20:21,823 - #46 a
+INFO  20:20:21,823 - #35 ,
+INFO  20:20:21,823 - #46 int
+INFO  20:20:21,823 - #46 idx
+INFO  20:20:21,823 - #38 )
+INFO  20:20:21,823 - #41 {
+INFO  20:20:21,823 - #46 this
+INFO  20:20:21,823 - #36 .
+INFO  20:20:21,823 - #46 pos
+INFO  20:20:21,823 - #39 [
+INFO  20:20:21,823 - #46 idx
+INFO  20:20:21,823 - #40 ]
+INFO  20:20:21,824 - #30 =
+INFO  20:20:21,824 - #46 a
+INFO  20:20:21,824 - #33 ;
+INFO  20:20:21,824 - #42 }
+INFO  20:20:21,824 - #13 void
+INFO  20:20:21,824 - #46 putn
+INFO  20:20:21,824 - #37 (
+INFO  20:20:21,824 - #46 int
+INFO  20:20:21,824 - #46 a
+INFO  20:20:21,824 - #35 ,
+INFO  20:20:21,824 - #46 int
+INFO  20:20:21,824 - #46 idx
+INFO  20:20:21,824 - #38 )
+INFO  20:20:21,824 - #41 {
+INFO  20:20:21,825 - #46 this
+INFO  20:20:21,825 - #36 .
+INFO  20:20:21,825 - #46 neg
+INFO  20:20:21,825 - #39 [
+INFO  20:20:21,825 - #46 idx
+INFO  20:20:21,825 - #40 ]
+INFO  20:20:21,825 - #30 =
+INFO  20:20:21,825 - #46 a
+INFO  20:20:21,825 - #33 ;
+INFO  20:20:21,825 - #42 }
+INFO  20:20:21,825 - #46 int
+INFO  20:20:21,825 - #46 getp
+INFO  20:20:21,825 - #37 (
+INFO  20:20:21,825 - #46 int
+INFO  20:20:21,826 - #46 idx
+INFO  20:20:21,826 - #38 )
+INFO  20:20:21,826 - #41 {
+INFO  20:20:21,826 - #12 return
+INFO  20:20:21,826 - #46 pos
+INFO  20:20:21,826 - #39 [
+INFO  20:20:21,826 - #46 idx
+INFO  20:20:21,826 - #40 ]
+INFO  20:20:21,826 - #33 ;
+INFO  20:20:21,826 - #42 }
+INFO  20:20:21,826 - #46 int
+INFO  20:20:21,826 - #46 getn
+INFO  20:20:21,826 - #37 (
+INFO  20:20:21,826 - #46 int
+INFO  20:20:21,827 - #46 idx
+INFO  20:20:21,827 - #38 )
+INFO  20:20:21,827 - #41 {
+INFO  20:20:21,827 - #12 return
+INFO  20:20:21,827 - #46 neg
+INFO  20:20:21,827 - #39 [
+INFO  20:20:21,827 - #46 idx
+INFO  20:20:21,827 - #40 ]
+INFO  20:20:21,827 - #33 ;
+INFO  20:20:21,827 - #42 }
+INFO  20:20:21,827 - #42 }
+INFO  20:20:21,827 - #42 }
+INFO  20:20:21,827 - #46 Table
+INFO  20:20:21,829 - #46 val
+INFO  20:20:21,829 - #33 ;
+INFO  20:20:21,829 - #46 Int
+INFO  20:20:21,829 - #46 rows
+INFO  20:20:21,829 - #35 ,
+INFO  20:20:21,829 - #46 columns
+INFO  20:20:21,829 - #33 ;
+INFO  20:20:21,829 - #41 {
+INFO  20:20:21,829 - #13 void
+INFO  20:20:21,829 - #46 f
+INFO  20:20:21,830 - #37 (
+INFO  20:20:21,830 - #46 char
+INFO  20:20:21,830 - #46 ch
+INFO  20:20:21,830 - #35 ,
+INFO  20:20:21,830 - #46 int
+INFO  20:20:21,830 - #46 a
+INFO  20:20:21,830 - #35 ,
+INFO  20:20:21,830 - #46 int
+INFO  20:20:21,830 - #46 arg
+INFO  20:20:21,830 - #38 )
+INFO  20:20:21,830 - #46 int
+INFO  20:20:21,830 - #46 x
+INFO  20:20:21,830 - #33 ;
+INFO  20:20:21,831 - #41 {
+INFO  20:20:21,831 - #46 x
+INFO  20:20:21,831 - #30 =
+INFO  20:20:21,831 - #46 arg
+INFO  20:20:21,831 - #33 ;
+INFO  20:20:21,831 - #42 }
+INFO  20:20:21,831 - #13 void
+INFO  20:20:21,832 - #46 main
+INFO  20:20:21,832 - #37 (
+INFO  20:20:21,832 - #38 )
+INFO  20:20:21,832 - #46 int
+INFO  20:20:21,832 - #46 x
+INFO  20:20:21,832 - #35 ,
+INFO  20:20:21,832 - #46 i
+INFO  20:20:21,832 - #33 ;
+INFO  20:20:21,832 - #46 char
+INFO  20:20:21,832 - #46 c
+INFO  20:20:21,833 - #33 ;
+INFO  20:20:21,833 - #46 int
+INFO  20:20:21,833 - #46 arr
+INFO  20:20:21,833 - #39 [
+INFO  20:20:21,833 - #40 ]
+INFO  20:20:21,833 - #33 ;
+INFO  20:20:21,833 - #41 {
+INFO  20:20:21,833 - #46 val
+INFO  20:20:21,833 - #30 =
+INFO  20:20:21,833 - #9 new
+INFO  20:20:21,833 - #46 Table
+INFO  20:20:21,833 - #37 (
+INFO  20:20:21,833 - #44 2
+INFO  20:20:21,833 - #38 )
+INFO  20:20:21,834 - #33 ;
+INFO  20:20:21,834 - #46 arr
+INFO  20:20:21,834 - #30 =
+INFO  20:20:21,834 - #9 new
+INFO  20:20:21,834 - #46 int
+INFO  20:20:21,834 - #39 [
+INFO  20:20:21,834 - #44 3
+INFO  20:20:21,834 - #40 ]
+INFO  20:20:21,834 - #33 ;
+INFO  20:20:21,834 - #46 i
+INFO  20:20:21,834 - #30 =
+INFO  20:20:21,834 - #44 0
+INFO  20:20:21,834 - #33 ;
+INFO  20:20:21,834 - #8 while
+INFO  20:20:21,834 - #37 (
+INFO  20:20:21,834 - #46 i
+INFO  20:20:21,834 - #26 <
+INFO  20:20:21,834 - #44 3
+INFO  20:20:21,835 - #38 )
+INFO  20:20:21,835 - #41 {
+INFO  20:20:21,835 - #46 arr
+INFO  20:20:21,835 - #39 [
+INFO  20:20:21,835 - #46 i
+INFO  20:20:21,835 - #40 ]
+INFO  20:20:21,835 - #30 =
+INFO  20:20:21,835 - #46 i
+INFO  20:20:21,836 - #33 ;
+INFO  20:20:21,836 - #46 i
+INFO  20:20:21,836 - #31 ++
+INFO  20:20:21,836 - #33 ;
+INFO  20:20:21,836 - #42 }
+INFO  20:20:21,836 - #46 arr
+INFO  20:20:21,836 - #36 .
+INFO  20:20:21,836 - #16 foreach
+INFO  20:20:21,836 - #37 (
+INFO  20:20:21,836 - #46 x
+INFO  20:20:21,836 - #43 =>
+INFO  20:20:21,836 - #10 print
+INFO  20:20:21,836 - #37 (
+INFO  20:20:21,836 - #46 x
+INFO  20:20:21,836 - #38 )
+INFO  20:20:21,836 - #33 ;
+INFO  20:20:21,836 - #38 )
+INFO  20:20:21,836 - #33 ;
+INFO  20:20:21,836 - #46 val
+INFO  20:20:21,836 - #36 .
+INFO  20:20:21,836 - #46 pos
+INFO  20:20:21,836 - #30 =
+INFO  20:20:21,837 - #9 new
+INFO  20:20:21,837 - #46 int
+INFO  20:20:21,837 - #39 [
+INFO  20:20:21,837 - #46 size
+INFO  20:20:21,837 - #40 ]
+INFO  20:20:21,837 - #33 ;
+INFO  20:20:21,837 - #46 val
+INFO  20:20:21,837 - #36 .
+INFO  20:20:21,837 - #46 neg
+INFO  20:20:21,837 - #30 =
+INFO  20:20:21,837 - #9 new
+INFO  20:20:21,837 - #46 int
+INFO  20:20:21,837 - #39 [
+INFO  20:20:21,837 - #46 size
+INFO  20:20:21,837 - #40 ]
+INFO  20:20:21,837 - #33 ;
+INFO  20:20:21,837 - #11 read
+INFO  20:20:21,837 - #37 (
+INFO  20:20:21,837 - #46 x
+INFO  20:20:21,837 - #38 )
+INFO  20:20:21,837 - #33 ;
+INFO  20:20:21,837 - #39 [
+INFO  20:20:21,837 - #46 i
+INFO  20:20:21,837 - #35 ,
+INFO  20:20:21,837 - #46 x
+INFO  20:20:21,837 - #40 ]
+INFO  20:20:21,838 - #30 =
+INFO  20:20:21,838 - #46 arr
+INFO  20:20:21,838 - #33 ;
+INFO  20:20:21,838 - #8 while
+INFO  20:20:21,838 - #37 (
+INFO  20:20:21,838 - #46 i
+INFO  20:20:21,838 - #26 <
+INFO  20:20:21,838 - #46 size
+INFO  20:20:21,838 - #38 )
+INFO  20:20:21,838 - #41 {
+INFO  20:20:21,838 - #46 val
+INFO  20:20:21,838 - #36 .
+INFO  20:20:21,838 - #46 putp
+INFO  20:20:21,838 - #37 (
+INFO  20:20:21,838 - #44 0
+INFO  20:20:21,838 - #35 ,
+INFO  20:20:21,838 - #46 i
+INFO  20:20:21,838 - #38 )
+INFO  20:20:21,838 - #33 ;
+INFO  20:20:21,838 - #46 val
+INFO  20:20:21,839 - #36 .
+INFO  20:20:21,839 - #46 putn
+INFO  20:20:21,839 - #37 (
+INFO  20:20:21,839 - #44 0
+INFO  20:20:21,839 - #35 ,
+INFO  20:20:21,839 - #46 i
+INFO  20:20:21,839 - #38 )
+INFO  20:20:21,839 - #33 ;
+INFO  20:20:21,839 - #46 i
+INFO  20:20:21,839 - #31 ++
+INFO  20:20:21,839 - #33 ;
+INFO  20:20:21,839 - #42 }
+INFO  20:20:21,839 - #46 f
+INFO  20:20:21,839 - #37 (
+INFO  20:20:21,839 - #46 c
+INFO  20:20:21,839 - #35 ,
+INFO  20:20:21,839 - #46 x
+INFO  20:20:21,839 - #35 ,
+INFO  20:20:21,839 - #46 i
+INFO  20:20:21,839 - #38 )
+INFO  20:20:21,839 - #33 ;
+INFO  20:20:21,839 - #11 read
+INFO  20:20:21,839 - #37 (
+INFO  20:20:21,840 - #46 rows
+INFO  20:20:21,840 - #38 )
+INFO  20:20:21,840 - #33 ;
+INFO  20:20:21,840 - #46 x
+INFO  20:20:21,840 - #30 =
+INFO  20:20:21,840 - #46 rows
+INFO  20:20:21,840 - #33 ;
+INFO  20:20:21,840 - #8 while
+INFO  20:20:21,840 - #37 (
+INFO  20:20:21,840 - #47 true
+INFO  20:20:21,840 - #38 )
+INFO  20:20:21,840 - #41 {
+INFO  20:20:21,840 - #7 if
+INFO  20:20:21,840 - #37 (
+INFO  20:20:21,840 - #46 x
+INFO  20:20:21,840 - #27 <=
+INFO  20:20:21,840 - #44 0
+INFO  20:20:21,841 - #38 )
+INFO  20:20:21,841 - #3 break
+INFO  20:20:21,841 - #33 ;
+INFO  20:20:21,841 - #7 if
+INFO  20:20:21,841 - #37 (
+INFO  20:20:21,841 - #44 0
+INFO  20:20:21,842 - #27 <=
+INFO  20:20:21,842 - #46 x
+INFO  20:20:21,842 - #28 &&
+INFO  20:20:21,842 - #46 x
+INFO  20:20:21,842 - #26 <
+INFO  20:20:21,842 - #46 size
+INFO  20:20:21,842 - #38 )
+INFO  20:20:21,842 - #41 {
+INFO  20:20:21,842 - #46 val
+INFO  20:20:21,842 - #36 .
+INFO  20:20:21,842 - #46 putp
+INFO  20:20:21,842 - #37 (
+INFO  20:20:21,842 - #46 val
+INFO  20:20:21,842 - #36 .
+INFO  20:20:21,842 - #46 getp
+INFO  20:20:21,842 - #37 (
+INFO  20:20:21,842 - #46 x
+INFO  20:20:21,842 - #38 )
+INFO  20:20:21,842 - #17 +
+INFO  20:20:21,842 - #44 1
+INFO  20:20:21,843 - #38 )
+INFO  20:20:21,843 - #33 ;
+INFO  20:20:21,843 - #42 }
+INFO  20:20:21,844 - #5 else
+INFO  20:20:21,844 - #7 if
+INFO  20:20:21,844 - #37 (
+INFO  20:20:21,844 - #18 -
+INFO  20:20:21,844 - #46 size
+INFO  20:20:21,844 - #26 <
+INFO  20:20:21,845 - #46 x
+INFO  20:20:21,845 - #28 &&
+INFO  20:20:21,845 - #46 x
+INFO  20:20:21,845 - #26 <
+INFO  20:20:21,845 - #44 0
+INFO  20:20:21,845 - #38 )
+INFO  20:20:21,845 - #41 {
+INFO  20:20:21,845 - #46 val
+INFO  20:20:21,845 - #36 .
+INFO  20:20:21,845 - #46 putn
+INFO  20:20:21,845 - #37 (
+INFO  20:20:21,845 - #46 val
+INFO  20:20:21,845 - #36 .
+INFO  20:20:21,845 - #46 getn
+INFO  20:20:21,845 - #37 (
+INFO  20:20:21,845 - #18 -
+INFO  20:20:21,845 - #46 x
+INFO  20:20:21,846 - #38 )
+INFO  20:20:21,846 - #17 +
+INFO  20:20:21,846 - #44 1
+INFO  20:20:21,846 - #38 )
+INFO  20:20:21,846 - #33 ;
+INFO  20:20:21,846 - #42 }
+INFO  20:20:21,846 - #11 read
+INFO  20:20:21,846 - #37 (
+INFO  20:20:21,846 - #46 x
+INFO  20:20:21,846 - #38 )
+INFO  20:20:21,846 - #33 ;
+INFO  20:20:21,846 - #42 }
+INFO  20:20:21,846 - #42 }
+INFO  20:20:21,846 - #42 }
+INFO  20:20:21,850 - Program(
+  ProgName(
+   p
+  ) [ProgName]
+  VarDeclarations(
+    VarDeclarations(
+      ClassDeclarations(
+        ConstDeclarations(
+          NoDeclarations(
+          ) [NoDeclarations]
+          ConstDecl(
+            Type(
+             int
+            ) [Type]
+            ConstNumberDecl(
+             size
+             10
+            ) [ConstNumberDecl]
+            ListNoConstDeclarations(
+            ) [ListNoConstDeclarations]
+          ) [ConstDecl]
+        ) [ConstDeclarations]
+        ClassDecl(
+         Table
+          BaseClass(
+          ) [BaseClass]
+          ClassBody(
+            HasClassFields(
+              NoClassFields(
+              ) [NoClassFields]
+              VarDecl(
+                Type(
+                 int
+                ) [Type]
+                ListVarDeclsWithComa(
+                  NonLastVarDeclaration(
+                    VarName(
+                     pos
+                      VarBracketsOpenClosed(
+                      ) [VarBracketsOpenClosed]
+                    ) [VarName]
+                  ) [NonLastVarDeclaration]
+                  ListVarDeclsWithComa(
+                    NonLastVarDeclaration(
+                      VarName(
+                       neg
+                        VarBracketsOpenClosed(
+                        ) [VarBracketsOpenClosed]
+                      ) [VarName]
+                    ) [NonLastVarDeclaration]
+                    ListNoVarDecls(
+                      LastVarDeclaration(
+                        VarName(
+                         factor
+                          NoVarBrackets(
+                          ) [NoVarBrackets]
+                        ) [VarName]
+                      ) [LastVarDeclaration]
+                    ) [ListNoVarDecls]
+                  ) [ListVarDeclsWithComa]
+                ) [ListVarDeclsWithComa]
+              ) [VarDecl]
+            ) [HasClassFields]
+            ClassFunctionsWithConstructorAndMethods(
+              SingleConstructor(
+                ConstructorDecl(
+                 Table
+                  FormParsWithList(
+                    FormParList(
+                      FormParsDecl(
+                        Type(
+                         int
+                        ) [Type]
+                       factor
+                        NoVarBrackets(
+                        ) [NoVarBrackets]
+                      ) [FormParsDecl]
+                    ) [FormParList]
+                  ) [FormParsWithList]
+                  NoClassFields(
+                  ) [NoClassFields]
+                  StatementListWithStatement(
+                    EmptyStatementList(
+                    ) [EmptyStatementList]
+                    DesignatorStatementState(
+                      DesignatorStatementAssignOp(
+                        DesignatorAssign(
+                          DotDesignator(
+                            IdentDesignator(
+                             this
+                            ) [IdentDesignator]
+                           factor
+                          ) [DotDesignator]
+                          PositiveExpr(
+                            NormalTerm(
+                              FactorDesignator(
+                                IdentDesignator(
+                                 factor
+                                ) [IdentDesignator]
+                              ) [FactorDesignator]
+                            ) [NormalTerm]
+                          ) [PositiveExpr]
+                        ) [DesignatorAssign]
+                      ) [DesignatorStatementAssignOp]
+                    ) [DesignatorStatementState]
+                  ) [StatementListWithStatement]
+                ) [ConstructorDecl]
+              ) [SingleConstructor]
+              HasMethodDeclListClass(
+                HasMethodDeclListClass(
+                  HasMethodDeclListClass(
+                    NoMethodDeclListClass(
+                      MethodDeclaration(
+                        MethodWithNoType(
+                         putp
+                        ) [MethodWithNoType]
+                        FormParsBracketsExists(
+                          FormParsWithList(
+                            FormParsListWithComaList(
+                              FormParsListWithComaDone(
+                                FormParList(
+                                  FormParsDecl(
+                                    Type(
+                                     int
+                                    ) [Type]
+                                   a
+                                    NoVarBrackets(
+                                    ) [NoVarBrackets]
+                                  ) [FormParsDecl]
+                                ) [FormParList]
+                              ) [FormParsListWithComaDone]
+                              FormParsDecl(
+                                Type(
+                                 int
+                                ) [Type]
+                               idx
+                                NoVarBrackets(
+                                ) [NoVarBrackets]
+                              ) [FormParsDecl]
+                            ) [FormParsListWithComaList]
+                          ) [FormParsWithList]
+                        ) [FormParsBracketsExists]
+                        NoClassFields(
+                        ) [NoClassFields]
+                        StatementListWithStatement(
+                          EmptyStatementList(
+                          ) [EmptyStatementList]
+                          DesignatorStatementState(
+                            DesignatorStatementAssignOp(
+                              DesignatorAssign(
+                                ArrayDesignator(
+                                  DotDesignator(
+                                    IdentDesignator(
+                                     this
+                                    ) [IdentDesignator]
+                                   pos
+                                  ) [DotDesignator]
+                                  PositiveExpr(
+                                    NormalTerm(
+                                      FactorDesignator(
+                                        IdentDesignator(
+                                         idx
+                                        ) [IdentDesignator]
+                                      ) [FactorDesignator]
+                                    ) [NormalTerm]
+                                  ) [PositiveExpr]
+                                ) [ArrayDesignator]
+                                PositiveExpr(
+                                  NormalTerm(
+                                    FactorDesignator(
+                                      IdentDesignator(
+                                       a
+                                      ) [IdentDesignator]
+                                    ) [FactorDesignator]
+                                  ) [NormalTerm]
+                                ) [PositiveExpr]
+                              ) [DesignatorAssign]
+                            ) [DesignatorStatementAssignOp]
+                          ) [DesignatorStatementState]
+                        ) [StatementListWithStatement]
+                      ) [MethodDeclaration]
+                    ) [NoMethodDeclListClass]
+                    MethodDeclaration(
+                      MethodWithNoType(
+                       putn
+                      ) [MethodWithNoType]
+                      FormParsBracketsExists(
+                        FormParsWithList(
+                          FormParsListWithComaList(
+                            FormParsListWithComaDone(
+                              FormParList(
+                                FormParsDecl(
+                                  Type(
+                                   int
+                                  ) [Type]
+                                 a
+                                  NoVarBrackets(
+                                  ) [NoVarBrackets]
+                                ) [FormParsDecl]
+                              ) [FormParList]
+                            ) [FormParsListWithComaDone]
+                            FormParsDecl(
+                              Type(
+                               int
+                              ) [Type]
+                             idx
+                              NoVarBrackets(
+                              ) [NoVarBrackets]
+                            ) [FormParsDecl]
+                          ) [FormParsListWithComaList]
+                        ) [FormParsWithList]
+                      ) [FormParsBracketsExists]
+                      NoClassFields(
+                      ) [NoClassFields]
+                      StatementListWithStatement(
+                        EmptyStatementList(
+                        ) [EmptyStatementList]
+                        DesignatorStatementState(
+                          DesignatorStatementAssignOp(
+                            DesignatorAssign(
+                              ArrayDesignator(
+                                DotDesignator(
+                                  IdentDesignator(
+                                   this
+                                  ) [IdentDesignator]
+                                 neg
+                                ) [DotDesignator]
+                                PositiveExpr(
+                                  NormalTerm(
+                                    FactorDesignator(
+                                      IdentDesignator(
+                                       idx
+                                      ) [IdentDesignator]
+                                    ) [FactorDesignator]
+                                  ) [NormalTerm]
+                                ) [PositiveExpr]
+                              ) [ArrayDesignator]
+                              PositiveExpr(
+                                NormalTerm(
+                                  FactorDesignator(
+                                    IdentDesignator(
+                                     a
+                                    ) [IdentDesignator]
+                                  ) [FactorDesignator]
+                                ) [NormalTerm]
+                              ) [PositiveExpr]
+                            ) [DesignatorAssign]
+                          ) [DesignatorStatementAssignOp]
+                        ) [DesignatorStatementState]
+                      ) [StatementListWithStatement]
+                    ) [MethodDeclaration]
+                  ) [HasMethodDeclListClass]
+                  MethodDeclaration(
+                    MethodWithType(
+                      Type(
+                       int
+                      ) [Type]
+                     getp
+                    ) [MethodWithType]
+                    FormParsBracketsExists(
+                      FormParsWithList(
+                        FormParList(
+                          FormParsDecl(
+                            Type(
+                             int
+                            ) [Type]
+                           idx
+                            NoVarBrackets(
+                            ) [NoVarBrackets]
+                          ) [FormParsDecl]
+                        ) [FormParList]
+                      ) [FormParsWithList]
+                    ) [FormParsBracketsExists]
+                    NoClassFields(
+                    ) [NoClassFields]
+                    StatementListWithStatement(
+                      EmptyStatementList(
+                      ) [EmptyStatementList]
+                      ReturnStatement(
+                        PositiveExpr(
+                          NormalTerm(
+                            FactorDesignator(
+                              ArrayDesignator(
+                                IdentDesignator(
+                                 pos
+                                ) [IdentDesignator]
+                                PositiveExpr(
+                                  NormalTerm(
+                                    FactorDesignator(
+                                      IdentDesignator(
+                                       idx
+                                      ) [IdentDesignator]
+                                    ) [FactorDesignator]
+                                  ) [NormalTerm]
+                                ) [PositiveExpr]
+                              ) [ArrayDesignator]
+                            ) [FactorDesignator]
+                          ) [NormalTerm]
+                        ) [PositiveExpr]
+                      ) [ReturnStatement]
+                    ) [StatementListWithStatement]
+                  ) [MethodDeclaration]
+                ) [HasMethodDeclListClass]
+                MethodDeclaration(
+                  MethodWithType(
+                    Type(
+                     int
+                    ) [Type]
+                   getn
+                  ) [MethodWithType]
+                  FormParsBracketsExists(
+                    FormParsWithList(
+                      FormParList(
+                        FormParsDecl(
+                          Type(
+                           int
+                          ) [Type]
+                         idx
+                          NoVarBrackets(
+                          ) [NoVarBrackets]
+                        ) [FormParsDecl]
+                      ) [FormParList]
+                    ) [FormParsWithList]
+                  ) [FormParsBracketsExists]
+                  NoClassFields(
+                  ) [NoClassFields]
+                  StatementListWithStatement(
+                    EmptyStatementList(
+                    ) [EmptyStatementList]
+                    ReturnStatement(
+                      PositiveExpr(
+                        NormalTerm(
+                          FactorDesignator(
+                            ArrayDesignator(
+                              IdentDesignator(
+                               neg
+                              ) [IdentDesignator]
+                              PositiveExpr(
+                                NormalTerm(
+                                  FactorDesignator(
+                                    IdentDesignator(
+                                     idx
+                                    ) [IdentDesignator]
+                                  ) [FactorDesignator]
+                                ) [NormalTerm]
+                              ) [PositiveExpr]
+                            ) [ArrayDesignator]
+                          ) [FactorDesignator]
+                        ) [NormalTerm]
+                      ) [PositiveExpr]
+                    ) [ReturnStatement]
+                  ) [StatementListWithStatement]
+                ) [MethodDeclaration]
+              ) [HasMethodDeclListClass]
+            ) [ClassFunctionsWithConstructorAndMethods]
+          ) [ClassBody]
+        ) [ClassDecl]
+      ) [ClassDeclarations]
+      VarDecl(
+        Type(
+         Table
+        ) [Type]
+        ListNoVarDecls(
+          LastVarDeclaration(
+            VarName(
+             val
+              NoVarBrackets(
+              ) [NoVarBrackets]
+            ) [VarName]
+          ) [LastVarDeclaration]
+        ) [ListNoVarDecls]
+      ) [VarDecl]
+    ) [VarDeclarations]
+    VarDecl(
+      Type(
+       Int
+      ) [Type]
+      ListVarDeclsWithComa(
+        NonLastVarDeclaration(
+          VarName(
+           rows
+            NoVarBrackets(
+            ) [NoVarBrackets]
+          ) [VarName]
+        ) [NonLastVarDeclaration]
+        ListNoVarDecls(
+          LastVarDeclaration(
+            VarName(
+             columns
+              NoVarBrackets(
+              ) [NoVarBrackets]
+            ) [VarName]
+          ) [LastVarDeclaration]
+        ) [ListNoVarDecls]
+      ) [ListVarDeclsWithComa]
+    ) [VarDecl]
+  ) [VarDeclarations]
+  HasMethodDeclList(
+    HasMethodDeclList(
+      NoMethodDeclList(
+      ) [NoMethodDeclList]
+      MethodDeclaration(
+        MethodWithNoType(
+         f
+        ) [MethodWithNoType]
+        FormParsBracketsExists(
+          FormParsWithList(
+            FormParsListWithComaList(
+              FormParsListWithComaDone(
+                FormParsListWithComaList(
+                  FormParsListWithComaDone(
+                    FormParList(
+                      FormParsDecl(
+                        Type(
+                         char
+                        ) [Type]
+                       ch
+                        NoVarBrackets(
+                        ) [NoVarBrackets]
+                      ) [FormParsDecl]
+                    ) [FormParList]
+                  ) [FormParsListWithComaDone]
+                  FormParsDecl(
+                    Type(
+                     int
+                    ) [Type]
+                   a
+                    NoVarBrackets(
+                    ) [NoVarBrackets]
+                  ) [FormParsDecl]
+                ) [FormParsListWithComaList]
+              ) [FormParsListWithComaDone]
+              FormParsDecl(
+                Type(
+                 int
+                ) [Type]
+               arg
+                NoVarBrackets(
+                ) [NoVarBrackets]
+              ) [FormParsDecl]
+            ) [FormParsListWithComaList]
+          ) [FormParsWithList]
+        ) [FormParsBracketsExists]
+        HasClassFields(
+          NoClassFields(
+          ) [NoClassFields]
+          VarDecl(
+            Type(
+             int
+            ) [Type]
+            ListNoVarDecls(
+              LastVarDeclaration(
+                VarName(
+                 x
+                  NoVarBrackets(
+                  ) [NoVarBrackets]
+                ) [VarName]
+              ) [LastVarDeclaration]
+            ) [ListNoVarDecls]
+          ) [VarDecl]
+        ) [HasClassFields]
+        StatementListWithStatement(
+          EmptyStatementList(
+          ) [EmptyStatementList]
+          DesignatorStatementState(
+            DesignatorStatementAssignOp(
+              DesignatorAssign(
+                IdentDesignator(
+                 x
+                ) [IdentDesignator]
+                PositiveExpr(
+                  NormalTerm(
+                    FactorDesignator(
+                      IdentDesignator(
+                       arg
+                      ) [IdentDesignator]
+                    ) [FactorDesignator]
+                  ) [NormalTerm]
+                ) [PositiveExpr]
+              ) [DesignatorAssign]
+            ) [DesignatorStatementAssignOp]
+          ) [DesignatorStatementState]
+        ) [StatementListWithStatement]
+      ) [MethodDeclaration]
+    ) [HasMethodDeclList]
+    MethodDeclaration(
+      MethodWithNoType(
+       main
+      ) [MethodWithNoType]
+      FormParsBracketsExists(
+        FormParsEmptyList(
+        ) [FormParsEmptyList]
+      ) [FormParsBracketsExists]
+      HasClassFields(
+        HasClassFields(
+          HasClassFields(
+            NoClassFields(
+            ) [NoClassFields]
+            VarDecl(
+              Type(
+               int
+              ) [Type]
+              ListVarDeclsWithComa(
+                NonLastVarDeclaration(
+                  VarName(
+                   x
+                    NoVarBrackets(
+                    ) [NoVarBrackets]
+                  ) [VarName]
+                ) [NonLastVarDeclaration]
+                ListNoVarDecls(
+                  LastVarDeclaration(
+                    VarName(
+                     i
+                      NoVarBrackets(
+                      ) [NoVarBrackets]
+                    ) [VarName]
+                  ) [LastVarDeclaration]
+                ) [ListNoVarDecls]
+              ) [ListVarDeclsWithComa]
+            ) [VarDecl]
+          ) [HasClassFields]
+          VarDecl(
+            Type(
+             char
+            ) [Type]
+            ListNoVarDecls(
+              LastVarDeclaration(
+                VarName(
+                 c
+                  NoVarBrackets(
+                  ) [NoVarBrackets]
+                ) [VarName]
+              ) [LastVarDeclaration]
+            ) [ListNoVarDecls]
+          ) [VarDecl]
+        ) [HasClassFields]
+        VarDecl(
+          Type(
+           int
+          ) [Type]
+          ListNoVarDecls(
+            LastVarDeclaration(
+              VarName(
+               arr
+                VarBracketsOpenClosed(
+                ) [VarBracketsOpenClosed]
+              ) [VarName]
+            ) [LastVarDeclaration]
+          ) [ListNoVarDecls]
+        ) [VarDecl]
+      ) [HasClassFields]
+      StatementListWithStatement(
+        StatementListWithStatement(
+          StatementListWithStatement(
+            StatementListWithStatement(
+              StatementListWithStatement(
+                StatementListWithStatement(
+                  StatementListWithStatement(
+                    StatementListWithStatement(
+                      StatementListWithStatement(
+                        StatementListWithStatement(
+                          StatementListWithStatement(
+                            StatementListWithStatement(
+                              StatementListWithStatement(
+                                StatementListWithStatement(
+                                  EmptyStatementList(
+                                  ) [EmptyStatementList]
+                                  DesignatorStatementState(
+                                    DesignatorStatementAssignOp(
+                                      DesignatorAssign(
+                                        IdentDesignator(
+                                         val
+                                        ) [IdentDesignator]
+                                        PositiveExpr(
+                                          NormalTerm(
+                                            FactorNewObj(
+                                              Type(
+                                               Table
+                                              ) [Type]
+                                              ActParsWithList(
+                                                SingleActParsList(
+                                                  PositiveExpr(
+                                                    NormalTerm(
+                                                      FactorNumber(
+                                                       2
+                                                      ) [FactorNumber]
+                                                    ) [NormalTerm]
+                                                  ) [PositiveExpr]
+                                                ) [SingleActParsList]
+                                              ) [ActParsWithList]
+                                            ) [FactorNewObj]
+                                          ) [NormalTerm]
+                                        ) [PositiveExpr]
+                                      ) [DesignatorAssign]
+                                    ) [DesignatorStatementAssignOp]
+                                  ) [DesignatorStatementState]
+                                ) [StatementListWithStatement]
+                                DesignatorStatementState(
+                                  DesignatorStatementAssignOp(
+                                    DesignatorAssign(
+                                      IdentDesignator(
+                                       arr
+                                      ) [IdentDesignator]
+                                      PositiveExpr(
+                                        NormalTerm(
+                                          FactorNewArray(
+                                            Type(
+                                             int
+                                            ) [Type]
+                                            PositiveExpr(
+                                              NormalTerm(
+                                                FactorNumber(
+                                                 3
+                                                ) [FactorNumber]
+                                              ) [NormalTerm]
+                                            ) [PositiveExpr]
+                                          ) [FactorNewArray]
+                                        ) [NormalTerm]
+                                      ) [PositiveExpr]
+                                    ) [DesignatorAssign]
+                                  ) [DesignatorStatementAssignOp]
+                                ) [DesignatorStatementState]
+                              ) [StatementListWithStatement]
+                              DesignatorStatementState(
+                                DesignatorStatementAssignOp(
+                                  DesignatorAssign(
+                                    IdentDesignator(
+                                     i
+                                    ) [IdentDesignator]
+                                    PositiveExpr(
+                                      NormalTerm(
+                                        FactorNumber(
+                                         0
+                                        ) [FactorNumber]
+                                      ) [NormalTerm]
+                                    ) [PositiveExpr]
+                                  ) [DesignatorAssign]
+                                ) [DesignatorStatementAssignOp]
+                              ) [DesignatorStatementState]
+                            ) [StatementListWithStatement]
+                            WhileStatement(
+                              JustCondition(
+                                JustCondTerm(
+                                  ConditionWithOp(
+                                    PositiveExpr(
+                                      NormalTerm(
+                                        FactorDesignator(
+                                          IdentDesignator(
+                                           i
+                                          ) [IdentDesignator]
+                                        ) [FactorDesignator]
+                                      ) [NormalTerm]
+                                    ) [PositiveExpr]
+                                    Less(
+                                    ) [Less]
+                                    PositiveExpr(
+                                      NormalTerm(
+                                        FactorNumber(
+                                         3
+                                        ) [FactorNumber]
+                                      ) [NormalTerm]
+                                    ) [PositiveExpr]
+                                  ) [ConditionWithOp]
+                                ) [JustCondTerm]
+                              ) [JustCondition]
+                              BlockStatement(
+                                StatementListWithStatement(
+                                  StatementListWithStatement(
+                                    EmptyStatementList(
+                                    ) [EmptyStatementList]
+                                    DesignatorStatementState(
+                                      DesignatorStatementAssignOp(
+                                        DesignatorAssign(
+                                          ArrayDesignator(
+                                            IdentDesignator(
+                                             arr
+                                            ) [IdentDesignator]
+                                            PositiveExpr(
+                                              NormalTerm(
+                                                FactorDesignator(
+                                                  IdentDesignator(
+                                                   i
+                                                  ) [IdentDesignator]
+                                                ) [FactorDesignator]
+                                              ) [NormalTerm]
+                                            ) [PositiveExpr]
+                                          ) [ArrayDesignator]
+                                          PositiveExpr(
+                                            NormalTerm(
+                                              FactorDesignator(
+                                                IdentDesignator(
+                                                 i
+                                                ) [IdentDesignator]
+                                              ) [FactorDesignator]
+                                            ) [NormalTerm]
+                                          ) [PositiveExpr]
+                                        ) [DesignatorAssign]
+                                      ) [DesignatorStatementAssignOp]
+                                    ) [DesignatorStatementState]
+                                  ) [StatementListWithStatement]
+                                  DesignatorStatementState(
+                                    DesignatorIncrement(
+                                      IdentDesignator(
+                                       i
+                                      ) [IdentDesignator]
+                                    ) [DesignatorIncrement]
+                                  ) [DesignatorStatementState]
+                                ) [StatementListWithStatement]
+                              ) [BlockStatement]
+                            ) [WhileStatement]
+                          ) [StatementListWithStatement]
+                          ForeachStatement(
+                            IdentDesignator(
+                             arr
+                            ) [IdentDesignator]
+                           x
+                            PrintStatement(
+                              PositiveExpr(
+                                NormalTerm(
+                                  FactorDesignator(
+                                    IdentDesignator(
+                                     x
+                                    ) [IdentDesignator]
+                                  ) [FactorDesignator]
+                                ) [NormalTerm]
+                              ) [PositiveExpr]
+                            ) [PrintStatement]
+                          ) [ForeachStatement]
+                        ) [StatementListWithStatement]
+                        DesignatorStatementState(
+                          DesignatorStatementAssignOp(
+                            DesignatorAssign(
+                              DotDesignator(
+                                IdentDesignator(
+                                 val
+                                ) [IdentDesignator]
+                               pos
+                              ) [DotDesignator]
+                              PositiveExpr(
+                                NormalTerm(
+                                  FactorNewArray(
+                                    Type(
+                                     int
+                                    ) [Type]
+                                    PositiveExpr(
+                                      NormalTerm(
+                                        FactorDesignator(
+                                          IdentDesignator(
+                                           size
+                                          ) [IdentDesignator]
+                                        ) [FactorDesignator]
+                                      ) [NormalTerm]
+                                    ) [PositiveExpr]
+                                  ) [FactorNewArray]
+                                ) [NormalTerm]
+                              ) [PositiveExpr]
+                            ) [DesignatorAssign]
+                          ) [DesignatorStatementAssignOp]
+                        ) [DesignatorStatementState]
+                      ) [StatementListWithStatement]
+                      DesignatorStatementState(
+                        DesignatorStatementAssignOp(
+                          DesignatorAssign(
+                            DotDesignator(
+                              IdentDesignator(
+                               val
+                              ) [IdentDesignator]
+                             neg
+                            ) [DotDesignator]
+                            PositiveExpr(
+                              NormalTerm(
+                                FactorNewArray(
+                                  Type(
+                                   int
+                                  ) [Type]
+                                  PositiveExpr(
+                                    NormalTerm(
+                                      FactorDesignator(
+                                        IdentDesignator(
+                                         size
+                                        ) [IdentDesignator]
+                                      ) [FactorDesignator]
+                                    ) [NormalTerm]
+                                  ) [PositiveExpr]
+                                ) [FactorNewArray]
+                              ) [NormalTerm]
+                            ) [PositiveExpr]
+                          ) [DesignatorAssign]
+                        ) [DesignatorStatementAssignOp]
+                      ) [DesignatorStatementState]
+                    ) [StatementListWithStatement]
+                    ReadStatement(
+                      IdentDesignator(
+                       x
+                      ) [IdentDesignator]
+                    ) [ReadStatement]
+                  ) [StatementListWithStatement]
+                  DesignatorStatementState(
+                    DesignatorStatementAssignOp(
+                      DesignatorArray(
+                        DesignatorListNonEmpty(
+                          NonEmptyDesignatorListWithComa(
+                            SingleDesignatorList(
+                              IdentDesignator(
+                               i
+                              ) [IdentDesignator]
+                            ) [SingleDesignatorList]
+                            IdentDesignator(
+                             x
+                            ) [IdentDesignator]
+                          ) [NonEmptyDesignatorListWithComa]
+                        ) [DesignatorListNonEmpty]
+                        IdentDesignator(
+                         arr
+                        ) [IdentDesignator]
+                      ) [DesignatorArray]
+                    ) [DesignatorStatementAssignOp]
+                  ) [DesignatorStatementState]
+                ) [StatementListWithStatement]
+                WhileStatement(
+                  JustCondition(
+                    JustCondTerm(
+                      ConditionWithOp(
+                        PositiveExpr(
+                          NormalTerm(
+                            FactorDesignator(
+                              IdentDesignator(
+                               i
+                              ) [IdentDesignator]
+                            ) [FactorDesignator]
+                          ) [NormalTerm]
+                        ) [PositiveExpr]
+                        Less(
+                        ) [Less]
+                        PositiveExpr(
+                          NormalTerm(
+                            FactorDesignator(
+                              IdentDesignator(
+                               size
+                              ) [IdentDesignator]
+                            ) [FactorDesignator]
+                          ) [NormalTerm]
+                        ) [PositiveExpr]
+                      ) [ConditionWithOp]
+                    ) [JustCondTerm]
+                  ) [JustCondition]
+                  BlockStatement(
+                    StatementListWithStatement(
+                      StatementListWithStatement(
+                        StatementListWithStatement(
+                          EmptyStatementList(
+                          ) [EmptyStatementList]
+                          DesignatorStatementState(
+                            DesignatorFunc(
+                              DotDesignator(
+                                IdentDesignator(
+                                 val
+                                ) [IdentDesignator]
+                               putp
+                              ) [DotDesignator]
+                              ActParsWithList(
+                                ActParsListWithComa(
+                                  SingleActParsList(
+                                    PositiveExpr(
+                                      NormalTerm(
+                                        FactorNumber(
+                                         0
+                                        ) [FactorNumber]
+                                      ) [NormalTerm]
+                                    ) [PositiveExpr]
+                                  ) [SingleActParsList]
+                                  PositiveExpr(
+                                    NormalTerm(
+                                      FactorDesignator(
+                                        IdentDesignator(
+                                         i
+                                        ) [IdentDesignator]
+                                      ) [FactorDesignator]
+                                    ) [NormalTerm]
+                                  ) [PositiveExpr]
+                                ) [ActParsListWithComa]
+                              ) [ActParsWithList]
+                            ) [DesignatorFunc]
+                          ) [DesignatorStatementState]
+                        ) [StatementListWithStatement]
+                        DesignatorStatementState(
+                          DesignatorFunc(
+                            DotDesignator(
+                              IdentDesignator(
+                               val
+                              ) [IdentDesignator]
+                             putn
+                            ) [DotDesignator]
+                            ActParsWithList(
+                              ActParsListWithComa(
+                                SingleActParsList(
+                                  PositiveExpr(
+                                    NormalTerm(
+                                      FactorNumber(
+                                       0
+                                      ) [FactorNumber]
+                                    ) [NormalTerm]
+                                  ) [PositiveExpr]
+                                ) [SingleActParsList]
+                                PositiveExpr(
+                                  NormalTerm(
+                                    FactorDesignator(
+                                      IdentDesignator(
+                                       i
+                                      ) [IdentDesignator]
+                                    ) [FactorDesignator]
+                                  ) [NormalTerm]
+                                ) [PositiveExpr]
+                              ) [ActParsListWithComa]
+                            ) [ActParsWithList]
+                          ) [DesignatorFunc]
+                        ) [DesignatorStatementState]
+                      ) [StatementListWithStatement]
+                      DesignatorStatementState(
+                        DesignatorIncrement(
+                          IdentDesignator(
+                           i
+                          ) [IdentDesignator]
+                        ) [DesignatorIncrement]
+                      ) [DesignatorStatementState]
+                    ) [StatementListWithStatement]
+                  ) [BlockStatement]
+                ) [WhileStatement]
+              ) [StatementListWithStatement]
+              DesignatorStatementState(
+                DesignatorFunc(
+                  IdentDesignator(
+                   f
+                  ) [IdentDesignator]
+                  ActParsWithList(
+                    ActParsListWithComa(
+                      ActParsListWithComa(
+                        SingleActParsList(
+                          PositiveExpr(
+                            NormalTerm(
+                              FactorDesignator(
+                                IdentDesignator(
+                                 c
+                                ) [IdentDesignator]
+                              ) [FactorDesignator]
+                            ) [NormalTerm]
+                          ) [PositiveExpr]
+                        ) [SingleActParsList]
+                        PositiveExpr(
+                          NormalTerm(
+                            FactorDesignator(
+                              IdentDesignator(
+                               x
+                              ) [IdentDesignator]
+                            ) [FactorDesignator]
+                          ) [NormalTerm]
+                        ) [PositiveExpr]
+                      ) [ActParsListWithComa]
+                      PositiveExpr(
+                        NormalTerm(
+                          FactorDesignator(
+                            IdentDesignator(
+                             i
+                            ) [IdentDesignator]
+                          ) [FactorDesignator]
+                        ) [NormalTerm]
+                      ) [PositiveExpr]
+                    ) [ActParsListWithComa]
+                  ) [ActParsWithList]
+                ) [DesignatorFunc]
+              ) [DesignatorStatementState]
+            ) [StatementListWithStatement]
+            ReadStatement(
+              IdentDesignator(
+               rows
+              ) [IdentDesignator]
+            ) [ReadStatement]
+          ) [StatementListWithStatement]
+          DesignatorStatementState(
+            DesignatorStatementAssignOp(
+              DesignatorAssign(
+                IdentDesignator(
+                 x
+                ) [IdentDesignator]
+                PositiveExpr(
+                  NormalTerm(
+                    FactorDesignator(
+                      IdentDesignator(
+                       rows
+                      ) [IdentDesignator]
+                    ) [FactorDesignator]
+                  ) [NormalTerm]
+                ) [PositiveExpr]
+              ) [DesignatorAssign]
+            ) [DesignatorStatementAssignOp]
+          ) [DesignatorStatementState]
+        ) [StatementListWithStatement]
+        WhileStatement(
+          JustCondition(
+            JustCondTerm(
+              ConditionWithoutOp(
+                PositiveExpr(
+                  NormalTerm(
+                    FactorBool(
+                     true
+                    ) [FactorBool]
+                  ) [NormalTerm]
+                ) [PositiveExpr]
+              ) [ConditionWithoutOp]
+            ) [JustCondTerm]
+          ) [JustCondition]
+          BlockStatement(
+            StatementListWithStatement(
+              StatementListWithStatement(
+                StatementListWithStatement(
+                  EmptyStatementList(
+                  ) [EmptyStatementList]
+                  IfStatement(
+                    IfConditionStatement(
+                      JustCondition(
+                        JustCondTerm(
+                          ConditionWithOp(
+                            PositiveExpr(
+                              NormalTerm(
+                                FactorDesignator(
+                                  IdentDesignator(
+                                   x
+                                  ) [IdentDesignator]
+                                ) [FactorDesignator]
+                              ) [NormalTerm]
+                            ) [PositiveExpr]
+                            NotMore(
+                            ) [NotMore]
+                            PositiveExpr(
+                              NormalTerm(
+                                FactorNumber(
+                                 0
+                                ) [FactorNumber]
+                              ) [NormalTerm]
+                            ) [PositiveExpr]
+                          ) [ConditionWithOp]
+                        ) [JustCondTerm]
+                      ) [JustCondition]
+                    ) [IfConditionStatement]
+                    BreakStatement(
+                    ) [BreakStatement]
+                  ) [IfStatement]
+                ) [StatementListWithStatement]
+                IfElseStatement(
+                  IfConditionStatement(
+                    JustCondition(
+                      ConditionAnd(
+                        JustCondTerm(
+                          ConditionWithOp(
+                            PositiveExpr(
+                              NormalTerm(
+                                FactorNumber(
+                                 0
+                                ) [FactorNumber]
+                              ) [NormalTerm]
+                            ) [PositiveExpr]
+                            NotMore(
+                            ) [NotMore]
+                            PositiveExpr(
+                              NormalTerm(
+                                FactorDesignator(
+                                  IdentDesignator(
+                                   x
+                                  ) [IdentDesignator]
+                                ) [FactorDesignator]
+                              ) [NormalTerm]
+                            ) [PositiveExpr]
+                          ) [ConditionWithOp]
+                        ) [JustCondTerm]
+                        ConditionWithOp(
+                          PositiveExpr(
+                            NormalTerm(
+                              FactorDesignator(
+                                IdentDesignator(
+                                 x
+                                ) [IdentDesignator]
+                              ) [FactorDesignator]
+                            ) [NormalTerm]
+                          ) [PositiveExpr]
+                          Less(
+                          ) [Less]
+                          PositiveExpr(
+                            NormalTerm(
+                              FactorDesignator(
+                                IdentDesignator(
+                                 size
+                                ) [IdentDesignator]
+                              ) [FactorDesignator]
+                            ) [NormalTerm]
+                          ) [PositiveExpr]
+                        ) [ConditionWithOp]
+                      ) [ConditionAnd]
+                    ) [JustCondition]
+                  ) [IfConditionStatement]
+                  BlockStatement(
+                    StatementListWithStatement(
+                      EmptyStatementList(
+                      ) [EmptyStatementList]
+                      DesignatorStatementState(
+                        DesignatorFunc(
+                          DotDesignator(
+                            IdentDesignator(
+                             val
+                            ) [IdentDesignator]
+                           putp
+                          ) [DotDesignator]
+                          ActParsWithList(
+                            SingleActParsList(
+                              AddopExpr(
+                                PositiveExpr(
+                                  NormalTerm(
+                                    FactorDesignatorActPars(
+                                      DotDesignator(
+                                        IdentDesignator(
+                                         val
+                                        ) [IdentDesignator]
+                                       getp
+                                      ) [DotDesignator]
+                                      ActParsWithList(
+                                        SingleActParsList(
+                                          PositiveExpr(
+                                            NormalTerm(
+                                              FactorDesignator(
+                                                IdentDesignator(
+                                                 x
+                                                ) [IdentDesignator]
+                                              ) [FactorDesignator]
+                                            ) [NormalTerm]
+                                          ) [PositiveExpr]
+                                        ) [SingleActParsList]
+                                      ) [ActParsWithList]
+                                    ) [FactorDesignatorActPars]
+                                  ) [NormalTerm]
+                                ) [PositiveExpr]
+                                Plus(
+                                ) [Plus]
+                                NormalTerm(
+                                  FactorNumber(
+                                   1
+                                  ) [FactorNumber]
+                                ) [NormalTerm]
+                              ) [AddopExpr]
+                            ) [SingleActParsList]
+                          ) [ActParsWithList]
+                        ) [DesignatorFunc]
+                      ) [DesignatorStatementState]
+                    ) [StatementListWithStatement]
+                  ) [BlockStatement]
+                  IfStatement(
+                    IfConditionStatement(
+                      JustCondition(
+                        ConditionAnd(
+                          JustCondTerm(
+                            ConditionWithOp(
+                              NegativeExpr(
+                                NormalTerm(
+                                  FactorDesignator(
+                                    IdentDesignator(
+                                     size
+                                    ) [IdentDesignator]
+                                  ) [FactorDesignator]
+                                ) [NormalTerm]
+                              ) [NegativeExpr]
+                              Less(
+                              ) [Less]
+                              PositiveExpr(
+                                NormalTerm(
+                                  FactorDesignator(
+                                    IdentDesignator(
+                                     x
+                                    ) [IdentDesignator]
+                                  ) [FactorDesignator]
+                                ) [NormalTerm]
+                              ) [PositiveExpr]
+                            ) [ConditionWithOp]
+                          ) [JustCondTerm]
+                          ConditionWithOp(
+                            PositiveExpr(
+                              NormalTerm(
+                                FactorDesignator(
+                                  IdentDesignator(
+                                   x
+                                  ) [IdentDesignator]
+                                ) [FactorDesignator]
+                              ) [NormalTerm]
+                            ) [PositiveExpr]
+                            Less(
+                            ) [Less]
+                            PositiveExpr(
+                              NormalTerm(
+                                FactorNumber(
+                                 0
+                                ) [FactorNumber]
+                              ) [NormalTerm]
+                            ) [PositiveExpr]
+                          ) [ConditionWithOp]
+                        ) [ConditionAnd]
+                      ) [JustCondition]
+                    ) [IfConditionStatement]
+                    BlockStatement(
+                      StatementListWithStatement(
+                        EmptyStatementList(
+                        ) [EmptyStatementList]
+                        DesignatorStatementState(
+                          DesignatorFunc(
+                            DotDesignator(
+                              IdentDesignator(
+                               val
+                              ) [IdentDesignator]
+                             putn
+                            ) [DotDesignator]
+                            ActParsWithList(
+                              SingleActParsList(
+                                AddopExpr(
+                                  PositiveExpr(
+                                    NormalTerm(
+                                      FactorDesignatorActPars(
+                                        DotDesignator(
+                                          IdentDesignator(
+                                           val
+                                          ) [IdentDesignator]
+                                         getn
+                                        ) [DotDesignator]
+                                        ActParsWithList(
+                                          SingleActParsList(
+                                            NegativeExpr(
+                                              NormalTerm(
+                                                FactorDesignator(
+                                                  IdentDesignator(
+                                                   x
+                                                  ) [IdentDesignator]
+                                                ) [FactorDesignator]
+                                              ) [NormalTerm]
+                                            ) [NegativeExpr]
+                                          ) [SingleActParsList]
+                                        ) [ActParsWithList]
+                                      ) [FactorDesignatorActPars]
+                                    ) [NormalTerm]
+                                  ) [PositiveExpr]
+                                  Plus(
+                                  ) [Plus]
+                                  NormalTerm(
+                                    FactorNumber(
+                                     1
+                                    ) [FactorNumber]
+                                  ) [NormalTerm]
+                                ) [AddopExpr]
+                              ) [SingleActParsList]
+                            ) [ActParsWithList]
+                          ) [DesignatorFunc]
+                        ) [DesignatorStatementState]
+                      ) [StatementListWithStatement]
+                    ) [BlockStatement]
+                  ) [IfStatement]
+                ) [IfElseStatement]
+              ) [StatementListWithStatement]
+              ReadStatement(
+                IdentDesignator(
+                 x
+                ) [IdentDesignator]
+              ) [ReadStatement]
+            ) [StatementListWithStatement]
+          ) [BlockStatement]
+        ) [WhileStatement]
+      ) [StatementListWithStatement]
+    ) [MethodDeclaration]
+  ) [HasMethodDeclList]
+) [Program]
+INFO  20:20:21,851 - ===================================
+INFO  20:20:21,853 - Prepoznata promenljiva!
+INFO  20:20:21,853 - Prepoznata promenljiva!
+INFO  20:20:21,853 - Prepoznata promenljiva!
+INFO  20:20:21,853 - Prepoznata promenljiva!
+INFO  20:20:21,853 - Prepoznata promenljiva!
+INFO  20:20:21,853 - Prepoznata promenljiva!
+INFO  20:20:21,853 - Prepoznata promenljiva!
+INFO  20:20:21,854 - Prepoznata naredba print!
+INFO  20:20:21,854 - Print count calls = 1
+INFO  20:20:21,854 - Var declarations number = 7
+INFO  20:20:21,854 - ===================================

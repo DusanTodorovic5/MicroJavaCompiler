@@ -1,0 +1,253 @@
+package rs.ac.bg.etf.pp1;
+
+import org.apache.log4j.*;
+import java_cup.runtime.*;
+import rs.ac.bg.etf.pp1.ast.*;
+
+parser code {:
+	boolean errorDetected = false;
+	
+	Logger log = Logger.getLogger(getClass());
+     
+    public void report_fatal_error(String message, Object info) throws java.lang.Exception {
+      done_parsing();
+      report_error(message, info);
+    }
+  
+    public void syntax_error(Symbol cur_token) {
+        report_error("\nSyntax Error", cur_token);
+    }
+  
+    public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
+        report_fatal_error("Fatal error, parsing will not continue", cur_token);
+    }
+
+    public void report_error(String message, Object info) {
+    	errorDetected = true;
+    	StringBuilder msg = new StringBuilder(message); 
+    	if (info instanceof Symbol)
+            msg.append (" on line ").append(((Symbol)info).left);
+        log.error(msg.toString());
+    }
+    
+    public void report_info(String message, Object info) {
+    	StringBuilder msg = new StringBuilder(message); 
+    	if (info instanceof Symbol)
+            msg.append (" on line ").append(((Symbol)info).left);
+        log.info(msg.toString());
+    }
+:}
+
+scan with {:
+	Symbol s = this.getScanner().next_token();
+	if (s != null && s.value != null) 
+		log.info(s.toString() + " " + s.value.toString());
+	return s;
+:}
+
+terminal PROG, BREAK, CLASS, ELSE, CONST, IF, WHILE, NEW, PRINT, READ, RETURN, VOID, EXTENDS, CONTINUE, FOREACH, PLUS, MINUS, DIV, MUL, PERCENT, EQUALS, NOTEQUALS, MORE, NOTLESS, LESS, NOTMORE, ANDAND, OROR, IS, INCREMENT, DECREMENT, SEMICOLON, DOUBLEDOTS, COMA, FULLSTOP, OPENBRACKET, CLOSEBRACKET, OPENANGLE, CLOSEANGLE, OPENPAR, CLOSEPAR, ARROW;
+terminal Integer NUMBER;
+terminal Character CHARCONST;
+terminal String IDENT;
+terminal Boolean BOOL;
+
+nonterminal VarDeclList, ConstDecl, NonLastVarDecl, AssignOpExpression, 
+	IfCondition, FormParsListWithComa, LastVarDecl, ClassBody, FormParsBrackets, ConstructorDeclList, 
+	MethodDeclListClass, ClassFunctions, ListConstDecls, VarDecl, ListVarDecls, 
+	ClassDecl, ClassExtends, ClassFields, ConstructorDecl, MethodDeclList, FormPars, 
+	FormParsList, StatementList, DesignatorList, NonEmptyDesignatorList, 
+	ActPars, ActParsList, Condition, CondTerm, 
+	Label, Assignop, Addop, Mulop;
+
+nonterminal rs.etf.pp1.symboltable.concepts.Obj Program, ProgName, FormParsDecl, Statement, 
+												MethodDecl, Designator, ConstDecls, VarBrackets, VarName, 
+												WhileStart, ForEachStart, Relop, CondFact;
+
+nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, DesignatorStatement, Expr, Term, 
+												Factor;
+
+precedence left ELSE;
+
+Program ::= (Program) PROG ProgName:p VarDeclList OPENPAR MethodDeclList CLOSEPAR;
+
+ProgName ::= (ProgName) IDENT:name;
+
+VarDeclList ::= (ConstDeclarations) VarDeclList ConstDecl |
+				(VarDeclarations) VarDeclList VarDecl |
+				(ClassDeclarations) VarDeclList ClassDecl |
+				(NoDeclarations) /* epsilon */;
+
+Type ::= (Type) IDENT:typeName;
+
+ConstDecl ::= (ConstDecl) CONST Type:constType ConstDecls ListConstDecls SEMICOLON;
+ConstDecls ::= (ConstNumberDecl) IDENT:constName IS NUMBER:constValue |
+				(ConstCharDecl) IDENT:constName IS CHARCONST:constValue |
+				(ConstBoolDecl) IDENT:constName IS BOOL:constValue;
+ListConstDecls ::= (ListConstDeclarations) ListConstDecls COMA ConstDecls | 
+					(ListNoConstDeclarations) /* epsilon */;
+
+VarName ::= (VarName) IDENT:varName VarBrackets;
+
+VarBrackets ::= (VarBracketsOpenClosed) OPENANGLE CLOSEANGLE | 
+				(NoVarBrackets) /* epsilon */;
+				
+VarDecl ::= (VarDecl) Type:varType ListVarDecls;
+			
+ListVarDecls ::= (ListVarDeclsWithComa) NonLastVarDecl ListVarDecls | 
+				(ListNoVarDecls) LastVarDecl;
+				
+NonLastVarDecl ::= (NonLastVarDeclaration) VarName:varName COMA |
+					(ListVarDeclError) error COMA:l
+					{: parser.report_error("Recovery done on , line " + lleft, null); :};
+
+LastVarDecl ::= (LastVarDeclaration) VarName:varName SEMICOLON |
+					(LastListVarDeclError) error SEMICOLON:l
+					{: parser.report_error("Recovery done on ; line " + lleft, null); :};
+
+ClassDecl ::= (ClassDecl) CLASS IDENT:className ClassExtends ClassBody;
+ClassExtends ::= (ExtendedClass) EXTENDS Type:parentName OPENPAR | 
+				(BaseClass) OPENPAR /* epsilon */ |
+				(ClassExtendsError) error OPENPAR:l
+					{: parser.report_error("Recovery done on { line " + lleft, null); :};
+
+ClassBody ::= (ClassBody) ClassFields ClassFunctions CLOSEPAR;				
+
+ClassFields ::= (HasClassFields) ClassFields VarDecl | 
+				(NoClassFields) /* epsilon */;
+				
+ClassFunctions ::= (ClassFunctionsWithConstructorAndMethods) OPENPAR ConstructorDeclList MethodDeclListClass CLOSEPAR |
+					(ClassFunctionsWithMethods) OPENPAR MethodDeclListClass CLOSEPAR |
+					(ClassFunctionsWithConstructor) OPENPAR ConstructorDeclList CLOSEPAR |
+					(ClassFunctionsWithOnlyPar) OPENPAR CLOSEPAR |
+					(ClassFunctionsWithoutAnything) /* epsilon */;
+					
+ConstructorDeclList ::= (MultipleConstructors) ConstructorDeclList ConstructorDecl |
+						(SingleConstructor) ConstructorDecl;
+
+ConstructorDecl ::= (ConstructorDecl) IDENT:constructName OPENBRACKET FormPars ClassFields OPENPAR StatementList CLOSEPAR;
+
+MethodDeclListClass ::= (HasMethodDeclListClass) MethodDeclListClass MethodDecl | 
+					(NoMethodDeclListClass) MethodDecl;
+
+MethodDeclList ::= (HasMethodDeclList) MethodDeclList MethodDecl | 
+					(NoMethodDeclList) /* epsilon */;
+
+MethodDecl ::= (MethodDeclaration) MethodType FormParsBrackets ClassFields OPENPAR StatementList CLOSEPAR;
+
+MethodType ::= (MethodWithType) Type:returnType IDENT:methodName | 
+				(MethodWithNoType) VOID IDENT:methodName;
+				
+FormParsBrackets ::= (FormParsBracketsExists) OPENBRACKET FormPars;
+
+FormPars ::= (FormParsWithList) FormParsList CLOSEBRACKET | 
+			(FormParsEmptyList) CLOSEBRACKET /* epsilon */ |
+					(FormParsError) error CLOSEBRACKET:l
+					{: parser.report_error("Recovery done on ) line " + lleft, null); :};
+			
+FormParsListWithComa ::= (FormParsListWithComaDone) FormParsList COMA |
+						(FormParsListError) error COMA:l
+						{: parser.report_error("Recovery done on , line " + lleft, null); :};
+
+FormParsList ::= (FormParsListWithComaList) FormParsListWithComa FormParsDecl | 
+				(FormParList) FormParsDecl;
+
+FormParsDecl ::= (FormParsDecl) Type:formParType IDENT:formParIdent VarBrackets;
+
+StatementList ::= (StatementListWithStatement) StatementList Statement | 
+				(EmptyStatementList) /* epsilon */;
+
+Statement ::= (DesignatorStatementState) DesignatorStatement |
+				(IfStatement) IF OPENBRACKET IfCondition Statement |
+				(IfElseStatement) IF OPENBRACKET IfCondition Statement ELSE Statement:stm |
+				(WhileStatement) WhileStart:ws Condition CLOSEBRACKET Statement:stm |
+				(BreakStatement) BREAK SEMICOLON |
+				(ContinueStatement) CONTINUE SEMICOLON |
+				(VoidReturnStatement) RETURN SEMICOLON |
+				(ReturnStatement) RETURN Expr:e SEMICOLON |
+				(ReadStatement) READ OPENBRACKET Designator CLOSEBRACKET SEMICOLON |
+				(PrintStatement) PRINT OPENBRACKET Expr:e CLOSEBRACKET SEMICOLON |
+				(PrintNumberStatement) PRINT OPENBRACKET Expr:e COMA NUMBER CLOSEBRACKET SEMICOLON |
+				(ForeachStatement) Designator FULLSTOP ForEachStart:fes IDENT:foreachName ARROW Statement CLOSEBRACKET SEMICOLON |
+				(BlockStatement) OPENPAR StatementList CLOSEPAR;
+
+WhileStart ::= (WhileStart) WHILE OPENBRACKET;
+
+ForEachStart ::= (ForEachStart) FOREACH OPENBRACKET;
+				
+IfCondition ::= (IfConditionStatement) Condition CLOSEBRACKET |
+				(ErrorIfConditionStatement) error CLOSEBRACKET:l
+				{: parser.report_error("Recovery done on ) line " + lleft, null); :};
+				
+AssignOpExpression ::= (DesignatorAssign) Designator:varDes IS Expr:e  SEMICOLON |
+						(ErrorDesignatorAssign) error SEMICOLON:l
+						{: parser.report_error("Recovery done on ; line " + lleft, null); :} |
+						(DesignatorArray) OPENANGLE DesignatorList CLOSEANGLE IS Designator:array SEMICOLON;
+
+DesignatorStatement ::= (DesignatorStatementAssignOp) AssignOpExpression |
+						(DesignatorFunc) Designator:funcDes OPENBRACKET ActPars CLOSEBRACKET SEMICOLON |
+						(DesignatorIncrement) Designator:varDes INCREMENT SEMICOLON |
+						(DesignatorDecrement) Designator:varDes DECREMENT SEMICOLON;
+						
+						
+DesignatorList ::= (DesignatorListNonEmpty) NonEmptyDesignatorList | 
+					(EmptyDesignatorList) /* epsilon */;						
+						
+NonEmptyDesignatorList ::= (NonEmptyDesignatorListWithComa) NonEmptyDesignatorList COMA Designator | 
+							(SingleDesignatorList) Designator;
+
+ActPars ::= (ActParsWithList) ActParsList | 
+			(EmptyActPars) /* epsilon */;
+
+ActParsList ::= (ActParsListWithComa) ActParsList COMA Expr:e | 
+				(SingleActParsList) Expr:e;
+
+Condition ::= (ConditionOR) Condition OROR CondTerm | 
+				error CLOSEBRACKET:l
+				{: parser.report_error("Recovery done on ) line " + lleft, null); :} |
+			(JustCondition) CondTerm;
+
+CondTerm ::= (ConditionAnd) CondTerm ANDAND CondFact | 
+				(JustCondTerm) CondFact;
+
+CondFact ::= (ConditionWithOp) Expr:l Relop Expr:r | 
+			(ConditionWithoutOp) Expr:e;
+
+Expr ::= (NegativeExpr) MINUS Term:t | 
+		(PositiveExpr) Term:t |
+		(AddopExpr) Expr:e Addop Term:t;		
+		
+Term ::= (NormalTerm) Factor:f | 
+		(MulTerm) Term:t Mulop Factor:f;
+
+Factor ::= (FactorDesignator) Designator:valDes |
+			(FactorDesignatorActPars) Designator:valDes OPENBRACKET ActPars CLOSEBRACKET |
+			(FactorNumber) NUMBER:valNum |
+			(FactorChar) CHARCONST:valChar |
+			(FactorBool) BOOL:valBool | 
+			(FactorNewObj) NEW Type:name OPENBRACKET ActPars CLOSEBRACKET |
+			(FactorNewArray) NEW Type:name OPENANGLE Expr:e CLOSEANGLE |
+			(FactorExpr) OPENBRACKET Expr:e CLOSEBRACKET;
+			
+Designator ::= (IdentDesignator) IDENT:name |
+				(DotDesignator) Designator FULLSTOP IDENT:name |
+				(ArrayDesignator) Designator OPENANGLE Expr:e CLOSEANGLE;
+
+Label ::= (Label) IDENT:name;
+
+Assignop ::= (Assignop) IS;
+
+Relop ::= (Equals) EQUALS | 
+		(NotEquals) NOTEQUALS | 
+		(More) MORE |
+		(NotLess) NOTLESS |
+		(Less) LESS |
+		(NotMore) NOTMORE;
+		
+Addop ::= (Plus) PLUS | 
+		(Minus) MINUS;
+
+Mulop ::= (Mul) MUL | 
+		(Div) DIV | 
+		(Percent) PERCENT;
+		
+
