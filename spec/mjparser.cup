@@ -51,17 +51,18 @@ terminal Character CHARCONST;
 terminal String IDENT;
 terminal Boolean BOOL;
 
-nonterminal VarDeclList, ConstDecl, NonLastVarDecl, AssignOpExpression, 
+nonterminal VarDeclList, ConstDecl, NonLastVarDecl,
 	IfCondition, FormParsListWithComa, LastVarDecl, ClassBody, FormParsBrackets, ConstructorDeclList, 
 	MethodDeclListClass, ClassFunctions, ListConstDecls, VarDecl, ListVarDecls, 
 	ClassDecl, ClassExtends, ClassFields, ConstructorDecl, MethodDeclList, FormPars, 
 	FormParsList, StatementList, DesignatorList, NonEmptyDesignatorList, 
-	ActPars, ActParsList, Condition, CondTerm, 
+	ActPars, Condition, CondTerm, 
 	Label, Assignop, Addop, Mulop;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj Program, ProgName, FormParsDecl, Statement, 
 												MethodDecl, Designator, ConstDecls, VarBrackets, VarName, 
-												WhileStart, ForEachStart, Relop, CondFact;
+												WhileStart, ForEachStart, Relop, CondFact, DesignatorFuncCall,
+												ActParsList, AssignOpExpression;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, DesignatorStatement, Expr, Term, 
 												Factor;
@@ -184,9 +185,11 @@ AssignOpExpression ::= (DesignatorAssign) Designator:varDes IS Expr:e  SEMICOLON
 						(DesignatorArray) OPENANGLE DesignatorList CLOSEANGLE IS Designator:array SEMICOLON;
 
 DesignatorStatement ::= (DesignatorStatementAssignOp) AssignOpExpression |
-						(DesignatorFunc) Designator:funcDes OPENBRACKET ActPars CLOSEBRACKET SEMICOLON |
+						(DesignatorFunc) DesignatorFuncCall ActPars CLOSEBRACKET SEMICOLON |
 						(DesignatorIncrement) Designator:varDes INCREMENT SEMICOLON |
 						(DesignatorDecrement) Designator:varDes DECREMENT SEMICOLON;
+
+DesignatorFuncCall ::= (DesignatorFuncCall) Designator:funcDes OPENBRACKET;
 						
 						
 DesignatorList ::= (DesignatorListNonEmpty) NonEmptyDesignatorList | 
@@ -220,7 +223,7 @@ Term ::= (NormalTerm) Factor:f |
 		(MulTerm) Term:t Mulop Factor:f;
 
 Factor ::= (FactorDesignator) Designator:valDes |
-			(FactorDesignatorActPars) Designator:valDes OPENBRACKET ActPars CLOSEBRACKET |
+			(FactorDesignatorActPars) DesignatorFuncCall ActPars CLOSEBRACKET |
 			(FactorNumber) NUMBER:valNum |
 			(FactorChar) CHARCONST:valChar |
 			(FactorBool) BOOL:valBool | 

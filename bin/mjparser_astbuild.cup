@@ -54,8 +54,7 @@ terminal Boolean BOOL;
 nonterminal VarDeclList VarDeclList;
 nonterminal ConstDecl ConstDecl;
 nonterminal NonLastVarDecl NonLastVarDecl;
-nonterminal AssignOpExpression AssignOpExpression;
-nonterminal 
+nonterminal
 	IfCondition IfCondition;
 nonterminal FormParsListWithComa FormParsListWithComa;
 nonterminal LastVarDecl LastVarDecl;
@@ -82,7 +81,6 @@ nonterminal DesignatorList DesignatorList;
 nonterminal NonEmptyDesignatorList NonEmptyDesignatorList;
 nonterminal 
 	ActPars ActPars;
-nonterminal ActParsList ActParsList;
 nonterminal Condition Condition;
 nonterminal CondTerm CondTerm;
 nonterminal 
@@ -93,7 +91,8 @@ nonterminal Mulop Mulop;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj Program, ProgName, FormParsDecl, Statement, 
 												MethodDecl, Designator, ConstDecls, VarBrackets, VarName, 
-												WhileStart, ForEachStart, Relop, CondFact;
+												WhileStart, ForEachStart, Relop, CondFact, DesignatorFuncCall,
+												ActParsList, AssignOpExpression;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, DesignatorStatement, Expr, Term, 
 												Factor;
@@ -216,9 +215,11 @@ AssignOpExpression ::= (DesignatorAssign) Designator:varDes IS Expr:e  SEMICOLON
 						(DesignatorArray) OPENANGLE DesignatorList:D1 CLOSEANGLE IS Designator:array SEMICOLON {: RESULT=new DesignatorArray(D1, array); RESULT.setLine(D1left); :};
 
 DesignatorStatement ::= (DesignatorStatementAssignOp) AssignOpExpression:A1 {: RESULT=new DesignatorStatementAssignOp(A1); RESULT.setLine(A1left); :} |
-						(DesignatorFunc) Designator:funcDes OPENBRACKET ActPars:A1 CLOSEBRACKET SEMICOLON {: RESULT=new DesignatorFunc(funcDes, A1); RESULT.setLine(funcDesleft); :} |
+						(DesignatorFunc) DesignatorFuncCall:D1 ActPars:A2 CLOSEBRACKET SEMICOLON {: RESULT=new DesignatorFunc(D1, A2); RESULT.setLine(D1left); :} |
 						(DesignatorIncrement) Designator:varDes INCREMENT SEMICOLON {: RESULT=new DesignatorIncrement(varDes); RESULT.setLine(varDesleft); :} |
 						(DesignatorDecrement) Designator:varDes DECREMENT SEMICOLON {: RESULT=new DesignatorDecrement(varDes); RESULT.setLine(varDesleft); :};
+
+DesignatorFuncCall ::= (DesignatorFuncCall) Designator:funcDes OPENBRACKET {: RESULT=new DesignatorFuncCall(funcDes); RESULT.setLine(funcDesleft); :};
 						
 						
 DesignatorList ::= (DesignatorListNonEmpty) NonEmptyDesignatorList:N1 {: RESULT=new DesignatorListNonEmpty(N1); RESULT.setLine(N1left); :} | 
@@ -252,7 +253,7 @@ Term ::= (NormalTerm) Factor:f {: RESULT=new NormalTerm(f); RESULT.setLine(fleft
 		(MulTerm) Term:t Mulop:M1 Factor:f {: RESULT=new MulTerm(t, M1, f); RESULT.setLine(tleft); :};
 
 Factor ::= (FactorDesignator) Designator:valDes {: RESULT=new FactorDesignator(valDes); RESULT.setLine(valDesleft); :} |
-			(FactorDesignatorActPars) Designator:valDes OPENBRACKET ActPars:A1 CLOSEBRACKET {: RESULT=new FactorDesignatorActPars(valDes, A1); RESULT.setLine(valDesleft); :} |
+			(FactorDesignatorActPars) DesignatorFuncCall:D1 ActPars:A2 CLOSEBRACKET {: RESULT=new FactorDesignatorActPars(D1, A2); RESULT.setLine(D1left); :} |
 			(FactorNumber) NUMBER:valNum {: RESULT=new FactorNumber(valNum); RESULT.setLine(valNumleft); :} |
 			(FactorChar) CHARCONST:valChar {: RESULT=new FactorChar(valChar); RESULT.setLine(valCharleft); :} |
 			(FactorBool) BOOL:valBool {: RESULT=new FactorBool(valBool); RESULT.setLine(valBoolleft); :} | 

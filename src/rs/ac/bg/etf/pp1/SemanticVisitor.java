@@ -1,5 +1,8 @@
 package rs.ac.bg.etf.pp1;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.apache.log4j.Logger;
 import rs.ac.bg.etf.pp1.ast.*;
 import rs.etf.pp1.symboltable.*;
@@ -16,6 +19,11 @@ public class SemanticVisitor extends VisitorAdaptor {
 		NOTMORE
 	}
 	
+	private class MethodStruct {
+		public int argumentNumber = 0;
+		public ArrayList<Struct> argumentTypes = new ArrayList<Struct>();
+	}
+	
 	boolean errorDetected = false;
 	boolean hasMainMethod = false;
 	boolean hasReturn = false;
@@ -27,6 +35,12 @@ public class SemanticVisitor extends VisitorAdaptor {
 	String currentMethodStr = null;
 	Struct currentMethodReturnType = null;
 	boolean currentMethodHasReturn = false;
+	boolean currentMethodFormalParameters = false;
+	
+	HashMap<String, MethodStruct> definedMethods = new HashMap<String, MethodStruct>();
+	
+	String currentFunctionCall = null;
+	ArrayList<Struct> currentFunctionArgument = new ArrayList<Struct>();
 	
 	boolean isArray = false;
 	int isInLoop = 0;
@@ -174,6 +188,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 		} else {
 			Tab.insert(Obj.Var, varDecl.getVarName(), currentType);
 		}
+		
 		currentMethodVarCount++;
 	}
 	
@@ -191,6 +206,8 @@ public class SemanticVisitor extends VisitorAdaptor {
 		currentMethodVarCount = 0;
 		currentMethodParamCount = 0;
 		Tab.openScope();
+		
+		definedMethods.put(currentMethodStr, new MethodStruct());
 		
 		if (methodType.getMethodName().equals("main")) {
 			report_semantic_error("main method must be void", null);
@@ -212,6 +229,8 @@ public class SemanticVisitor extends VisitorAdaptor {
 		currentMethodStr = methodType.getMethodName();
 		currentMethodVarCount = 0;
 		currentMethodParamCount = 0;
+		
+		definedMethods.put(currentMethodStr, new MethodStruct());
 		
 		if (methodType.getMethodName().equals("main")) {
 			hasMainMethod = true;
@@ -244,7 +263,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 	
 	public void visit(FormParsDecl formalParam) {
 		currentMethodParamCount++;
-
+		definedMethods.get(currentMethodStr).argumentNumber++;
 		if (Tab.currentScope.findSymbol(formalParam.getFormParIdent()) != null) {
 			report_semantic_error("symbol " + formalParam.getFormParIdent() + " is already defined",null);
 			return;
@@ -254,6 +273,15 @@ public class SemanticVisitor extends VisitorAdaptor {
 			Obj obj = Tab.insert(Obj.Var, formalParam.getFormParIdent(), new Struct(Struct.Array, currentType));
 		} else {
 			Obj obj = Tab.insert(Obj.Var, formalParam.getFormParIdent(), currentType);
+		}
+		
+		if (currentMethod != null) {
+			if (isArray) {
+				definedMethods.get(currentMethodStr).argumentTypes.add(new Struct(Struct.Array, currentType));
+				isArray = false;
+			} else {
+				definedMethods.get(currentMethodStr).argumentTypes.add(currentType);
+			}
 		}
 	}
 	
@@ -273,25 +301,25 @@ public class SemanticVisitor extends VisitorAdaptor {
 		isInLoop--;
 	}
 	
-	public void visit (BreakStatement statement) {
+	public void visit(BreakStatement statement) {
 		if (isInLoop == 0) {
 			report_semantic_error("cannot use break outside of a loop", statement);
 		}
 	}
 	
-	public void visit (ContinueStatement statement) {
+	public void visit(ContinueStatement statement) {
 		if (isInLoop == 0) {
 			report_semantic_error("cannot use continue outside of a loop", statement);
 		}
 	}
 	
-	public void visit (VoidReturnStatement statement) {
+	public void visit(VoidReturnStatement statement) {
 		if (currentMethodReturnType != Tab.noType) {
 			report_semantic_error("cannot have void return in non-void function " + currentMethodStr, statement);
 		}
 	}
 	
-	public void visit (ReturnStatement statement) {
+	public void visit(ReturnStatement statement) {
 		if (currentMethodReturnType == Tab.noType) {
 			report_semantic_error("non-void function " + currentMethodStr + " must return value", statement);
 		}
@@ -300,6 +328,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 	
 	public void visit(IdentDesignator designator) {
 		Obj obj = Tab.find(designator.getName());
+		
 		if (obj == Tab.noObj) {
 			report_semantic_error_on_line(designator.getName() + " is not declared", null, designator.getLine());
 		}
@@ -308,13 +337,79 @@ public class SemanticVisitor extends VisitorAdaptor {
 	}
 	
 	public void visit(DesignatorFunc designatorFunc) {
-		Obj func = designatorFunc.getDesignator().obj;
+		Obj func = designatorFunc.getDesignatorFuncCall().getDesignator().obj;
 		
 		if (Obj.Meth == func.getKind()) {
 			designatorFunc.struct = func.getType();
 		} else {
 			report_semantic_error_on_line(designatorFunc.getLine() + ": "  + " not a function", null, designatorFunc.getLine());
+			return;
 		}
+		
+		
+		String name = designatorFunc.getDesignatorFuncCall().getDesignator().obj.getName();
+		
+		if (currentFunctionArgument.size() < definedMethods.get(name).argumentTypes.size()) {
+			report_semantic_error("Too few arguments in function call " + name, designatorFunc);
+			return;
+		}
+		
+		if (currentFunctionArgument.size() > definedMethods.get(name).argumentTypes.size()) {
+			report_semantic_error("Too many arguments in function call " + name, designatorFunc);
+			return;
+		}
+		
+		for (int i=0;i<currentFunctionArgument.size();i++) {
+			if (currentFunctionArgument.get(i) != definedMethods.get(name).argumentTypes.get(i)) {
+				report_semantic_error("Incorect type on argument on position " + (i+1) + " in function call "+ name, designatorFunc);
+			}
+		}
+		
+		currentFunctionCall = null;
+		currentFunctionArgument = new ArrayList<Struct>();
+	}
+	
+	public void visit(DesignatorFuncCall funcCall) {
+		currentFunctionCall = funcCall.getDesignator().obj.getName();
+		currentFunctionArgument = new ArrayList<Struct>();
+	}
+	
+	public void visit(DesignatorStatementAssignOp designatorStm) {
+		
+	}
+	
+	public void visit(DesignatorIncrement designatorStm) {
+		if (designatorStm.getDesignator().obj.getType() != Tab.intType) {
+			report_semantic_error("cannot increment non integer type", designatorStm);
+		}
+		
+		designatorStm.struct = designatorStm.getDesignator().obj.getType();
+	}
+
+	public void visit(DesignatorDecrement designatorStm) {
+		if (designatorStm.getDesignator().obj.getType() != Tab.intType) {
+			report_semantic_error("cannot decrement non integer type", designatorStm);
+		}
+		
+		designatorStm.struct = designatorStm.getDesignator().obj.getType();
+	}
+	
+	public void visit(DesignatorAssign assignOp) {
+		if (assignOp.getDesignator().obj.getType() != assignOp.getExpr().struct) {
+			report_semantic_error("left value's of assign operator different from right side", assignOp);
+		}
+	}
+	
+	public void visit(DesignatorArray assignOp) {
+		
+	}
+	
+	public void visit(ActParsListWithComa actpars) {
+		currentFunctionArgument.add(actpars.getExpr().struct);
+	}
+	
+	public void visit(SingleActParsList actpars) {
+		currentFunctionArgument.add(actpars.getExpr().struct);
 	}
 	
 	public void visit(ConditionWithoutOp condition) {
@@ -347,13 +442,37 @@ public class SemanticVisitor extends VisitorAdaptor {
 	}
 	
 	public void visit(FactorDesignatorActPars factor) {
-		if (factor.getDesignator().obj.getKind() != Obj.Meth) {
-			report_semantic_error("identifier " + factor.getDesignator().obj.getName() + " is not a function", factor);
+		if (factor.getDesignatorFuncCall().getDesignator().obj.getKind() != Obj.Meth) {
+			report_semantic_error("identifier " + factor.getDesignatorFuncCall().getDesignator().obj.getName() + " is not a function", factor);
 			factor.struct = Tab.noType;
 			return;
 		}
 		
-		factor.struct = factor.getDesignator().obj.getType();
+		factor.struct = factor.getDesignatorFuncCall().getDesignator().obj.getType();
+		
+		
+		Obj func = factor.getDesignatorFuncCall().getDesignator().obj;
+		
+		String name = factor.getDesignatorFuncCall().getDesignator().obj.getName();
+		
+		if (currentFunctionArgument.size() < definedMethods.get(name).argumentTypes.size()) {
+			report_semantic_error("Too few arguments in function call " + name, factor);
+			return;
+		}
+		
+		if (currentFunctionArgument.size() > definedMethods.get(name).argumentTypes.size()) {
+			report_semantic_error("Too many arguments in function call " + name, factor);
+			return;
+		}
+		
+		for (int i=0;i<currentFunctionArgument.size();i++) {
+			if (currentFunctionArgument.get(i) != definedMethods.get(name).argumentTypes.get(i)) {
+				report_semantic_error("Incorect type on argument on position " + (i+1) + " in function call "+ name, factor);
+			}
+		}
+		
+		currentFunctionCall = null;
+		currentFunctionArgument = new ArrayList<Struct>();
 	}
 	
 	public void visit(FactorNumber factor) {
@@ -434,6 +553,30 @@ public class SemanticVisitor extends VisitorAdaptor {
 	
 	public void visit(NotMore relop) {
 		currentRelativeOperation = RelativeOperation.NOTMORE;
+	}
+	
+	public void visit(ReadStatement statement) {
+		if (statement.getDesignator().obj.getType() != Tab.intType && 
+			statement.getDesignator().obj.getType() != TabExtension.boolType &&
+			statement.getDesignator().obj.getType() != Tab.charType) {
+			report_semantic_error("incorrect type in read statement", statement);
+		}
+	}
+	
+	public void visit(PrintStatement statement) {
+		if (statement.getExpr().struct != Tab.intType &&
+				statement.getExpr().struct != TabExtension.boolType &&
+				statement.getExpr().struct != Tab.charType) {
+			report_semantic_error("incorrect type in read statement", statement);
+		}
+	}
+	
+	public void visit(PrintNumberStatement statement) {
+		if (statement.getExpr().struct != Tab.intType &&
+				statement.getExpr().struct != TabExtension.boolType &&
+				statement.getExpr().struct != Tab.charType) {
+			report_semantic_error("incorrect type in read statement", statement);
+		}
 	}
 }
 
