@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2023 21:40:48
+// 4/1/2023 23:30:27
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -8,13 +8,13 @@ package rs.ac.bg.etf.pp1.ast;
 public class NonEmptyDesignatorListWithComa extends NonEmptyDesignatorList {
 
     private NonEmptyDesignatorList NonEmptyDesignatorList;
-    private Designator Designator;
+    private EpsilonDesignator EpsilonDesignator;
 
-    public NonEmptyDesignatorListWithComa (NonEmptyDesignatorList NonEmptyDesignatorList, Designator Designator) {
+    public NonEmptyDesignatorListWithComa (NonEmptyDesignatorList NonEmptyDesignatorList, EpsilonDesignator EpsilonDesignator) {
         this.NonEmptyDesignatorList=NonEmptyDesignatorList;
         if(NonEmptyDesignatorList!=null) NonEmptyDesignatorList.setParent(this);
-        this.Designator=Designator;
-        if(Designator!=null) Designator.setParent(this);
+        this.EpsilonDesignator=EpsilonDesignator;
+        if(EpsilonDesignator!=null) EpsilonDesignator.setParent(this);
     }
 
     public NonEmptyDesignatorList getNonEmptyDesignatorList() {
@@ -25,12 +25,12 @@ public class NonEmptyDesignatorListWithComa extends NonEmptyDesignatorList {
         this.NonEmptyDesignatorList=NonEmptyDesignatorList;
     }
 
-    public Designator getDesignator() {
-        return Designator;
+    public EpsilonDesignator getEpsilonDesignator() {
+        return EpsilonDesignator;
     }
 
-    public void setDesignator(Designator Designator) {
-        this.Designator=Designator;
+    public void setEpsilonDesignator(EpsilonDesignator EpsilonDesignator) {
+        this.EpsilonDesignator=EpsilonDesignator;
     }
 
     public void accept(Visitor visitor) {
@@ -39,18 +39,18 @@ public class NonEmptyDesignatorListWithComa extends NonEmptyDesignatorList {
 
     public void childrenAccept(Visitor visitor) {
         if(NonEmptyDesignatorList!=null) NonEmptyDesignatorList.accept(visitor);
-        if(Designator!=null) Designator.accept(visitor);
+        if(EpsilonDesignator!=null) EpsilonDesignator.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
         if(NonEmptyDesignatorList!=null) NonEmptyDesignatorList.traverseTopDown(visitor);
-        if(Designator!=null) Designator.traverseTopDown(visitor);
+        if(EpsilonDesignator!=null) EpsilonDesignator.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
         if(NonEmptyDesignatorList!=null) NonEmptyDesignatorList.traverseBottomUp(visitor);
-        if(Designator!=null) Designator.traverseBottomUp(visitor);
+        if(EpsilonDesignator!=null) EpsilonDesignator.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -65,8 +65,8 @@ public class NonEmptyDesignatorListWithComa extends NonEmptyDesignatorList {
             buffer.append(tab+"  null");
         buffer.append("\n");
 
-        if(Designator!=null)
-            buffer.append(Designator.toString("  "+tab));
+        if(EpsilonDesignator!=null)
+            buffer.append(EpsilonDesignator.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

@@ -15,6 +15,7 @@ program MJProgram
 	}
 	
 	void main() {
+		[y,,y] = arr;
 		y = 2;
 		y = k(y) + 3;
 		
@@ -22,7 +23,6 @@ program MJProgram
 		b = 1;
 		arr = new int[y];
 		
-		// [1,2,3,4,5] = arr;
 		
 		arr.foreach(y => {
 			print(y);

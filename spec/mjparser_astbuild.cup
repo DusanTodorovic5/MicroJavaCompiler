@@ -83,6 +83,7 @@ nonterminal
 	ActPars ActPars;
 nonterminal Condition Condition;
 nonterminal CondTerm CondTerm;
+nonterminal EpsilonDesignator EpsilonDesignator;
 nonterminal 
 	Label Label;
 nonterminal Assignop Assignop;
@@ -225,8 +226,11 @@ DesignatorFuncCall ::= (DesignatorFuncCall) Designator:funcDes OPENBRACKET {: RE
 DesignatorList ::= (DesignatorListNonEmpty) NonEmptyDesignatorList:N1 {: RESULT=new DesignatorListNonEmpty(N1); RESULT.setLine(N1left); :} | 
 					(EmptyDesignatorList) {: RESULT=new EmptyDesignatorList(); :} /* epsilon */;						
 						
-NonEmptyDesignatorList ::= (NonEmptyDesignatorListWithComa) NonEmptyDesignatorList:N1 COMA Designator:D2 {: RESULT=new NonEmptyDesignatorListWithComa(N1, D2); RESULT.setLine(N1left); :} | 
+NonEmptyDesignatorList ::= (NonEmptyDesignatorListWithComa) NonEmptyDesignatorList:N1 COMA EpsilonDesignator:E2 {: RESULT=new NonEmptyDesignatorListWithComa(N1, E2); RESULT.setLine(N1left); :} | 
 							(SingleDesignatorList) Designator:D1 {: RESULT=new SingleDesignatorList(D1); RESULT.setLine(D1left); :};
+
+EpsilonDesignator ::= (DesignatorExists) Designator:D1 {: RESULT=new DesignatorExists(D1); RESULT.setLine(D1left); :} |
+					(DesignatorDoesntExist) {: RESULT=new DesignatorDoesntExist(); :} /* epsilon */;
 
 ActPars ::= (ActParsWithList) ActParsList:A1 {: RESULT=new ActParsWithList(A1); RESULT.setLine(A1left); :} | 
 			(EmptyActPars) {: RESULT=new EmptyActPars(); :} /* epsilon */;

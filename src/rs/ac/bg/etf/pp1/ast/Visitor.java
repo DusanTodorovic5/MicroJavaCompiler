@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 3/1/2023 21:40:48
+// 4/1/2023 23:30:27
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -43,6 +43,7 @@ public interface Visitor {
     public void visit(CondFact CondFact);
     public void visit(ConstDecls ConstDecls);
     public void visit(MethodDeclList MethodDeclList);
+    public void visit(EpsilonDesignator EpsilonDesignator);
     public void visit(NonEmptyDesignatorList NonEmptyDesignatorList);
     public void visit(FormPars FormPars);
     public void visit(Percent Percent);
@@ -85,6 +86,8 @@ public interface Visitor {
     public void visit(ActParsListWithComa ActParsListWithComa);
     public void visit(EmptyActPars EmptyActPars);
     public void visit(ActParsWithList ActParsWithList);
+    public void visit(DesignatorDoesntExist DesignatorDoesntExist);
+    public void visit(DesignatorExists DesignatorExists);
     public void visit(SingleDesignatorList SingleDesignatorList);
     public void visit(NonEmptyDesignatorListWithComa NonEmptyDesignatorListWithComa);
     public void visit(EmptyDesignatorList EmptyDesignatorList);

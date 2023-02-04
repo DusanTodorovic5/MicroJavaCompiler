@@ -56,7 +56,7 @@ nonterminal VarDeclList, ConstDecl, NonLastVarDecl,
 	MethodDeclListClass, ClassFunctions, ListConstDecls, VarDecl, ListVarDecls, 
 	ClassDecl, ClassExtends, ClassFields, ConstructorDecl, MethodDeclList, FormPars, 
 	FormParsList, StatementList, DesignatorList, NonEmptyDesignatorList, 
-	ActPars, Condition, CondTerm, 
+	ActPars, Condition, CondTerm, EpsilonDesignator, 
 	Label, Assignop, Addop, Mulop;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj Program, ProgName, FormParsDecl, Statement, 
@@ -195,8 +195,11 @@ DesignatorFuncCall ::= (DesignatorFuncCall) Designator:funcDes OPENBRACKET;
 DesignatorList ::= (DesignatorListNonEmpty) NonEmptyDesignatorList | 
 					(EmptyDesignatorList) /* epsilon */;						
 						
-NonEmptyDesignatorList ::= (NonEmptyDesignatorListWithComa) NonEmptyDesignatorList COMA Designator | 
+NonEmptyDesignatorList ::= (NonEmptyDesignatorListWithComa) NonEmptyDesignatorList COMA EpsilonDesignator | 
 							(SingleDesignatorList) Designator;
+
+EpsilonDesignator ::= (DesignatorExists) Designator |
+					(DesignatorDoesntExist) /* epsilon */;
 
 ActPars ::= (ActParsWithList) ActParsList | 
 			(EmptyActPars) /* epsilon */;

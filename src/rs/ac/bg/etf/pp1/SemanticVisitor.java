@@ -51,6 +51,9 @@ public class SemanticVisitor extends VisitorAdaptor {
 	
 	Logger log = Logger.getLogger(getClass());
 	
+	boolean isDesignatorListAssign = false;
+	Struct currentDesignatorListAssignType = null;
+	
 	SemanticVisitor() {
 		Tab.currentScope.addToLocals(new Obj(Obj.Type, "bool", TabExtension.boolType));
 	}
@@ -77,7 +80,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 		int line = (info == null) ? 0: info.getLine();
 		if (line != 0)
 			msg.append (" on line ").append(line);
-		log.info(msg.toString());
+		log.info("Info: " + msg.toString());
 	}
 	
 	public boolean passed() {
@@ -411,6 +414,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 		
 	}
 	
+	
 	public void visit(DesignatorIncrement designatorStm) {
 		if (isInForEachLoop > 0) {
 			report_semantic_error("Cannot assign values inside foreach loop", designatorStm);
@@ -421,12 +425,32 @@ public class SemanticVisitor extends VisitorAdaptor {
 			report_semantic_error("cannot increment non integer type", designatorStm);
 		}
 		
+		if (designatorStm.getDesignator().obj.getKind() == Obj.Meth) {
+			report_semantic_error("Cannot assign value to method " + designatorStm.getDesignator().obj.getName(), designatorStm);
+			return;
+		}
+		
+		if (designatorStm.getDesignator().obj.getKind() == Obj.Prog) {
+			report_semantic_error("Cannot assign value to " + designatorStm.getDesignator().obj.getName(), designatorStm);
+			return;
+		}
+		
 		designatorStm.struct = designatorStm.getDesignator().obj.getType();
 	}
 
 	public void visit(DesignatorDecrement designatorStm) {
 		if (isInForEachLoop > 0) {
 			report_semantic_error("Cannot assign values inside foreach loop", designatorStm);
+			return;
+		}
+		
+		if (designatorStm.getDesignator().obj.getKind() == Obj.Meth) {
+			report_semantic_error("Cannot assign value to method " + designatorStm.getDesignator().obj.getName(), designatorStm);
+			return;
+		}
+		
+		if (designatorStm.getDesignator().obj.getKind() == Obj.Prog) {
+			report_semantic_error("Cannot assign value to " + designatorStm.getDesignator().obj.getName(), designatorStm);
 			return;
 		}
 		
@@ -443,6 +467,16 @@ public class SemanticVisitor extends VisitorAdaptor {
 			return;
 		}
 		
+		if (assignOp.getDesignator().obj.getKind() == Obj.Meth) {
+			report_semantic_error("Cannot assign value to method " + assignOp.getDesignator().obj.getName(), assignOp);
+			return;
+		}
+		
+		if (assignOp.getDesignator().obj.getKind() == Obj.Prog) {
+			report_semantic_error("Cannot assign value to " + assignOp.getDesignator().obj.getName(), assignOp);
+			return;
+		}
+		
 		if (assignOp.getDesignator().obj == null) {
 			report_semantic_error(assignOp.getDesignator().obj.getName() + " is not defined", assignOp);
 			return;
@@ -453,24 +487,51 @@ public class SemanticVisitor extends VisitorAdaptor {
 			return;
 		}
 		
-		if (assignOp.getDesignator().obj.getKind() == Struct.Array) {
+		if (assignOp.getDesignator().obj.getType().getKind() == Struct.Array) {
 			if (assignOp.getExpr().struct.getKind() != Struct.Array) {
 				report_semantic_error("right side operator must be array", assignOp);
 				return;
 			}
 			
-			if (assignOp.getDesignator().obj.getType().getElemType() != assignOp.getExpr().struct) {
-				report_semantic_error("type left of assign operator different from right", assignOp);
+			if (assignOp.getDesignator().obj.getType().getElemType() != assignOp.getExpr().struct.getElemType()) {
+				report_semantic_error("left type of assign operator different from right", assignOp);
 			}
 		} else {
 			if (assignOp.getDesignator().obj.getType() != assignOp.getExpr().struct) {
-				report_semantic_error("type left of assign operator different from right", assignOp);
+				report_semantic_error("left type of assign operator different from right", assignOp);
 			}
 		}
 	}
 	
 	public void visit(DesignatorArray assignOp) {
+		if (assignOp.getDesignator().obj.getType().getKind() != Struct.Array) {
+			report_semantic_error("variable" + assignOp.getDesignator().obj.getName() + " must be array", assignOp);
+			return;
+		}
 		
+		if (assignOp.getDesignator().obj.getType().getElemType() != currentDesignatorListAssignType) {
+			report_semantic_error("incompatible type of " + assignOp.getDesignator().obj.getName() + " and values trying to assign", assignOp);
+			return;
+		}
+		
+		if (isDesignatorListAssign) {			
+			report_info("assigned values to array " + assignOp.getDesignator().obj.getName(), assignOp);
+		}
+		
+		currentDesignatorListAssignType = null;
+		isDesignatorListAssign = false;
+	}
+	
+	public void visit(SingleDesignatorList desList) {
+		currentDesignatorListAssignType = desList.getDesignator().obj.getType();
+		isDesignatorListAssign = true;
+	}
+
+	public void visit(DesignatorExists desList) {
+		if (currentDesignatorListAssignType != desList.getDesignator().obj.getType()) {
+			report_semantic_error("type of " + desList.getDesignator().obj.getName() + " inside list is incompatible", desList);
+			isDesignatorListAssign = false;
+		}
 	}
 	
 	public void visit(ActParsListWithComa actpars) {
