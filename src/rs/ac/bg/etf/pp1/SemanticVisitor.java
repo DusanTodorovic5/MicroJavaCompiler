@@ -2,6 +2,8 @@ package rs.ac.bg.etf.pp1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 import rs.ac.bg.etf.pp1.ast.*;
@@ -38,15 +40,20 @@ public class SemanticVisitor extends VisitorAdaptor {
 	boolean currentMethodFormalParameters = false;
 	
 	HashMap<String, MethodStruct> definedMethods = new HashMap<String, MethodStruct>();
-	
+	Set<String> constants = new TreeSet<String>();
 	String currentFunctionCall = null;
 	ArrayList<Struct> currentFunctionArgument = new ArrayList<Struct>();
 	
 	boolean isArray = false;
 	int isInLoop = 0;
+	int isInForEachLoop = 0;
 	RelativeOperation currentRelativeOperation = null;
 	
 	Logger log = Logger.getLogger(getClass());
+	
+	SemanticVisitor() {
+		Tab.currentScope.addToLocals(new Obj(Obj.Type, "bool", TabExtension.boolType));
+	}
 	
 	public void report_error(String message, SyntaxNode info) {
 		errorDetected = true;
@@ -95,7 +102,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 	public void visit(Type type) {
 		Obj typeNode = Tab.find(type.getTypeName());
 		if (typeNode == Tab.noObj) {
-			report_semantic_error("type " + type.getTypeName() + " not found in STable", null);
+			report_semantic_error("type " + type.getTypeName() + " not found in symbol table", null);
 			type.struct = Tab.noType;
 		} else {
 			if (Obj.Type == typeNode.getKind()) {
@@ -126,6 +133,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 			return;
 		}
 		
+		constants.add(constDecl.getConstName());
 		obj = Tab.insert(Obj.Con, constDecl.getConstName(), Tab.intType);
 		obj.setAdr(constDecl.getConstValue());
 		currentMethodVarCount++;
@@ -144,6 +152,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 			return;
 		}
 		
+		constants.add(constDecl.getConstName());
 		obj = Tab.insert(Obj.Con, constDecl.getConstName(), Tab.charType);
 		obj.setAdr(constDecl.getConstValue());
 		currentMethodVarCount++;
@@ -162,6 +171,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 			return;
 		}
 		
+		constants.add(constDecl.getConstName());
 		obj = Tab.insert(Obj.Con, constDecl.getConstName(), TabExtension.boolType);
 		obj.setAdr(constDecl.getConstValue() ? 1 : 0);
 		currentMethodVarCount++;
@@ -193,8 +203,8 @@ public class SemanticVisitor extends VisitorAdaptor {
 	}
 	
 	public void visit(MethodWithType methodType) {
-		methodType.struct = currentType;
-		currentMethodReturnType = currentType;
+		methodType.struct = methodType.getType().struct;
+		currentMethodReturnType = methodType.getType().struct;
 		Obj obj = Tab.currentScope().findSymbol(methodType.getMethodName());
 		if (obj != null) {
 			report_semantic_error("method with name " + methodType.getMethodName() + " already declared", methodType);
@@ -214,6 +224,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 			hasMainMethod = true;
 		}
 	}
+
 	
 	public void visit(MethodWithNoType methodType) {
 		methodType.struct = Tab.noType;
@@ -251,7 +262,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 			report_semantic_error("non-void function " + currentMethodStr + " must return value", null);
 		}
 		
-		report_info("method: " + currentMethodStr + " defined with " + currentMethodVarCount + " and " + currentMethodParamCount, null);
+		report_info("method: " + currentMethodStr + " defined with " + currentMethodVarCount + " variables and " + currentMethodParamCount + " parameters", null);
 		
 		currentMethod = null;
 		currentMethodStr = null;
@@ -294,11 +305,29 @@ public class SemanticVisitor extends VisitorAdaptor {
 	}
 	
 	public void visit(ForEachStart forStart) {
-		isInLoop++;
+//		isInLoop++;
+		isInForEachLoop++;
 	}
 	
 	public void visit(ForeachStatement forEach) {
-		isInLoop--;
+//		isInLoop--;
+		isInForEachLoop--;
+		
+		if (forEach.getDesignator().obj.getType().getKind() != Struct.Array) {
+			report_semantic_error("Foreach designator has to be of type array", forEach);
+			return;
+		}
+		
+		Obj ident = Tab.find(forEach.getForeachName());
+		if (ident == null || ident.getKind() != Obj.Var) {
+			report_semantic_error("Ident " + forEach.getForeachName() + " is not defined", forEach);
+			return;
+		}
+		
+		if (ident.getType() != forEach.getDesignator().obj.getType().getElemType()) {
+			report_semantic_error("Ident must be of same type as elements of array", forEach);
+			return;
+		}
 	}
 	
 	public void visit(BreakStatement statement) {
@@ -323,7 +352,12 @@ public class SemanticVisitor extends VisitorAdaptor {
 		if (currentMethodReturnType == Tab.noType) {
 			report_semantic_error("non-void function " + currentMethodStr + " must return value", statement);
 		}
+		
 		currentMethodHasReturn = true;
+		if (currentMethodReturnType != statement.getExpr().struct) {
+			report_semantic_error("method must return the correct type", statement);
+			currentMethodReturnType = null;
+		}
 	}	
 	
 	public void visit(IdentDesignator designator) {
@@ -345,7 +379,6 @@ public class SemanticVisitor extends VisitorAdaptor {
 			report_semantic_error_on_line(designatorFunc.getLine() + ": "  + " not a function", null, designatorFunc.getLine());
 			return;
 		}
-		
 		
 		String name = designatorFunc.getDesignatorFuncCall().getDesignator().obj.getName();
 		
@@ -379,6 +412,11 @@ public class SemanticVisitor extends VisitorAdaptor {
 	}
 	
 	public void visit(DesignatorIncrement designatorStm) {
+		if (isInForEachLoop > 0) {
+			report_semantic_error("Cannot assign values inside foreach loop", designatorStm);
+			return;
+		}
+		
 		if (designatorStm.getDesignator().obj.getType() != Tab.intType) {
 			report_semantic_error("cannot increment non integer type", designatorStm);
 		}
@@ -387,6 +425,11 @@ public class SemanticVisitor extends VisitorAdaptor {
 	}
 
 	public void visit(DesignatorDecrement designatorStm) {
+		if (isInForEachLoop > 0) {
+			report_semantic_error("Cannot assign values inside foreach loop", designatorStm);
+			return;
+		}
+		
 		if (designatorStm.getDesignator().obj.getType() != Tab.intType) {
 			report_semantic_error("cannot decrement non integer type", designatorStm);
 		}
@@ -395,8 +438,34 @@ public class SemanticVisitor extends VisitorAdaptor {
 	}
 	
 	public void visit(DesignatorAssign assignOp) {
-		if (assignOp.getDesignator().obj.getType() != assignOp.getExpr().struct) {
-			report_semantic_error("left value's of assign operator different from right side", assignOp);
+		if (isInForEachLoop > 0) {
+			report_semantic_error("Cannot assign values inside foreach loop", assignOp);
+			return;
+		}
+		
+		if (assignOp.getDesignator().obj == null) {
+			report_semantic_error(assignOp.getDesignator().obj.getName() + " is not defined", assignOp);
+			return;
+		}
+		
+		if (constants.contains(assignOp.getDesignator().obj.getName())) {
+			report_semantic_error("Cannot assign value to constant field " + assignOp.getDesignator().obj.getName(), assignOp);
+			return;
+		}
+		
+		if (assignOp.getDesignator().obj.getKind() == Struct.Array) {
+			if (assignOp.getExpr().struct.getKind() != Struct.Array) {
+				report_semantic_error("right side operator must be array", assignOp);
+				return;
+			}
+			
+			if (assignOp.getDesignator().obj.getType().getElemType() != assignOp.getExpr().struct) {
+				report_semantic_error("type left of assign operator different from right", assignOp);
+			}
+		} else {
+			if (assignOp.getDesignator().obj.getType() != assignOp.getExpr().struct) {
+				report_semantic_error("type left of assign operator different from right", assignOp);
+			}
 		}
 	}
 	
@@ -420,21 +489,24 @@ public class SemanticVisitor extends VisitorAdaptor {
 	
 	public void visit(ConditionWithOp condition) {
 		if (condition.getExpr().struct != condition.getExpr1().struct) {
-			report_semantic_error("condition must be of type bool", condition);
+			report_semantic_error("types in condition must be compatible types!", condition);
 			return;
-		}
+		}		
 		
-		if (currentRelativeOperation == RelativeOperation.EQUALS || currentRelativeOperation == RelativeOperation.NOTEQUALS) {
+		if ((currentRelativeOperation == RelativeOperation.EQUALS || 
+			currentRelativeOperation == RelativeOperation.NOTEQUALS) &&
+			(condition.getExpr().struct.getKind() == Struct.Array || condition.getExpr().struct.getKind() == Struct.Class)) {
 			currentRelativeOperation = null;
+			report_semantic_error("such relative operation cannot be used on type array or class", condition);
 			return;
 		}
 		
-		if (condition.getExpr().struct == TabExtension.boolType) {
-			report_semantic_error("Relative operation cannot be used on variable of type bool", condition);
-			return;
-		}
+		// if (condition.getExpr().struct == TabExtension.boolType) {
+		// 	report_semantic_error("relative operation cannot be used on variable of type bool", condition);
+		// 	return;
+		// }
 		
-		currentRelativeOperation = null;
+		// currentRelativeOperation = null;
 	}
 	
 	public void visit(FactorDesignator factor) {
@@ -475,6 +547,20 @@ public class SemanticVisitor extends VisitorAdaptor {
 		currentFunctionArgument = new ArrayList<Struct>();
 	}
 	
+	public void visit(ArrayDesignator designator) {
+		if (designator.getExpr().struct != Tab.intType) {
+			report_semantic_error("Expresion inside [] must be of type integer", designator);
+			return;
+		}
+		
+		if (designator.getDesignator().obj.getType().getKind() != Struct.Array) {
+			report_semantic_error("Designator" + designator.getDesignator().obj.getName() + "must be array", designator);
+			return;
+		}
+		
+		designator.obj = new Obj(Obj.Elem, designator.getDesignator().obj.getName(), designator.getDesignator().obj.getType().getElemType());
+	}
+	
 	public void visit(FactorNumber factor) {
 		factor.struct = Tab.intType;
 	}
@@ -492,7 +578,10 @@ public class SemanticVisitor extends VisitorAdaptor {
 	}
 	
 	public void visit(FactorNewArray factor) {
-		
+		if (factor.getExpr().struct != Tab.intType) {
+			report_semantic_error("Expression must be of type int", factor);
+		}
+		factor.struct = new Struct(Struct.Array, factor.getType().struct);
 	}
 	
 	public void visit(FactorExpr factor) {
