@@ -85,6 +85,24 @@ public class CodeGenerator extends VisitorAdaptor {
 		}
 	}
 	
+	public void visit(PrintNumberStatement printStmt) {
+		Code.loadConst(printStmt.getN1());
+		
+		if (printStmt.getExpr().struct == Tab.intType || printStmt.getExpr().struct == TabExtension.boolType) {
+			Code.loadConst(5);
+			Code.put(Code.print);
+		} else if (printStmt.getExpr().struct == Tab.charType) {
+			Code.loadConst(1);
+			Code.put(Code.bprint);
+		}
+	}
+	
+	public void visit(ReadStatement readStmt) {
+		Code.put(readStmt.getDesignator().obj.getType() == Tab.charType ?
+			Code.bread : Code.read);
+		Code.store(readStmt.getDesignator().obj);
+	}
+	
 	public void visit(FactorNumber fact) {
 		Obj con = Tab.insert(Obj.Con, "$", fact.struct);
 		
@@ -109,6 +127,10 @@ public class CodeGenerator extends VisitorAdaptor {
 		Code.load(con);
 	}
 	
+	public void visit(FactorNewArray fact) {
+		Code.put(Code.newarray);
+	}
+	
 	public void visit(FactorDesignator fact) {
 		
 	}
@@ -120,5 +142,53 @@ public class CodeGenerator extends VisitorAdaptor {
 		Code.put(Code.call);
 		Code.put2(offset);
 		
+	}
+	
+	public void visit(DesignatorIncrement designator) {
+		Obj obj = designator.getDesignator().obj;
+		
+		if (obj.getKind() == Obj.Elem) {
+			Code.put(Code.dup2);
+		}
+		
+		Code.load(obj);
+		
+		Code.loadConst(1);
+		Code.put(Code.add);
+		
+		Code.store(obj);
+	}
+	
+	public void visit(DesignatorDecrement designator) {
+		Obj obj = designator.getDesignator().obj;
+		
+		if (obj.getKind() == Obj.Elem) {
+			Code.put(Code.dup2);
+		}
+		
+		Code.load(obj);
+		
+		Code.loadConst(1);
+		Code.put(Code.sub);
+		
+		Code.store(obj);
+	}
+	
+	public void visit(NegativeExpr expr) {
+		Code.put(Code.neg);
+	}
+	
+	public void visit(AddopExpr expr) {
+		Code.put((expr.getAddop() instanceof Plus) ? Code.add : Code.sub);
+	}
+	
+	public void visit(MulTerm term) {
+		if (term.getMulop() instanceof Mul) {
+			Code.put(Code.mul);
+		} else if (term.getMulop() instanceof Div) {
+			Code.put(Code.div);
+		} else if (term.getMulop() instanceof Percent){
+			Code.put(Code.rem);
+		}
 	}
 } 

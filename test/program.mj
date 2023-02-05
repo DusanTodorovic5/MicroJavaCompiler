@@ -9,12 +9,17 @@ program MJProgram
 	
 	void main() {
 		x = 3;
+		read(y);
 		print(1);
 		print("a");
 		print(2);
 		print(true);
 		print(x);
-		x = 6;
+		x++;
 		print(x);
+		x--;
+		print(x);
+		y = - x * (- y);
+		print(y);
 	}
 }
