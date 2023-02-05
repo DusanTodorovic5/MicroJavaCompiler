@@ -15,7 +15,6 @@ program MJProgram
 		read(x);
 		y = k(x) + 3;
 		
-		// [1,2,3,4,5] = yy;
 		
 		yy[x-y]--;
 		yy[1]++;

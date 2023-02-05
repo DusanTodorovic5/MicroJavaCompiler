@@ -1,25 +1,25 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/1/2023 23:30:27
+// 5/1/2023 0:9:12
 
 
 package rs.ac.bg.etf.pp1.ast;
 
 public class SingleDesignatorList extends NonEmptyDesignatorList {
 
-    private Designator Designator;
+    private EpsilonDesignator EpsilonDesignator;
 
-    public SingleDesignatorList (Designator Designator) {
-        this.Designator=Designator;
-        if(Designator!=null) Designator.setParent(this);
+    public SingleDesignatorList (EpsilonDesignator EpsilonDesignator) {
+        this.EpsilonDesignator=EpsilonDesignator;
+        if(EpsilonDesignator!=null) EpsilonDesignator.setParent(this);
     }
 
-    public Designator getDesignator() {
-        return Designator;
+    public EpsilonDesignator getEpsilonDesignator() {
+        return EpsilonDesignator;
     }
 
-    public void setDesignator(Designator Designator) {
-        this.Designator=Designator;
+    public void setEpsilonDesignator(EpsilonDesignator EpsilonDesignator) {
+        this.EpsilonDesignator=EpsilonDesignator;
     }
 
     public void accept(Visitor visitor) {
@@ -27,16 +27,16 @@ public class SingleDesignatorList extends NonEmptyDesignatorList {
     }
 
     public void childrenAccept(Visitor visitor) {
-        if(Designator!=null) Designator.accept(visitor);
+        if(EpsilonDesignator!=null) EpsilonDesignator.accept(visitor);
     }
 
     public void traverseTopDown(Visitor visitor) {
         accept(visitor);
-        if(Designator!=null) Designator.traverseTopDown(visitor);
+        if(EpsilonDesignator!=null) EpsilonDesignator.traverseTopDown(visitor);
     }
 
     public void traverseBottomUp(Visitor visitor) {
-        if(Designator!=null) Designator.traverseBottomUp(visitor);
+        if(EpsilonDesignator!=null) EpsilonDesignator.traverseBottomUp(visitor);
         accept(visitor);
     }
 
@@ -45,8 +45,8 @@ public class SingleDesignatorList extends NonEmptyDesignatorList {
         buffer.append(tab);
         buffer.append("SingleDesignatorList(\n");
 
-        if(Designator!=null)
-            buffer.append(Designator.toString("  "+tab));
+        if(EpsilonDesignator!=null)
+            buffer.append(EpsilonDesignator.toString("  "+tab));
         else
             buffer.append(tab+"  null");
         buffer.append("\n");

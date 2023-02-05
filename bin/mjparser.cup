@@ -168,12 +168,12 @@ Statement ::= (DesignatorStatementState) DesignatorStatement |
 				(ReadStatement) READ OPENBRACKET Designator CLOSEBRACKET SEMICOLON |
 				(PrintStatement) PRINT OPENBRACKET Expr:e CLOSEBRACKET SEMICOLON |
 				(PrintNumberStatement) PRINT OPENBRACKET Expr:e COMA NUMBER CLOSEBRACKET SEMICOLON |
-				(ForeachStatement) Designator FULLSTOP ForEachStart:fes IDENT:foreachName ARROW Statement CLOSEBRACKET SEMICOLON |
+				(ForeachStatement) Designator FULLSTOP ForEachStart:fes ARROW Statement CLOSEBRACKET SEMICOLON |
 				(BlockStatement) OPENPAR StatementList CLOSEPAR;
 
 WhileStart ::= (WhileStart) WHILE OPENBRACKET;
 
-ForEachStart ::= (ForEachStart) FOREACH OPENBRACKET;
+ForEachStart ::= (ForEachStart) FOREACH OPENBRACKET IDENT:foreachName;
 				
 IfCondition ::= (IfConditionStatement) Condition CLOSEBRACKET |
 				(ErrorIfConditionStatement) error CLOSEBRACKET:l
@@ -192,11 +192,10 @@ DesignatorStatement ::= (DesignatorStatementAssignOp) AssignOpExpression |
 DesignatorFuncCall ::= (DesignatorFuncCall) Designator:funcDes OPENBRACKET;
 						
 						
-DesignatorList ::= (DesignatorListNonEmpty) NonEmptyDesignatorList | 
-					(EmptyDesignatorList) /* epsilon */;						
+DesignatorList ::= (DesignatorListNonEmpty) NonEmptyDesignatorList;						
 						
 NonEmptyDesignatorList ::= (NonEmptyDesignatorListWithComa) NonEmptyDesignatorList COMA EpsilonDesignator | 
-							(SingleDesignatorList) Designator;
+							(SingleDesignatorList) EpsilonDesignator;
 
 EpsilonDesignator ::= (DesignatorExists) Designator |
 					(DesignatorDoesntExist) /* epsilon */;

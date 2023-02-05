@@ -3,6 +3,7 @@ package rs.ac.bg.etf.pp1;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Stack;
 import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
@@ -47,15 +48,32 @@ public class SemanticVisitor extends VisitorAdaptor {
 	boolean isArray = false;
 	int isInLoop = 0;
 	int isInForEachLoop = 0;
+	Stack<String> forEachLoopVars = new Stack<String>();
 	RelativeOperation currentRelativeOperation = null;
 	
 	Logger log = Logger.getLogger(getClass());
 	
 	boolean isDesignatorListAssign = false;
+	boolean inDesignatorList = false;
 	Struct currentDesignatorListAssignType = null;
 	
 	SemanticVisitor() {
 		Tab.currentScope.addToLocals(new Obj(Obj.Type, "bool", TabExtension.boolType));
+		
+		Tab.insert(Obj.Meth, "ord", Tab.charType);		
+		Tab.insert(Obj.Meth,"len", Tab.intType);
+		Tab.insert(Obj.Meth, "chr", Tab.intType);
+		
+		definedMethods.put("ord", new MethodStruct());
+		definedMethods.put("len", new MethodStruct());
+		definedMethods.put("chr", new MethodStruct());
+		
+		definedMethods.get("ord").argumentNumber++;
+		definedMethods.get("len").argumentNumber++;
+		definedMethods.get("chr").argumentNumber++;		
+
+		definedMethods.get("ord").argumentTypes.add(Tab.charType);
+		definedMethods.get("chr").argumentTypes.add(Tab.intType);
 	}
 	
 	public void report_error(String message, SyntaxNode info) {
@@ -310,20 +328,22 @@ public class SemanticVisitor extends VisitorAdaptor {
 	public void visit(ForEachStart forStart) {
 //		isInLoop++;
 		isInForEachLoop++;
+		forEachLoopVars.push(forStart.getForeachName());
 	}
 	
 	public void visit(ForeachStatement forEach) {
 //		isInLoop--;
 		isInForEachLoop--;
+		String forEachName = forEachLoopVars.pop();
 		
 		if (forEach.getDesignator().obj.getType().getKind() != Struct.Array) {
 			report_semantic_error("Foreach designator has to be of type array", forEach);
 			return;
 		}
 		
-		Obj ident = Tab.find(forEach.getForeachName());
+		Obj ident = Tab.find(forEachName);
 		if (ident == null || ident.getKind() != Obj.Var) {
-			report_semantic_error("Ident " + forEach.getForeachName() + " is not defined", forEach);
+			report_semantic_error("Ident " + forEachName + " is not defined", forEach);
 			return;
 		}
 		
@@ -385,6 +405,24 @@ public class SemanticVisitor extends VisitorAdaptor {
 		
 		String name = designatorFunc.getDesignatorFuncCall().getDesignator().obj.getName();
 		
+		if (name.equals("len")) {
+			if (currentFunctionArgument.size() > 1) {
+				report_semantic_error("Too many arguments in function call " + name, designatorFunc);
+				return;
+			}
+			
+			if (currentFunctionArgument.size() < 1) {
+				report_semantic_error("Too few arguments in function call " + name, designatorFunc);
+				return;
+			}
+			
+			if (currentFunctionArgument.get(0).getKind() != Struct.Array) {
+				report_semantic_error("len function only accepts array as argument", designatorFunc);
+				return;
+			}
+			return;
+		}
+		
 		if (currentFunctionArgument.size() < definedMethods.get(name).argumentTypes.size()) {
 			report_semantic_error("Too few arguments in function call " + name, designatorFunc);
 			return;
@@ -416,17 +454,23 @@ public class SemanticVisitor extends VisitorAdaptor {
 	
 	
 	public void visit(DesignatorIncrement designatorStm) {
-		if (isInForEachLoop > 0) {
+		if (isInForEachLoop > 0 && forEachLoopVars.contains(designatorStm.getDesignator().obj.getName())) {
 			report_semantic_error("Cannot assign values inside foreach loop", designatorStm);
 			return;
 		}
 		
-		if (designatorStm.getDesignator().obj.getType() != Tab.intType) {
-			report_semantic_error("cannot increment non integer type", designatorStm);
-		}
-		
 		if (designatorStm.getDesignator().obj.getKind() == Obj.Meth) {
 			report_semantic_error("Cannot assign value to method " + designatorStm.getDesignator().obj.getName(), designatorStm);
+			return;
+		}
+		
+		if (designatorStm.getDesignator().obj.getKind() == Obj.Con) {
+			report_semantic_error("Cannot assign value to constant " + designatorStm.getDesignator().obj.getName(), designatorStm);
+			return;
+		}
+
+		if (designatorStm.getDesignator().obj.getType() != Tab.intType) {
+			report_semantic_error("cannot increment non integer type", designatorStm);
 			return;
 		}
 		
@@ -439,7 +483,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 	}
 
 	public void visit(DesignatorDecrement designatorStm) {
-		if (isInForEachLoop > 0) {
+		if (isInForEachLoop > 0 && forEachLoopVars.contains(designatorStm.getDesignator().obj.getName())) {
 			report_semantic_error("Cannot assign values inside foreach loop", designatorStm);
 			return;
 		}
@@ -454,6 +498,11 @@ public class SemanticVisitor extends VisitorAdaptor {
 			return;
 		}
 		
+		if (designatorStm.getDesignator().obj.getKind() == Obj.Con) {
+			report_semantic_error("Cannot assign value to constant " + designatorStm.getDesignator().obj.getName(), designatorStm);
+			return;
+		}
+		
 		if (designatorStm.getDesignator().obj.getType() != Tab.intType) {
 			report_semantic_error("cannot decrement non integer type", designatorStm);
 		}
@@ -462,7 +511,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 	}
 	
 	public void visit(DesignatorAssign assignOp) {
-		if (isInForEachLoop > 0) {
+		if (isInForEachLoop > 0 && forEachLoopVars.contains(assignOp.getDesignator().obj.getName())) {
 			report_semantic_error("Cannot assign values inside foreach loop", assignOp);
 			return;
 		}
@@ -482,7 +531,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 			return;
 		}
 		
-		if (constants.contains(assignOp.getDesignator().obj.getName())) {
+		if (assignOp.getDesignator().obj.getKind() == Obj.Con) {
 			report_semantic_error("Cannot assign value to constant field " + assignOp.getDesignator().obj.getName(), assignOp);
 			return;
 		}
@@ -520,14 +569,20 @@ public class SemanticVisitor extends VisitorAdaptor {
 		
 		currentDesignatorListAssignType = null;
 		isDesignatorListAssign = false;
+		inDesignatorList = false;
 	}
 	
 	public void visit(SingleDesignatorList desList) {
-		currentDesignatorListAssignType = desList.getDesignator().obj.getType();
+//		currentDesignatorListAssignType = desList.getDesignator().obj.getType();
 		isDesignatorListAssign = true;
 	}
 
 	public void visit(DesignatorExists desList) {
+		if (inDesignatorList == false) {
+			currentDesignatorListAssignType = desList.getDesignator().obj.getType();
+		}
+		
+		inDesignatorList = true;
 		if (currentDesignatorListAssignType != desList.getDesignator().obj.getType()) {
 			report_semantic_error("type of " + desList.getDesignator().obj.getName() + " inside list is incompatible", desList);
 			isDesignatorListAssign = false;
@@ -588,6 +643,11 @@ public class SemanticVisitor extends VisitorAdaptor {
 		
 		String name = factor.getDesignatorFuncCall().getDesignator().obj.getName();
 		
+		if (definedMethods.get(name) == null) {
+			report_semantic_error("Method with name " + name + " not declared", factor);
+			return;
+		}
+		
 		if (currentFunctionArgument.size() < definedMethods.get(name).argumentTypes.size()) {
 			report_semantic_error("Too few arguments in function call " + name, factor);
 			return;
@@ -600,7 +660,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 		
 		for (int i=0;i<currentFunctionArgument.size();i++) {
 			if (currentFunctionArgument.get(i) != definedMethods.get(name).argumentTypes.get(i)) {
-				report_semantic_error("Incorect type on argument on position " + (i+1) + " in function call "+ name, factor);
+				report_semantic_error("Incorect type of argument on position " + (i+1) + " in function call "+ name, factor);
 			}
 		}
 		

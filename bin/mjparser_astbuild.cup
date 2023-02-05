@@ -199,12 +199,12 @@ Statement ::= (DesignatorStatementState) DesignatorStatement:D1 {: RESULT=new De
 				(ReadStatement) READ OPENBRACKET Designator:D1 CLOSEBRACKET SEMICOLON {: RESULT=new ReadStatement(D1); RESULT.setLine(D1left); :} |
 				(PrintStatement) PRINT OPENBRACKET Expr:e CLOSEBRACKET SEMICOLON {: RESULT=new PrintStatement(e); RESULT.setLine(eleft); :} |
 				(PrintNumberStatement) PRINT OPENBRACKET Expr:e COMA NUMBER:N1 CLOSEBRACKET SEMICOLON {: RESULT=new PrintNumberStatement(e, N1); RESULT.setLine(eleft); :} |
-				(ForeachStatement) Designator:D1 FULLSTOP ForEachStart:fes IDENT:foreachName ARROW Statement:S2 CLOSEBRACKET SEMICOLON {: RESULT=new ForeachStatement(D1, fes, foreachName, S2); RESULT.setLine(D1left); :} |
+				(ForeachStatement) Designator:D1 FULLSTOP ForEachStart:fes ARROW Statement:S2 CLOSEBRACKET SEMICOLON {: RESULT=new ForeachStatement(D1, fes, S2); RESULT.setLine(D1left); :} |
 				(BlockStatement) OPENPAR StatementList:S1 CLOSEPAR {: RESULT=new BlockStatement(S1); RESULT.setLine(S1left); :};
 
 WhileStart ::= (WhileStart) WHILE OPENBRACKET {: RESULT=new WhileStart(); :};
 
-ForEachStart ::= (ForEachStart) FOREACH OPENBRACKET {: RESULT=new ForEachStart(); :};
+ForEachStart ::= (ForEachStart) FOREACH OPENBRACKET IDENT:foreachName {: RESULT=new ForEachStart(foreachName); RESULT.setLine(foreachNameleft); :};
 				
 IfCondition ::= (IfConditionStatement) Condition:C1 CLOSEBRACKET {: RESULT=new IfConditionStatement(C1); RESULT.setLine(C1left); :} |
 				(ErrorIfConditionStatement) error CLOSEBRACKET:l
@@ -223,11 +223,10 @@ DesignatorStatement ::= (DesignatorStatementAssignOp) AssignOpExpression:A1 {: R
 DesignatorFuncCall ::= (DesignatorFuncCall) Designator:funcDes OPENBRACKET {: RESULT=new DesignatorFuncCall(funcDes); RESULT.setLine(funcDesleft); :};
 						
 						
-DesignatorList ::= (DesignatorListNonEmpty) NonEmptyDesignatorList:N1 {: RESULT=new DesignatorListNonEmpty(N1); RESULT.setLine(N1left); :} | 
-					(EmptyDesignatorList) {: RESULT=new EmptyDesignatorList(); :} /* epsilon */;						
+DesignatorList ::= (DesignatorListNonEmpty) NonEmptyDesignatorList:N1 {: RESULT=new DesignatorListNonEmpty(N1); RESULT.setLine(N1left); :};						
 						
 NonEmptyDesignatorList ::= (NonEmptyDesignatorListWithComa) NonEmptyDesignatorList:N1 COMA EpsilonDesignator:E2 {: RESULT=new NonEmptyDesignatorListWithComa(N1, E2); RESULT.setLine(N1left); :} | 
-							(SingleDesignatorList) Designator:D1 {: RESULT=new SingleDesignatorList(D1); RESULT.setLine(D1left); :};
+							(SingleDesignatorList) EpsilonDesignator:E1 {: RESULT=new SingleDesignatorList(E1); RESULT.setLine(E1left); :};
 
 EpsilonDesignator ::= (DesignatorExists) Designator:D1 {: RESULT=new DesignatorExists(D1); RESULT.setLine(D1left); :} |
 					(DesignatorDoesntExist) {: RESULT=new DesignatorDoesntExist(); :} /* epsilon */;

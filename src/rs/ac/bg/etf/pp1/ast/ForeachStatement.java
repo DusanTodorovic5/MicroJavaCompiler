@@ -1,6 +1,6 @@
 // generated with ast extension for cup
 // version 0.8
-// 4/1/2023 23:30:27
+// 5/1/2023 0:9:12
 
 
 package rs.ac.bg.etf.pp1.ast;
@@ -9,15 +9,13 @@ public class ForeachStatement extends Statement {
 
     private Designator Designator;
     private ForEachStart ForEachStart;
-    private String foreachName;
     private Statement Statement;
 
-    public ForeachStatement (Designator Designator, ForEachStart ForEachStart, String foreachName, Statement Statement) {
+    public ForeachStatement (Designator Designator, ForEachStart ForEachStart, Statement Statement) {
         this.Designator=Designator;
         if(Designator!=null) Designator.setParent(this);
         this.ForEachStart=ForEachStart;
         if(ForEachStart!=null) ForEachStart.setParent(this);
-        this.foreachName=foreachName;
         this.Statement=Statement;
         if(Statement!=null) Statement.setParent(this);
     }
@@ -36,14 +34,6 @@ public class ForeachStatement extends Statement {
 
     public void setForEachStart(ForEachStart ForEachStart) {
         this.ForEachStart=ForEachStart;
-    }
-
-    public String getForeachName() {
-        return foreachName;
-    }
-
-    public void setForeachName(String foreachName) {
-        this.foreachName=foreachName;
     }
 
     public Statement getStatement() {
@@ -93,9 +83,6 @@ public class ForeachStatement extends Statement {
             buffer.append(ForEachStart.toString("  "+tab));
         else
             buffer.append(tab+"  null");
-        buffer.append("\n");
-
-        buffer.append(" "+tab+foreachName);
         buffer.append("\n");
 
         if(Statement!=null)
