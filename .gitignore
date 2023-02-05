@@ -1,4 +1,6 @@
 *.class
 *.log.*
+*.log
+*.obj
 /bin/
 src/rs/ac/bg/etf/pp1/ast/
