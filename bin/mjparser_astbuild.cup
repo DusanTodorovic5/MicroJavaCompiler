@@ -84,11 +84,15 @@ nonterminal
 nonterminal Condition Condition;
 nonterminal CondTerm CondTerm;
 nonterminal EpsilonDesignator EpsilonDesignator;
-nonterminal 
+nonterminal EndOfIfStatement EndOfIfStatement;
+nonterminal
 	Label Label;
 nonterminal Assignop Assignop;
 nonterminal Addop Addop;
 nonterminal Mulop Mulop;
+nonterminal IfStartStmt IfStartStmt;
+nonterminal IfEndStmt IfEndStmt;
+nonterminal OrEnd OrEnd;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj Program, ProgName, FormParsDecl, Statement, 
 												MethodDecl, Designator, ConstDecls, VarBrackets, VarName, 
@@ -189,8 +193,8 @@ StatementList ::= (StatementListWithStatement) StatementList:S1 Statement:S2 {: 
 				(EmptyStatementList) {: RESULT=new EmptyStatementList(); :} /* epsilon */;
 
 Statement ::= (DesignatorStatementState) DesignatorStatement:D1 {: RESULT=new DesignatorStatementState(D1); RESULT.setLine(D1left); :} |
-				(IfStatement) IF OPENBRACKET IfCondition:I1 Statement:S2 {: RESULT=new IfStatement(I1, S2); RESULT.setLine(I1left); :} |
-				(IfElseStatement) IF OPENBRACKET IfCondition:I1 Statement:S2 ELSE Statement:stm {: RESULT=new IfElseStatement(I1, S2, stm); RESULT.setLine(I1left); :} |
+				(IfStatement) IfStartStmt:I1 IfCondition:I2 IfEndStmt:I3 Statement:S4 EndOfIfStatement:E5 {: RESULT=new IfStatement(I1, I2, I3, S4, E5); RESULT.setLine(I1left); :} |
+				(IfElseStatement) IfStartStmt:I1 IfCondition:I2 IfEndStmt:I3 Statement:S4 EndOfIfStatement:E5 ELSE Statement:stm {: RESULT=new IfElseStatement(I1, I2, I3, S4, E5, stm); RESULT.setLine(I1left); :} |
 				(WhileStatement) WhileStart:ws Condition:C1 CLOSEBRACKET Statement:stm {: RESULT=new WhileStatement(ws, C1, stm); RESULT.setLine(wsleft); :} |
 				(BreakStatement) BREAK SEMICOLON {: RESULT=new BreakStatement(); :} |
 				(ContinueStatement) CONTINUE SEMICOLON {: RESULT=new ContinueStatement(); :} |
@@ -201,6 +205,10 @@ Statement ::= (DesignatorStatementState) DesignatorStatement:D1 {: RESULT=new De
 				(PrintNumberStatement) PRINT OPENBRACKET Expr:e COMA NUMBER:N1 CLOSEBRACKET SEMICOLON {: RESULT=new PrintNumberStatement(e, N1); RESULT.setLine(eleft); :} |
 				(ForeachStatement) Designator:D1 FULLSTOP ForEachStart:fes ARROW Statement:S2 CLOSEBRACKET SEMICOLON {: RESULT=new ForeachStatement(D1, fes, S2); RESULT.setLine(D1left); :} |
 				(BlockStatement) OPENPAR StatementList:S1 CLOSEPAR {: RESULT=new BlockStatement(S1); RESULT.setLine(S1left); :};
+
+EndOfIfStatement ::= (EndOfIfStatement) {: RESULT=new EndOfIfStatement(); :} /* epsilon */;
+IfStartStmt ::= (IfStartStmt) IF OPENBRACKET {: RESULT=new IfStartStmt(); :};
+IfEndStmt ::= (IfEndStmt) {: RESULT=new IfEndStmt(); :} /* epsilon */;
 
 WhileStart ::= (WhileStart) WHILE OPENBRACKET {: RESULT=new WhileStart(); :};
 
@@ -237,10 +245,12 @@ ActPars ::= (ActParsWithList) ActParsList:A1 {: RESULT=new ActParsWithList(A1); 
 ActParsList ::= (ActParsListWithComa) ActParsList:A1 COMA Expr:e {: RESULT=new ActParsListWithComa(A1, e); RESULT.setLine(A1left); :} | 
 				(SingleActParsList) Expr:e {: RESULT=new SingleActParsList(e); RESULT.setLine(eleft); :};
 
-Condition ::= (ConditionOR) Condition:C1 OROR CondTerm:C2 {: RESULT=new ConditionOR(C1, C2); RESULT.setLine(C1left); :} | 
+Condition ::= (ConditionOR) Condition:C1 OrEnd:O2 OROR CondTerm:C3 {: RESULT=new ConditionOR(C1, O2, C3); RESULT.setLine(C1left); :} | 
 				error CLOSEBRACKET:l
 				{: parser.report_error("Recovery done on ) line " + lleft, null); :} {: RESULT=new ConditionDerived1(); :} |
 			(JustCondition) CondTerm:C1 {: RESULT=new JustCondition(C1); RESULT.setLine(C1left); :};
+
+OrEnd ::= (OrEnd) {: RESULT=new OrEnd(); :} /* epsilon */;
 
 CondTerm ::= (ConditionAnd) CondTerm:C1 ANDAND CondFact:C2 {: RESULT=new ConditionAnd(C1, C2); RESULT.setLine(C1left); :} | 
 				(JustCondTerm) CondFact:C1 {: RESULT=new JustCondTerm(C1); RESULT.setLine(C1left); :};

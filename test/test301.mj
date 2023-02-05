@@ -38,7 +38,7 @@ program test301
 		
 		[,a,] = niz;
 		print(a);	// niz[1] -> 2
-
+		print(" ");
 		niz2 = new int[2];
 		[niz2[0],,niz2[niz[nula]]] = niz;
 

@@ -2,24 +2,13 @@ program MJProgram
 	int x; 
 	int y;
 {
-	int k (int t) int c; {
-		c = 1;
-		return t - c;
-	}
-	
+
 	void main() {
 		x = 3;
-		read(y);
-		print(1);
-		print("a");
-		print(2);
-		print(true);
-		print(x);
-		x++;
-		print(x);
-		x--;
-		print(x);
-		y = - x * (- y);
-		print(y);
+		y = 4;
+		
+		if (x > 3) {
+			print("d");
+		}
 	}
 }

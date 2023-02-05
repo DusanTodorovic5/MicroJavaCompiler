@@ -413,29 +413,42 @@ public class SemanticVisitor extends VisitorAdaptor {
 		
 		if (name.equals("len")) {
 			if (currentFunctionArgument.size() > 1) {
-				report_semantic_error("Too many arguments in function call " + name, designatorFunc);
+				report_semantic_error("Too many arguments in function len", designatorFunc);
+				currentFunctionCall = null;
+				currentFunctionArgument = new ArrayList<Struct>();
 				return;
 			}
 			
 			if (currentFunctionArgument.size() < 1) {
-				report_semantic_error("Too few arguments in function call " + name, designatorFunc);
+				report_semantic_error("Too few arguments in function len", designatorFunc);
+				currentFunctionCall = null;
+				currentFunctionArgument = new ArrayList<Struct>();
 				return;
 			}
 			
 			if (currentFunctionArgument.get(0).getKind() != Struct.Array) {
 				report_semantic_error("len function only accepts array as argument", designatorFunc);
+				currentFunctionCall = null;
+				currentFunctionArgument = new ArrayList<Struct>();
 				return;
 			}
+			
+			currentFunctionCall = null;
+			currentFunctionArgument = new ArrayList<Struct>();
 			return;
 		}
 		
 		if (currentFunctionArgument.size() < definedMethods.get(name).argumentTypes.size()) {
 			report_semantic_error("Too few arguments in function call " + name, designatorFunc);
+			currentFunctionCall = null;
+			currentFunctionArgument = new ArrayList<Struct>();
 			return;
 		}
 		
 		if (currentFunctionArgument.size() > definedMethods.get(name).argumentTypes.size()) {
 			report_semantic_error("Too many arguments in function call " + name, designatorFunc);
+			currentFunctionCall = null;
+			currentFunctionArgument = new ArrayList<Struct>();
 			return;
 		}
 		
@@ -648,6 +661,32 @@ public class SemanticVisitor extends VisitorAdaptor {
 		Obj func = factor.getDesignatorFuncCall().getDesignator().obj;
 		
 		String name = factor.getDesignatorFuncCall().getDesignator().obj.getName();
+		if (name.equals("len")) {
+			if (currentFunctionArgument.size() > 1) {
+				report_semantic_error("Too many arguments in function len", factor);
+				currentFunctionCall = null;
+				currentFunctionArgument = new ArrayList<Struct>();
+				return;
+			}
+			
+			if (currentFunctionArgument.size() < 1) {
+				report_semantic_error("Too few arguments in function len", factor);
+				currentFunctionCall = null;
+				currentFunctionArgument = new ArrayList<Struct>();
+				return;
+			}
+			
+			if (currentFunctionArgument.get(0).getKind() != Struct.Array) {
+				report_semantic_error("len function only accepts array as argument", factor);
+				currentFunctionCall = null;
+				currentFunctionArgument = new ArrayList<Struct>();
+				return;
+			}
+			
+			currentFunctionCall = null;
+			currentFunctionArgument = new ArrayList<Struct>();
+			return;
+		}
 		
 		if (definedMethods.get(name) == null) {
 			report_semantic_error("Method with name " + name + " not declared", factor);
