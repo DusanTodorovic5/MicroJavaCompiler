@@ -92,10 +92,10 @@ nonterminal Mulop Mulop;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj Program, ProgName, FormParsDecl, Statement, 
 												MethodDecl, Designator, ConstDecls, VarBrackets, VarName, 
-												WhileStart, ForEachStart, Relop, CondFact, DesignatorFuncCall,
+												WhileStart, ForEachStart, MethodType, Relop, CondFact, DesignatorFuncCall,
 												ActParsList, AssignOpExpression;
 
-nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, MethodType, DesignatorStatement, Expr, Term, 
+nonterminal rs.etf.pp1.symboltable.concepts.Struct Type, DesignatorStatement, Expr, Term, 
 												Factor;
 
 precedence left ELSE;

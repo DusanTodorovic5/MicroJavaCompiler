@@ -14,6 +14,7 @@ import java_cup.runtime.Symbol;
 import rs.ac.bg.etf.pp1.ast.Program;
 import rs.ac.bg.etf.pp1.ast.SyntaxNode;
 import rs.ac.bg.etf.pp1.utils.Log4JUtils;
+import rs.etf.pp1.mj.runtime.Code;
 import rs.etf.pp1.symboltable.Tab;
 
 public class MJParserTest {
@@ -29,7 +30,7 @@ public class MJParserTest {
 		
 		Reader br = null;
 		try {
-			File sourceCode = new File("test/test302.mj");
+			File sourceCode = new File("test/program.mj");
 			log.info("Compiling source file: " + sourceCode.getAbsolutePath());
 			
 			br = new BufferedReader(new FileReader(sourceCode));
@@ -52,6 +53,24 @@ public class MJParserTest {
 			log.info("===================================");
 			Tab.dump();
 			
+			if (!p.errorDetected && v.passed()) {
+				log.info("Parsed succesfully.");
+				
+				File objFile = new File("test/program.obj");
+				if (objFile.exists()) objFile.delete();
+				
+				CodeGenerator codeGenerator = new CodeGenerator();
+				prog.traverseBottomUp(codeGenerator);
+				Code.dataSize = v.nVars;
+				Code.mainPc = codeGenerator.getPc();
+				
+				Code.write(new FileOutputStream(objFile));
+				
+				log.info("Compilation finished");
+				
+			} else {
+				log.error("Parsing failed with errors");
+			}
 		} 
 		finally {
 			if (br != null) try { br.close(); } catch (IOException e1) { log.error(e1.getMessage(), e1); }

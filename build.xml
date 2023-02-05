@@ -1,18 +1,20 @@
 <project name="MJCompiler" default="compile" basedir=".">
-	
+
 	<target name="delete">
 		<delete>
 			<fileset dir="src/rs/ac/bg/etf/pp1">
 				<exclude name="sym_old.java"/>
 				<exclude name="Yylex.java"/>
 				<exclude name="RuleVisitor.java"/>
+				<exclude name="CodeGenerator.java"/>
+				<exclude name="CounterVisitor.java"/>
 				<exclude name="TabExtension.java"/>
 				<exclude name="SemanticVisitor.java"/>
 				<exclude name="utils/Log4JUtils.java"/>
 			</fileset>
 		</delete>
 	</target>
-	
+
 	<target name="lexerGen" depends="delete">
 		<java jar="lib/JFlex.jar" fork="true">
 			<arg value="-d"/>
@@ -20,7 +22,7 @@
 			<arg value="spec/mjlexer.flex"/>
 		</java>
 	</target>
-	
+
 	<target name="parserGen" depends="delete">
 		<java jar="lib/cup_v10k.jar" fork="true">
 			<arg value="-destdir"/>
@@ -33,12 +35,12 @@
 			<arg value="spec/mjparser.cup"/>
 		</java>
 	</target>
-	
+
 	<target name="repackage" depends="parserGen">
 		<replace dir="src" value="rs.ac.bg.etf.pp1.ast" token="src.rs.ac.bg.etf.pp1.ast" summary="true">
 		</replace>
 	</target>
-	
+
 	<target name="compile" depends="repackage">
 		<javac srcdir="src/rs/ac/bg/etf/pp1" includeantruntime="false">
 			<classpath>
@@ -46,8 +48,27 @@
 				<pathelement path="lib/JFlex.jar"/>
 				<pathelement path="lib/cup_v10k.jar"/>
 				<pathelement path="lib/symboltable-1-1.jar"/>
+				<pathelement path="lib/mj-runtime-1.1.jar"/>
 			</classpath>
 		</javac>
 	</target>
-	
+
+	<target name="disasm">
+		<java classname="rs.etf.pp1.mj.runtime.disasm">
+			<arg value="test/program.obj"/>
+			<classpath>
+				<pathelement path="lib/mj-runtime-1.1.jar"/>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="runObj" depends="disasm">
+		<java classname="rs.etf.pp1.mj.runtime.Run">
+			<arg value="test/program.obj" />
+			<classpath>
+				<pathelement path="lib/mj-runtime-1.1.jar" />
+			</classpath>
+		</java>
+	</target>
+
 </project>

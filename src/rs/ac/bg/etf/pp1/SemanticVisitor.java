@@ -22,6 +22,8 @@ public class SemanticVisitor extends VisitorAdaptor {
 		NOTMORE
 	}
 	
+	public int nVars;
+	
 	private class MethodStruct {
 		public int argumentNumber = 0;
 		public ArrayList<Struct> argumentTypes = new ArrayList<Struct>();
@@ -112,9 +114,10 @@ public class SemanticVisitor extends VisitorAdaptor {
 	}
 	
 	public void visit(Program program) {
+		nVars = Tab.currentScope.getnVars();
 		Tab.chainLocalSymbols(program.getProgName().obj);
 		Tab.closeScope();
-	
+		
 		if (!hasMainMethod) {
 			report_semantic_error("main method not found", null);
 		}
@@ -224,15 +227,17 @@ public class SemanticVisitor extends VisitorAdaptor {
 	}
 	
 	public void visit(MethodWithType methodType) {
-		methodType.struct = methodType.getType().struct;
+//		methodType.struct = methodType.getType().struct;
 		currentMethodReturnType = methodType.getType().struct;
 		Obj obj = Tab.currentScope().findSymbol(methodType.getMethodName());
+		
 		if (obj != null) {
 			report_semantic_error("method with name " + methodType.getMethodName() + " already declared", methodType);
 			return;
 		}
-		
+
 		currentMethod = Tab.insert(Obj.Meth, methodType.getMethodName(), currentType);
+		methodType.obj = currentMethod;
 		currentMethodStr = methodType.getMethodName();
 		currentMethodVarCount = 0;
 		currentMethodParamCount = 0;
@@ -248,7 +253,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 
 	
 	public void visit(MethodWithNoType methodType) {
-		methodType.struct = Tab.noType;
+//		methodType.struct = Tab.noType;
 		currentMethodReturnType = Tab.noType;
 		
 		Obj obj = Tab.currentScope().findSymbol(methodType.getMethodName());
@@ -258,6 +263,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 		}
 		
 		currentMethod = Tab.insert(Obj.Meth, methodType.getMethodName(), Tab.noType);
+		methodType.obj = currentMethod;
 		currentMethodStr = methodType.getMethodName();
 		currentMethodVarCount = 0;
 		currentMethodParamCount = 0;
