@@ -57,7 +57,7 @@ nonterminal VarDeclList, ConstDecl, NonLastVarDecl,
 	ClassDecl, ClassExtends, ClassFields, ConstructorDecl, MethodDeclList, FormPars, 
 	FormParsList, StatementList, DesignatorList, NonEmptyDesignatorList, 
 	ActPars, Condition, CondTerm, EpsilonDesignator, EndOfIfStatement,
-	Label, Assignop, Addop, Mulop, IfStartStmt, IfEndStmt, OrEnd;
+	Label, Assignop, Addop, Mulop, IfStartStmt, IfEndStmt, OrEnd, EndOfIfCondition, WhileEnd;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj Program, ProgName, FormParsDecl, Statement, 
 												MethodDecl, Designator, ConstDecls, VarBrackets, VarName, 
@@ -160,7 +160,7 @@ StatementList ::= (StatementListWithStatement) StatementList Statement |
 Statement ::= (DesignatorStatementState) DesignatorStatement |
 				(IfStatement) IfStartStmt IfCondition IfEndStmt Statement EndOfIfStatement |
 				(IfElseStatement) IfStartStmt IfCondition IfEndStmt Statement EndOfIfStatement ELSE Statement:stm |
-				(WhileStatement) WhileStart:ws Condition CLOSEBRACKET Statement:stm |
+				(WhileStatement) WhileStart:ws Condition CLOSEBRACKET Statement:stm WhileEnd |
 				(BreakStatement) BREAK SEMICOLON |
 				(ContinueStatement) CONTINUE SEMICOLON |
 				(VoidReturnStatement) RETURN SEMICOLON |
@@ -176,12 +176,15 @@ IfStartStmt ::= (IfStartStmt) IF OPENBRACKET;
 IfEndStmt ::= (IfEndStmt) /* epsilon */;
 
 WhileStart ::= (WhileStart) WHILE OPENBRACKET;
+WhileEnd ::= (WhileEnd) /* epsilon */;
 
 ForEachStart ::= (ForEachStart) FOREACH OPENBRACKET IDENT:foreachName;
 				
-IfCondition ::= (IfConditionStatement) Condition CLOSEBRACKET |
+IfCondition ::= (IfConditionStatement) Condition CLOSEBRACKET EndOfIfCondition |
 				(ErrorIfConditionStatement) error CLOSEBRACKET:l
 				{: parser.report_error("Recovery done on ) line " + lleft, null); :};
+
+EndOfIfCondition ::= (EndOfIfCondition) /* epsilon */;
 				
 AssignOpExpression ::= (DesignatorAssign) Designator:varDes IS Expr:e  SEMICOLON |
 						(ErrorDesignatorAssign) error SEMICOLON:l

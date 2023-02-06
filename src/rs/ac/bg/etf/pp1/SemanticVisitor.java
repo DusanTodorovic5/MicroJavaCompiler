@@ -409,7 +409,12 @@ public class SemanticVisitor extends VisitorAdaptor {
 			return;
 		}
 		
+		
 		String name = designatorFunc.getDesignatorFuncCall().getDesignator().obj.getName();
+		
+		if (name.equals("ord") || name.equals("chr")) {
+			return;
+		}
 		
 		if (name.equals("len")) {
 			if (currentFunctionArgument.size() > 1) {
@@ -641,7 +646,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 		// 	return;
 		// }
 		
-		// currentRelativeOperation = null;
+		 currentRelativeOperation = null;
 	}
 	
 	public void visit(FactorDesignator factor) {
@@ -661,6 +666,11 @@ public class SemanticVisitor extends VisitorAdaptor {
 		Obj func = factor.getDesignatorFuncCall().getDesignator().obj;
 		
 		String name = factor.getDesignatorFuncCall().getDesignator().obj.getName();
+		
+		if (name.equals("ord") || name.equals("chr")) {
+			return;
+		}
+		
 		if (name.equals("len")) {
 			if (currentFunctionArgument.size() > 1) {
 				report_semantic_error("Too many arguments in function len", factor);

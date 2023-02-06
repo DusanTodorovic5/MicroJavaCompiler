@@ -42,7 +42,7 @@ public class MJParserTest {
 	        Program prog = (Program)(s.value); 
 	        Tab.init();
 			// ispis sintaksnog stabla
-			// log.info(prog.toString(""));
+//			log.info(prog.toString(""));
 			log.info("===================================");
 
 			// ispis prepoznatih programskih konstrukcija

@@ -20,6 +20,9 @@ public class CodeGenerator extends VisitorAdaptor {
 	Stack<ArrayList<Integer>> addOr = new Stack<ArrayList<Integer>>();
 	Stack<ArrayList<Integer>> addAnd = new Stack<ArrayList<Integer>>();
 	Stack<ArrayList<Integer>> addThen = new Stack<ArrayList<Integer>>();
+	Stack<ArrayList<Integer>> addBreak = new Stack<ArrayList<Integer>>();
+	Stack<ArrayList<Integer>> addContinue = new Stack<ArrayList<Integer>>();
+	Stack<Integer> addWhile = new Stack<Integer>();
 	
 	public int getPc() {
 		return mainPc;
@@ -104,10 +107,8 @@ public class CodeGenerator extends VisitorAdaptor {
 		Code.loadConst(printStmt.getN1());
 		
 		if (printStmt.getExpr().struct == Tab.intType || printStmt.getExpr().struct == TabExtension.boolType) {
-			Code.loadConst(5);
 			Code.put(Code.print);
 		} else if (printStmt.getExpr().struct == Tab.charType) {
-			Code.loadConst(1);
 			Code.put(Code.bprint);
 		}
 	}
@@ -119,7 +120,7 @@ public class CodeGenerator extends VisitorAdaptor {
 	}
 	
 	public void visit(FactorNumber fact) {
-		Obj con = Tab.insert(Obj.Con, "$", fact.struct);
+		Obj con = Tab.insert(Obj.Con, "$", Tab.intType);
 		
 		con.setLevel(0);
 		con.setAdr(fact.getValNum());
@@ -127,7 +128,7 @@ public class CodeGenerator extends VisitorAdaptor {
 	}
 	
 	public void visit(FactorChar fact) {
-		Obj con = Tab.insert(Obj.Con, "$", fact.struct);
+		Obj con = Tab.insert(Obj.Con, "$", Tab.charType);
 		
 		con.setLevel(0);
 		con.setAdr(fact.getValChar());
@@ -135,7 +136,7 @@ public class CodeGenerator extends VisitorAdaptor {
 	}
 	
 	public void visit(FactorBool fact) {
-		Obj con = Tab.insert(Obj.Con, "$", fact.struct);
+		Obj con = Tab.insert(Obj.Con, "$", TabExtension.boolType);
 		
 		con.setLevel(0);
 		con.setAdr(fact.getValBool() ? 1 : 0);
@@ -211,21 +212,37 @@ public class CodeGenerator extends VisitorAdaptor {
 		}
 	}
 	
+	boolean hasArr = false;
 	
 	public void visit(DesignatorArray designator) {
-		for (int i=0;i<lista.size();i++) {
-			if (lista.get(i) != Tab.noObj) {
-				Code.load(designator.getDesignator().obj);
-				Code.loadConst(i);
-				Code.put(Code.aload);
-				Code.store(lista.get(i));
+		if (hasArr) {
+			for (int i=lista.size() - 1; i>= 0;i--) {
+				if (lista.get(i) != Tab.noObj) {
+					Code.load(designator.getDesignator().obj);
+					Code.loadConst(i);
+					Code.put(Code.aload);
+					Code.store(lista.get(i));
+				}
+			}
+		} else {
+			for (int i=0;i<lista.size();i++) {
+				if (lista.get(i) != Tab.noObj) {
+					Code.load(designator.getDesignator().obj);
+					Code.loadConst(i);
+					Code.put(Code.aload);
+					Code.store(lista.get(i));
+				}
 			}
 		}
+		
 		lista = new ArrayList<Obj>();
 	}
 	
 	public void visit(DesignatorExists designator) {
 		lista.add(designator.getDesignator().obj);
+		if (designator.getDesignator() instanceof ArrayDesignator) {
+			hasArr = true;
+		}
 	}
 	
 	public void visit(DesignatorDoesntExist designator) {
@@ -288,14 +305,15 @@ public class CodeGenerator extends VisitorAdaptor {
 		list.clear();
 	}
 	
-	public void visit(OrEnd endOr) {
+	public void visit(OrEnd endOr) {		
 		Code.putJump(0);
 		addOr.peek().add(Code.pc - 2);
+		
 		ArrayList<Integer> list = addAnd.peek();
 		for (int add : list) {
 			Code.fixup(add);
 		}
-		list.clear();
+		addAnd.peek().clear();
 	}
 	
 	public void visit(EndOfIfStatement stmt) {
@@ -308,7 +326,7 @@ public class CodeGenerator extends VisitorAdaptor {
 		for (int add : list) {
 			Code.fixup(add);
 		}
-		list.clear();
+		// list.clear();
 	}
 	
 	public void visit(IfElseStatement stmt) {
@@ -322,9 +340,29 @@ public class CodeGenerator extends VisitorAdaptor {
 		addThen.pop();
 	}
 	
-	
+	public void visit(EndOfIfCondition condition) {
+		ArrayList<Integer> list = addOr.peek();
+		for (int add : list) {
+			Code.fixup(add);
+		}
+		addOr.peek().clear();
+	}
 	
 	public void visit(ConditionWithOp condition) {
+		
+		if (condition.getRelop() instanceof Equals) {
+			Code.putFalseJump(Code.eq, 0);
+		} else if (condition.getRelop() instanceof NotEquals) {
+			Code.putFalseJump(Code.ne, 0);
+		} else if (condition.getRelop() instanceof More) {
+			Code.putFalseJump(Code.gt, 0);
+		} else if (condition.getRelop() instanceof NotLess) {
+			Code.putFalseJump(Code.ge, 0);
+		} else if (condition.getRelop() instanceof Less) {
+			Code.putFalseJump(Code.lt, 0);
+		} else if (condition.getRelop() instanceof NotMore) {
+			Code.putFalseJump(Code.le, 0);
+		}
 		addAnd.peek().add(Code.pc - 2);
 	}
 	
@@ -334,33 +372,55 @@ public class CodeGenerator extends VisitorAdaptor {
 		addAnd.peek().add(Code.pc - 2);
 	}
 	
-	public void visit(Equals relop) {
-		Code.putFalseJump(Code.eq, 0);
-		addAnd.peek().add(Code.pc - 2);
+	public void visit(WhileStart ws) {
+		addOr.push(new ArrayList<Integer>());
+		addAnd.push(new ArrayList<Integer>());
+		addBreak.push(new ArrayList<Integer>());
+		addContinue.push(new ArrayList<Integer>());
+		
+		addWhile.push(Code.pc);
 	}
 	
-	public void visit(NotEquals relop) {
-		Code.putFalseJump(Code.ne, 0);
-		addAnd.peek().add(Code.pc - 2);
+	public void visit (WhileEnd we) {
+		ArrayList<Integer> list = addOr.peek();
+		for (int add : list) {
+			Code.fixup(add);
+		}
+		addOr.peek().clear();
+				
+		Code.putJump(addWhile.peek());
+		
+		list = addAnd.peek();
+		for (int add : list) {
+			Code.fixup(add);
+		}
+		addAnd.peek().clear();
+		
+		list = addBreak.peek();
+		for (int add : list) {
+			Code.fixup(add);
+		}
+
+		addBreak.peek().clear();
 	}
 	
-	public void visit(More relop) {
-		Code.putFalseJump(Code.gt, 0);
-		addAnd.peek().add(Code.pc - 2);
+	public void visit(WhileStatement statement) {
+		addOr.pop();
+		addAnd.pop();
+		addBreak.pop();
+		addContinue.pop();
+		addWhile.pop();
 	}
 	
-	public void visit(NotLess relop) {
-		Code.putFalseJump(Code.ge, 0);
-		addAnd.peek().add(Code.pc - 2);
+	public void visit(BreakStatement statement) {
+		Code.putJump(0);
+		addBreak.peek().add(Code.pc - 2);
 	}
 	
-	public void visit(Less relop) {
-		Code.putFalseJump(Code.lt, 0);
-		addAnd.peek().add(Code.pc - 2);
+	public void visit(ContinueStatement statement) {
+		Code.putJump(addWhile.peek());
+		addContinue.peek().add(Code.pc - 2);
 	}
 	
-	public void visit(NotMore relop) {
-		Code.putFalseJump(Code.le, 0);
-		addAnd.peek().add(Code.pc - 2);
-	}
+	
 } 
