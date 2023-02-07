@@ -5,6 +5,7 @@ import rs.etf.pp1.symboltable.Tab;
 import rs.etf.pp1.symboltable.concepts.Obj;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Stack;
 
 import rs.ac.bg.etf.pp1.CounterVisitor.FormParamCounter;
@@ -24,6 +25,8 @@ public class CodeGenerator extends VisitorAdaptor {
 	Stack<ArrayList<Integer>> addContinue = new Stack<ArrayList<Integer>>();
 	Stack<Integer> addWhile = new Stack<Integer>();
 	
+	
+	HashMap<String, Obj> internalMap = new HashMap<String, Obj>();
 	public int getPc() {
 		return mainPc;
 	}
@@ -80,6 +83,8 @@ public class CodeGenerator extends VisitorAdaptor {
 	}
 	
 	public void visit(IdentDesignator designator) {
+		internalMap.put(designator.getName(), designator.obj);
+		
 		SyntaxNode parent = designator.getParent();
 		
 		if (DesignatorAssign.class != parent.getClass() && 
@@ -252,10 +257,10 @@ public class CodeGenerator extends VisitorAdaptor {
 	public void visit(DesignatorFunc func) {
 		Obj methodNode = func.getDesignatorFuncCall().getDesignator().obj;
 		
-		if (methodNode.equals("ord") || methodNode.equals("chr")) {
+		if (methodNode.getName().equals("ord") || methodNode.getName().equals("chr")) {
 			return;
 		}
-		if (methodNode.equals("len")) {
+		if (methodNode.getName().equals("len")) {
 			Code.put(Code.arraylength);
 			return;
 		}
@@ -272,10 +277,11 @@ public class CodeGenerator extends VisitorAdaptor {
 	public void visit(FactorDesignatorActPars func) {
 		Obj methodNode = func.getDesignatorFuncCall().getDesignator().obj;
 		
-		if (methodNode.equals("ord") || methodNode.equals("chr")) {
+		if (methodNode.getName().equals("ord") || methodNode.getName().equals("chr")) {
 			return;
 		}
-		if (methodNode.equals("len")) {
+		
+		if (methodNode.getName().equals("len")) {
 			Code.put(Code.arraylength);
 			return;
 		}
@@ -422,5 +428,37 @@ public class CodeGenerator extends VisitorAdaptor {
 		addContinue.peek().add(Code.pc - 2);
 	}
 	
+	Stack<Obj> currentForEachDes = new Stack<Obj>();
+	Stack<Integer> foreachStack = new Stack<Integer>();
 	
+	public void visit(ForEachStartDes foreach) {
+		currentForEachDes.push(foreach.getDesignator().obj);
+		Code.load(foreach.getDesignator().obj);
+		Code.put(Code.arraylength);
+		Code.loadConst(0);
+	}
+	
+	public void visit(ForEachEnd foreach) {
+		Code.loadConst(1);
+		Code.put(Code.add);
+		Code.put(Code.dup2);
+		Code.putFalseJump(Code.eq, foreachStack.peek());
+		Code.put(Code.pop);
+		Code.put(Code.pop);
+	}
+	
+	public void visit(ForEachStart foreach) {
+		foreachStack.push(Code.pc);
+		Code.put(Code.dup);
+		Code.load(currentForEachDes.peek());
+		Code.put(Code.dup_x1);
+		Code.put(Code.pop);
+		Code.put(Code.aload);
+		Code.store(foreach.obj);
+	}
+	
+	public void visit(ForeachStatement foreach) {
+		foreachStack.pop();
+		currentForEachDes.pop();
+	}
 } 

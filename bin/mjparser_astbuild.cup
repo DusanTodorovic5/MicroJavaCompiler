@@ -79,12 +79,14 @@ nonterminal
 nonterminal StatementList StatementList;
 nonterminal DesignatorList DesignatorList;
 nonterminal NonEmptyDesignatorList NonEmptyDesignatorList;
-nonterminal 
+nonterminal ForEachStartDes ForEachStartDes;
+nonterminal
 	ActPars ActPars;
 nonterminal Condition Condition;
 nonterminal CondTerm CondTerm;
 nonterminal EpsilonDesignator EpsilonDesignator;
 nonterminal EndOfIfStatement EndOfIfStatement;
+nonterminal ForEachEnd ForEachEnd;
 nonterminal
 	Label Label;
 nonterminal Assignop Assignop;
@@ -205,8 +207,11 @@ Statement ::= (DesignatorStatementState) DesignatorStatement:D1 {: RESULT=new De
 				(ReadStatement) READ OPENBRACKET Designator:D1 CLOSEBRACKET SEMICOLON {: RESULT=new ReadStatement(D1); RESULT.setLine(D1left); :} |
 				(PrintStatement) PRINT OPENBRACKET Expr:e CLOSEBRACKET SEMICOLON {: RESULT=new PrintStatement(e); RESULT.setLine(eleft); :} |
 				(PrintNumberStatement) PRINT OPENBRACKET Expr:e COMA NUMBER:N1 CLOSEBRACKET SEMICOLON {: RESULT=new PrintNumberStatement(e, N1); RESULT.setLine(eleft); :} |
-				(ForeachStatement) Designator:D1 FULLSTOP ForEachStart:fes ARROW Statement:S2 CLOSEBRACKET SEMICOLON {: RESULT=new ForeachStatement(D1, fes, S2); RESULT.setLine(D1left); :} |
+				(ForeachStatement) ForEachStartDes:fesd ForEachStart:fes ARROW Statement:S1 ForEachEnd:F2 CLOSEBRACKET SEMICOLON {: RESULT=new ForeachStatement(fesd, fes, S1, F2); RESULT.setLine(fesdleft); :} |
 				(BlockStatement) OPENPAR StatementList:S1 CLOSEPAR {: RESULT=new BlockStatement(S1); RESULT.setLine(S1left); :};
+
+ForEachStartDes ::= (ForEachStartDes) Designator:des FULLSTOP {: RESULT=new ForEachStartDes(des); RESULT.setLine(desleft); :};
+ForEachEnd ::= (ForEachEnd) {: RESULT=new ForEachEnd(); :} /* epsilon */ ;
 
 EndOfIfStatement ::= (EndOfIfStatement) {: RESULT=new EndOfIfStatement(); :} /* epsilon */;
 IfStartStmt ::= (IfStartStmt) IF OPENBRACKET {: RESULT=new IfStartStmt(); :};

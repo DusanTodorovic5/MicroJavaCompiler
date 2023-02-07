@@ -3,13 +3,17 @@
 program test302
 
 const int jedan = 1;
+
 int i;
 bool ibool;
+
 int niz2;
+
 int niz[];
 int a, curr;
 
 {
+	
 	int sum(int z, int d)
 	{
 		return z + d;
@@ -26,7 +30,7 @@ int a, curr;
 	}
 	
 	bool verify() {
-		print("v");
+		print('v');
 		return false;
 	}	
 	
@@ -51,8 +55,8 @@ int a, curr;
 		niz[0] = 1 * a;
 		niz[1] = 2 * a;
 		niz[2] = sum(niz[1], niz[0]) * a + 1;
-		if(verify() || niz[2] == 4) print(ord("A")); 
-		else print(ord("a"));
+		if(verify() || niz[2] == 4) print(ord('A')); 
+		else print(ord('a'));
 		
 		print(eol);
 		i = 0;
@@ -85,13 +89,13 @@ int a, curr;
 			i++;
 		}
 		
-		// niz.foreach(curr => print(curr););
+		niz.foreach(curr => print(curr););
 		print(eol);
 		
 		niz2 = 0;
-		//niz.foreach(curr => {
-		//	niz2 = niz2 + curr * curr;
-		//});
+		niz.foreach(curr => {
+			niz2 = niz2 + curr * curr;
+		});
 		print(niz2);
 	
 	}

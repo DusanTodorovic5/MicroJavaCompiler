@@ -86,9 +86,9 @@ import java_cup.runtime.Symbol;
 <COMMENT> "\r\n" { yybegin(YYINITIAL); }
 
 (true|false)  { return new_symbol(sym.BOOL, new Boolean (yytext())); }
+'.' { return new_symbol(sym.CHARCONST, yytext().charAt(1)); }
 [0-9]+  { return new_symbol(sym.NUMBER, new Integer (yytext())); }
 ([a-z]|[A-Z])[a-z|A-Z|0-9|_]* 	{return new_symbol (sym.IDENT, yytext()); }
-\".\" { return new_symbol(sym.CHARCONST, yytext().charAt(1)); }
 
 
 . { System.err.println("Lexer error ("+yytext()+") on line "+(yyline+1)); }

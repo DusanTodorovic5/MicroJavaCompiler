@@ -55,8 +55,8 @@ nonterminal VarDeclList, ConstDecl, NonLastVarDecl,
 	IfCondition, FormParsListWithComa, LastVarDecl, ClassBody, FormParsBrackets, ConstructorDeclList, 
 	MethodDeclListClass, ClassFunctions, ListConstDecls, VarDecl, ListVarDecls, 
 	ClassDecl, ClassExtends, ClassFields, ConstructorDecl, MethodDeclList, FormPars, 
-	FormParsList, StatementList, DesignatorList, NonEmptyDesignatorList, 
-	ActPars, Condition, CondTerm, EpsilonDesignator, EndOfIfStatement,
+	FormParsList, StatementList, DesignatorList, NonEmptyDesignatorList, ForEachStartDes,
+	ActPars, Condition, CondTerm, EpsilonDesignator, EndOfIfStatement, ForEachEnd,
 	Label, Assignop, Addop, Mulop, IfStartStmt, IfEndStmt, OrEnd, EndOfIfCondition, WhileEnd;
 
 nonterminal rs.etf.pp1.symboltable.concepts.Obj Program, ProgName, FormParsDecl, Statement, 
@@ -168,8 +168,11 @@ Statement ::= (DesignatorStatementState) DesignatorStatement |
 				(ReadStatement) READ OPENBRACKET Designator CLOSEBRACKET SEMICOLON |
 				(PrintStatement) PRINT OPENBRACKET Expr:e CLOSEBRACKET SEMICOLON |
 				(PrintNumberStatement) PRINT OPENBRACKET Expr:e COMA NUMBER CLOSEBRACKET SEMICOLON |
-				(ForeachStatement) Designator FULLSTOP ForEachStart:fes ARROW Statement CLOSEBRACKET SEMICOLON |
+				(ForeachStatement) ForEachStartDes:fesd ForEachStart:fes ARROW Statement ForEachEnd CLOSEBRACKET SEMICOLON |
 				(BlockStatement) OPENPAR StatementList CLOSEPAR;
+
+ForEachStartDes ::= (ForEachStartDes) Designator:des FULLSTOP;
+ForEachEnd ::= (ForEachEnd) /* epsilon */ ;
 
 EndOfIfStatement ::= (EndOfIfStatement) /* epsilon */;
 IfStartStmt ::= (IfStartStmt) IF OPENBRACKET;

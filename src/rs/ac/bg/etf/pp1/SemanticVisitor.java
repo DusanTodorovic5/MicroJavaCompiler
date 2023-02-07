@@ -62,9 +62,9 @@ public class SemanticVisitor extends VisitorAdaptor {
 	SemanticVisitor() {
 		Tab.currentScope.addToLocals(new Obj(Obj.Type, "bool", TabExtension.boolType));
 		
-		Tab.insert(Obj.Meth, "ord", Tab.charType);		
-		Tab.insert(Obj.Meth,"len", Tab.intType);
-		Tab.insert(Obj.Meth, "chr", Tab.intType);
+//		Tab.insert(Obj.Meth, "ord", Tab.charType);		
+//		Tab.insert(Obj.Meth,"len", Tab.intType);
+//		Tab.insert(Obj.Meth, "chr", Tab.intType);
 		
 		definedMethods.put("ord", new MethodStruct());
 		definedMethods.put("len", new MethodStruct());
@@ -332,6 +332,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 	}
 	
 	public void visit(ForEachStart forStart) {
+		forStart.obj = Tab.find(forStart.getForeachName());
 //		isInLoop++;
 		isInForEachLoop++;
 		forEachLoopVars.push(forStart.getForeachName());
@@ -342,7 +343,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 		isInForEachLoop--;
 		String forEachName = forEachLoopVars.pop();
 		
-		if (forEach.getDesignator().obj.getType().getKind() != Struct.Array) {
+		if (forEach.getForEachStartDes().getDesignator().obj.getType().getKind() != Struct.Array) {
 			report_semantic_error("Foreach designator has to be of type array", forEach);
 			return;
 		}
@@ -353,7 +354,7 @@ public class SemanticVisitor extends VisitorAdaptor {
 			return;
 		}
 		
-		if (ident.getType() != forEach.getDesignator().obj.getType().getElemType()) {
+		if (ident.getType() != forEach.getForEachStartDes().getDesignator().obj.getType().getElemType()) {
 			report_semantic_error("Ident must be of same type as elements of array", forEach);
 			return;
 		}

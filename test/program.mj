@@ -1,23 +1,14 @@
 program MJProgram
+int arr[];
+int i;
 {	
-	int m_print(int i){
-		print(i);
-		return i + 1;
-	}
-
-	void main() int i; {
-		i = 0;
-		while (i < 10) {
-			if(i == 3)
-			{
-				i++;
-				print("c", 2);
-				m_print(i);
-				continue;
-			}
-			if(i == 4) break;
-			i = m_print(i);
-		}
-		print("E");
+	void main()  {
+		i = 3;
+		arr = new int[3];
+		arr[0] = 9;
+		arr[1] = 8;
+		arr[2] = 7;
+		print(0);
+		arr.foreach(i => print(i););
 	}
 }
